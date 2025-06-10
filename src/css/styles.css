@@ -1,0 +1,447 @@
+/* Reset & Base */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f9f9f9;
+    color: #222;
+    transition: background 0.3s, color 0.3s;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+    background: #222;
+    color: #fff;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+    gap: 1rem; /* tambahkan baris ini agar logo kiri, tombol kanan */
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex: 1 1 auto; /* logo akan tetap di kiri */
+    text-align: left;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    flex: 0 1 auto;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #ffd700;
+}
+
+#darkModeToggle {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    flex: 0 0 auto; /* pastikan tombol selalu di kanan */
+}
+
+.hero {
+    position: relative;
+    text-align: center;
+    padding: 3rem 1rem 2rem 1rem;
+    background: #fff;
+    border-radius: 8px;
+    margin: 2rem auto 1.5rem auto;
+    max-width: 700px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('../img/hero-bg.jpg') center/cover no-repeat;
+    opacity: 0.18;
+    z-index: 0;
+}
+
+.hero h1, .hero p {
+    position: relative;
+    z-index: 1;
+}
+
+.services, .about, .contact {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 2rem 1.5rem;
+}
+
+.services h2, .about h2, .contact h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.services ul, .contact ul {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 350px;
+}
+
+.about p, .contact p {
+    text-align: center;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+footer {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.95rem;
+    margin-top: 2rem;
+}
+
+/* Dark mode */
+.dark-mode {
+    background: #181818;
+    color: #e0e0e0;
+}
+
+.dark-mode header,
+.dark-mode footer {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-mode .navbar .logo {
+    color: #ffd700;
+}
+
+.dark-mode .nav-links a {
+    color: #ffd700;
+}
+
+.dark-mode .nav-links a:hover {
+    color: #fff;
+}
+
+.dark-mode #darkModeToggle {
+    color: #ffd700;
+}
+
+.dark-mode .hero,
+.dark-mode .services,
+.dark-mode .about,
+.dark-mode .contact {
+    background: #232323;
+    color: #e0e0e0;
+}
+
+.dark-mode .hero p,
+.dark-mode .about p,
+.dark-mode .contact p {
+    color: #bdbdbd;
+}
+
+.dark-mode .services ul,
+.dark-mode .contact ul {
+    color: #ffd700;
+}
+
+/* Photocard styles */
+.photocards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.photocard {
+    background: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+    width: 150px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.photocard img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.photocard p {
+    margin: 0.7rem 0;
+    color: #333;
+    font-weight: 500;
+}
+
+.photocard:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+}
+
+/* Dark mode for photocard */
+.dark-mode .photocard {
+    background: #232323;
+    color: #ffd700;
+}
+
+.dark-mode .photocard p {
+    color: #ffd700;
+}
+
+/* Contact card styles */
+.contact-cards {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 1.2rem 1.5rem;
+    min-width: 180px;
+    text-decoration: none;
+    color: #222;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    position: relative;
+}
+
+.contact-card:hover {
+    background: #ffd70022;
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+    color: #222;
+}
+
+.contact-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-label {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.5px;
+}
+
+.contact-value {
+    font-size: 1rem;
+    color: #444;
+    word-break: break-all;
+    text-align: center;
+}
+
+.dark-mode .contact-card {
+    background: #232323;
+    color: #ffd700;
+}
+
+.dark-mode .contact-card:hover {
+    background: #ffd70033;
+    color: #232323;
+}
+
+.dark-mode .contact-value {
+    color: #ffd700;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 210px;
+    height: 100vh;
+    background: #222;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.07);
+    padding-top: 2rem;
+    transition: transform 0.3s;
+}
+
+.sidebar-logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sidebar-links li {
+    width: 100%;
+}
+
+.sidebar-links a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    font-size: 1.08rem;
+    transition: background 0.18s, color 0.18s;
+}
+
+.sidebar-links a:hover,
+.sidebar-links a.active {
+    background: #ffd70033;
+    color: #ffd700;
+}
+
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 200;
+    background: #222;
+    color: #ffd700;
+    border: none;
+    font-size: 2rem;
+    border-radius: 6px;
+    padding: 0.3em 0.7em;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-toggle:focus {
+    outline: 2px solid #ffd700;
+}
+
+.sidebar-darkmode-toggle {
+    margin: 2rem 0 1rem 0;
+    background: #181818;
+    color: #ffd700;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    width: 80%;
+    align-self: center;
+}
+
+.sidebar-darkmode-toggle:hover,
+.sidebar-darkmode-toggle:focus {
+    background: #ffd700;
+    color: #181818;
+    outline: none;
+}
+
+/* Scroll offset for anchor links so content is not hidden behind sticky navbar */
+:root {
+    scroll-padding-top: 80px; /* Sesuaikan dengan tinggi header/navbar Anda */
+}
+
+@media (max-width: 900px) {
+    :root {
+        scroll-padding-top: 65px; /* Jika navbar lebih kecil di mobile */
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .sidebar {
+        transform: translateX(-110%);
+        width: 70vw;
+        min-width: 180px;
+        max-width: 320px;
+        padding-top: 1.5rem;
+    }
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 16px rgba(0,0,0,0.13);
+    }
+    .sidebar-toggle {
+        display: block;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    body.sidebar-open {
+        overflow: hidden;
+    }
+    .navbar {
+        display: none; /* Sembunyikan navbar di mobile */
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+    .nav-links li {
+        width: 100%;
+    }
+    .nav-links a {
+        color: #fff;
+        padding: 0.7rem 0;
+        display: block;
+        width: 100%;
+    }
+    .sidebar-darkmode-toggle {
+        margin: 1.2rem 0 0.7rem 0;
+        width: 90%;
+    }
+}
+
+@media (min-width: 901px) {
+    .sidebar,
+    .sidebar-toggle {
+        display: none !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+    }
+    .navbar {
+        display: flex !important;
+    }
+}
