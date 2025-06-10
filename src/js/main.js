@@ -3,11 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebarDarkBtn = document.getElementById('sidebarDarkModeToggle');
     const body = document.body;
 
-    // Fungsi untuk update label tombol
     function updateDarkModeButton() {
         const isDark = body.classList.contains('dark-mode');
-        if (toggle) toggle.innerHTML = isDark ? '🌞 Mode Terang' : '🌓 Mode Gelap';
-        if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌞 Mode Terang' : '🌓 Mode Gelap';
+        if (toggle) toggle.innerHTML = isDark ? '🌙 Mode Gelap' : '☀️ Mode Cerah';
+        if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙 Mode Gelap' : '☀️ Mode Cerah';
     }
 
     // Cek preferensi sebelumnya
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (toggle) {
         toggle.addEventListener('click', function () {
             body.classList.toggle('dark-mode');
-            // Simpan preferensi
             if (body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'dark');
             } else {
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (sidebarDarkBtn) {
         sidebarDarkBtn.addEventListener('click', function () {
             body.classList.toggle('dark-mode');
-            // Simpan preferensi
             if (body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'dark');
             } else {
