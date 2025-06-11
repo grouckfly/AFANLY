@@ -298,7 +298,7 @@ section,
 .photocards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 2rem;
     justify-items: center;
     margin-top: 1.5rem;
 }
@@ -335,7 +335,7 @@ section,
 @media (max-width: 900px) {
     .photocards {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
     .photocard {
         width: 100%;
