@@ -198,10 +198,47 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (btnLeft && btnRight) {
             btnLeft.addEventListener('click', function () {
+                // Geser ke kiri sebanyak satu card (termasuk gap)
+                const card = carousel.querySelector('.photocard');
+                let scrollAmount = 0;
+                if (card) {
+                    const style = window.getComputedStyle(carousel);
+                    const gap = parseInt(style.gap) || 0;
+                    scrollAmount = card.offsetWidth + gap;
+                } else {
+                    scrollAmount = carousel.offsetWidth * 0.9;
+                }
                 carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+
+                // Infinity logic: jika sudah hampir di ujung kiri, lompat ke tengah
+                setTimeout(() => {
+                    const maxScroll = carousel.scrollWidth / 2;
+                    if (carousel.scrollLeft < 10) {
+                        carousel.scrollLeft += maxScroll - 20;
+                    }
+                }, 400);
             });
+
             btnRight.addEventListener('click', function () {
+                // Geser ke kanan sebanyak satu card (termasuk gap)
+                const card = carousel.querySelector('.photocard');
+                let scrollAmount = 0;
+                if (card) {
+                    const style = window.getComputedStyle(carousel);
+                    const gap = parseInt(style.gap) || 0;
+                    scrollAmount = card.offsetWidth + gap;
+                } else {
+                    scrollAmount = carousel.offsetWidth * 0.9;
+                }
                 carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+                // Infinity logic: jika sudah hampir di ujung kanan, lompat ke tengah
+                setTimeout(() => {
+                    const maxScroll = carousel.scrollWidth / 2;
+                    if (carousel.scrollLeft > carousel.scrollWidth - carousel.offsetWidth - 10) {
+                        carousel.scrollLeft -= maxScroll - 20;
+                    }
+                }, 400);
             });
         }
     }
