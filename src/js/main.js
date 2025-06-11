@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initValidation();
     initSidebarToggle();
     initPhotocardHighlighting();
+    initServicesSection();
 });
 
 /* -------------------- DARK MODE -------------------- */
@@ -146,4 +147,79 @@ function initSidebarToggle() {
             }
         });
     }
+}
+/* -------------------- SECTION SERVICES -------------------- */
+function initServicesSection() {
+    // Swipe/drag support for .card-wrapper
+    const cardWrapper = document.querySelector(".services .card-wrapper");
+    let isDown = false,
+        startX,
+        scrollLeft;
+
+    cardWrapper.addEventListener("mousedown", (e) => {
+        isDown = true;
+        cardWrapper.classList.add("dragging");
+        startX = e.pageX - cardWrapper.offsetLeft;
+        scrollLeft = cardWrapper.scrollLeft;
+    });
+    cardWrapper.addEventListener("mouseleave", () => {
+        isDown = false;
+        cardWrapper.classList.remove("dragging");
+    });
+    cardWrapper.addEventListener("mouseup", () => {
+        isDown = false;
+        cardWrapper.classList.remove("dragging");
+    });
+    cardWrapper.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - cardWrapper.offsetLeft;
+        const walk = (x - startX) * 1.5; // scroll-fast
+        cardWrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch events for mobile
+    cardWrapper.addEventListener("touchstart", (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - cardWrapper.offsetLeft;
+        scrollLeft = cardWrapper.scrollLeft;
+    });
+    cardWrapper.addEventListener("touchend", () => {
+        isDown = false;
+    });
+    cardWrapper.addEventListener("touchmove", (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - cardWrapper.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        cardWrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    // --- AUTOPLAY PHOTOCARD ---
+    const cards = cardWrapper.querySelectorAll('.photocard');
+    let idx = 0;
+    let interval = null;
+
+    function scrollToCard(i) {
+        if (!cards[i]) return;
+        cards[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    function startAutoScroll() {
+        interval = setInterval(() => {
+            idx = (idx + 1) % cards.length;
+            scrollToCard(idx);
+        }, 3500);
+    }
+
+    function stopAutoScroll() {
+        clearInterval(interval);
+    }
+
+    // Pause saat mouse/touch di atas slider
+    cardWrapper.addEventListener('mouseenter', stopAutoScroll);
+    cardWrapper.addEventListener('mouseleave', startAutoScroll);
+    cardWrapper.addEventListener('touchstart', stopAutoScroll, {passive:true});
+    cardWrapper.addEventListener('touchend', startAutoScroll);
+
+    startAutoScroll();
 }

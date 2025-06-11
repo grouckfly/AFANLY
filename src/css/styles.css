@@ -308,29 +308,6 @@ section,
     justify-items: center;
 }
 
-/* Responsive: 2 kolom di tablet */
-@media (max-width: 900px) {
-    .card-wrapper {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 98vw;
-        gap: 1.2rem;
-    }
-}
-
-/* Responsive: 1 kolom di mobile */
-@media (max-width: 600px) {
-    .card-wrapper {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        max-width: 98vw;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .photocard {
-        max-width: 100vw;
-    }
-}
-
 /* Photocard: lebar penuh grid, tetap di tengah */
 .photocard {
     width: 100%;
@@ -353,23 +330,35 @@ section,
 /* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
 @media (max-width: 900px) {
     .card-wrapper {
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-        gap: 0;
-        width: 100vw;
-        max-width: 100vw;
-        margin: 0;
-        padding-bottom: 1rem;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        justify-content: flex-start;
-        align-items: stretch;
-        position: relative;
-        scrollbar-width: auto;
-        scrollbar-color: #ffd700 #eee;
-    }
+    display: flex !important;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1.2rem;
+    width: 90vw;
+    max-width: 90vw;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    align-items: stretch;
+    position: relative;
+    scrollbar-width: auto;
+    scrollbar-color: #ffd700 #eee;
+  }
+  .photocard {
+    flex: 0 0 92vw;
+    max-width: 92vw;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1rem 0.7rem 1.2rem 0.7rem;
+    scroll-snap-align: center;
+    box-sizing: border-box;
+    opacity: 1 !important;
+    filter: none !important;
+    height: auto;
+  }
     .card-wrapper::-webkit-scrollbar {
         display: block;
         height: 8px;
@@ -425,66 +414,6 @@ section,
     .photocard .service-desc {
         filter: none !important;
         opacity: 1 !important;
-    }
-}
-
-/* MOBILE: Tampilkan photocard sebagai list biasa (vertikal) */
-@media (max-width: 900px) {
-    .card-wrapper {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        width: 100%;
-        max-width: 98vw;
-        margin: 0 auto;
-        padding-bottom: 0;
-        overflow: visible !important;
-        scroll-snap-type: none !important;
-    }
-    .photocard {
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-        background: #fafafa;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem 0.7rem 1.2rem 0.7rem;
-        box-sizing: border-box;
-        opacity: 1 !important;
-        filter: none !important;
-        height: auto;
-    }
-    .photocard img {
-        max-width: 120px;
-        min-width: 60px;
-        width: 60vw;
-        height: auto;
-        margin: 0 auto 0.7rem auto;
-        aspect-ratio: 4/3;
-        object-fit: contain;
-        display: block;
-        border-radius: 8px 8px 0 0;
-        background: #eaeaea;
-    }
-    .service-desc {
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 100%;
-        word-break: break-word;
-        white-space: normal;
-        display: block;
-        text-align: left;
-        margin-top: 0.5rem;
-        margin-bottom: 0;
-        overflow: visible;
-        height: auto;
-    }
-    .photocard p {
-        font-size: 1.08rem;
-        margin-bottom: 0.5rem;
     }
 }
 
@@ -864,4 +793,75 @@ html {
 @keyframes notif-float {
     from { opacity: 0; transform: translateY(30px);}
     to   { opacity: 1; transform: translateY(0);}
+}
+
+/* Services section styles */
+.services .card-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f5f5f5;
+}
+
+.services .photocard {
+  min-width: 350px;
+  max-width: 90vw;
+  flex: 0 0 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1rem;
+  text-align: center;
+  transition: 
+    transform 0.18s cubic-bezier(.4,2,.6,1),
+    box-shadow 0.18s cubic-bezier(.4,2,.6,1);
+  cursor: grab;
+  scroll-snap-align: center;
+}
+
+.services .photocard img {
+  display: block;
+  margin: 0 auto 0.5rem auto;
+  width: auto;
+  max-width: 220px;
+  height: auto;
+  max-height: 160px;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.services .photocard:active,
+.services .photocard.dragging,
+.services .photocard:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.07);
+  z-index: 2;
+}
+
+.services .photocard .service-desc {
+  display: block;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  font-size: 0.98em;
+  line-height: 1.3;
+  color: #555;
+  /* Jika ingin lebih rapat, bisa gunakan margin-top: 0.15rem; */
+}
+
+@media (max-width: 900px) {
+  .services .photocard {
+    min-width: 90vw;
+    max-width: 95vw;
+    padding: 0.5rem;
+  }
+  .services .photocard img {
+    max-width: 70vw;
+    max-height: 120px;
+  }
 }
