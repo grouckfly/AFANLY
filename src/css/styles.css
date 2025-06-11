@@ -374,40 +374,34 @@ section,
     filter: none;
 }
 
-/* Responsive: photocard dan gambar fleksibel di mobile */
-@media (max-width: 900px) {
-    .photocard {
-        flex: 0 0 80vw;
-        max-width: 95vw;
-        min-width: 160px;
-        padding: 0.7rem 0.5rem 1rem 0.5rem;
-    }
-    .photocard img {
-        max-width: 90vw;
-        min-width: 80px;
-        height: auto;
-        aspect-ratio: 4/3;
-    }
-    .service-desc {
-        font-size: 0.98rem;
-    }
-    .photocard p {
-        font-size: 1.05rem;
-    }
-}
-
 /* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
 @media (max-width: 900px) {
     .card-wrapper {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
         gap: 0;
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
         padding-bottom: 1rem;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         justify-content: flex-start;
         align-items: stretch;
         position: relative;
-        overflow-x: auto;
-        overflow-y: hidden;
+        scrollbar-width: auto;
+        scrollbar-color: #ffd700 #eee;
+    }
+    .card-wrapper::-webkit-scrollbar {
+        display: block;
+        height: 8px;
+        background: #eee;
+    }
+    .card-wrapper::-webkit-scrollbar-thumb {
+        background: #ffd700;
+        border-radius: 4px;
     }
     .photocard {
         flex: 0 0 92vw;
@@ -417,9 +411,8 @@ section,
         padding: 1rem 0.7rem 1.2rem 0.7rem;
         scroll-snap-align: center;
         box-sizing: border-box;
-        opacity: 1;
-        filter: none;
-        min-height: unset;
+        opacity: 1 !important;
+        filter: none !important;
         height: auto;
     }
     .photocard img {
@@ -437,13 +430,11 @@ section,
     .service-desc {
         font-size: 1rem;
         line-height: 1.6;
-        min-height: unset;
-        max-width: 50vw;
+        max-width: 85%;
         word-break: break-word;
         white-space: normal;
         display: block;
         text-align: center;
-        filter: none !important;
         margin-top: 0.5rem;
         margin-bottom: 0;
         overflow: visible;
@@ -458,15 +449,6 @@ section,
     .photocard .service-desc {
         filter: none !important;
         opacity: 1 !important;
-    }
-}
-
-/* Responsive: tombol carousel tetap proporsional di mobile */
-@media (max-width: 900px) {
-    .carousel-btn {
-        font-size: 1.4rem;
-        width: 2rem;
-        height: 2rem;
     }
 }
 
@@ -768,12 +750,10 @@ html {
         padding-left: 3rem;
         padding-right: 3rem;
     }
-    .photocards {
-        gap: 2.5rem;
-    }
     .photocard {
         font-size: 1.15rem;
         padding: 1.5rem 1.2rem;
+        gap: 2.5rem;
     }
     .contact-card {
         font-size: 1.15rem;
@@ -905,8 +885,16 @@ html {
 /* Responsive: tombol lebih kecil di mobile */
 @media (max-width: 900px) {
     .carousel-btn {
-        font-size: 1.4rem;
-        width: 2rem;
-        height: 2rem;
+        display: none !important;
+    }
+    .carousel-nav {
+        display: flex;
+        width: 100vw;
+        max-width: 100vw;
+        overflow: visible;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0 auto;
     }
 }
