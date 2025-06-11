@@ -308,27 +308,45 @@ section,
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     overflow: hidden;
-    width: 150px;
+    width: 260px;        /* Perbesar lebar photocard */
+    min-height: 260px;   /* Tambahkan tinggi minimum agar proporsional */
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 1rem 1.2rem 1rem;
 }
 
 .photocard img {
     width: 100%;
-    height: 100px;
+    height: 120px;
     object-fit: cover;
     display: block;
+    border-radius: 8px 8px 0 0;
 }
 
-.photocard p {
-    margin: 0.7rem 0;
-    color: #333;
-    font-weight: 500;
+.service-desc {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.4;
+    text-align: left;
+    word-break: break-word;
+    margin-bottom: 0;
+    min-height: 48px;
 }
 
-.photocard:hover {
-    transform: translateY(-6px) scale(1.04);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+/* Responsive: agar tetap rapi di mobile */
+@media (max-width: 900px) {
+    .photocard {
+        width: 95vw;
+        min-width: 0;
+        min-height: 0;
+        padding: 1rem;
+    }
 }
 
 /* Dark mode for photocard */
