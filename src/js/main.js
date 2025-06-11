@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
+    initDarkMode();
+    initDevNotif();
+    initFooterYear();
+    initValidation();
+    initSidebarToggle();
+    initCarousel();
+    initPhotocardHighlighting();
+});
+
+/* -------------------- DARK MODE -------------------- */
+function initDarkMode() {
     const toggle = document.getElementById('darkModeToggle');
     const sidebarDarkBtn = document.getElementById('sidebarDarkModeToggle');
     const body = document.body;
@@ -9,12 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙' : '☀️';
     }
 
-    // Cek preferensi sebelumnya
     let theme = localStorage.getItem('theme');
     if (!theme) {
-        // Aktifkan dark mode otomatis jika jam >= 18:00
-        const now = new Date();
-        const hour = now.getHours();
+        const hour = new Date().getHours();
         if (hour >= 18 || hour < 6) {
             body.classList.add('dark-mode');
             localStorage.setItem('theme', 'dark');
@@ -24,31 +32,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     updateDarkModeButton();
 
-    if (toggle) {
-        toggle.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-            updateDarkModeButton();
-        });
-    }
+    [toggle, sidebarDarkBtn].forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+                updateDarkModeButton();
+            });
+        }
+    });
+}
 
-    if (sidebarDarkBtn) {
-        sidebarDarkBtn.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-            updateDarkModeButton();
-        });
-    }
-
-    // Notifikasi dev-notif
+/* -------------------- DEV NOTIF -------------------- */
+function initDevNotif() {
     const devNotif = document.getElementById('dev-notif');
     const notifText = document.getElementById('notif-text');
     const notifClose = document.getElementById('notif-close');
@@ -56,15 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function minimizeNotif() {
         notifText.style.display = 'none';
         notifClose.style.display = 'none';
-        // Tambahkan ikon peringatan jika belum ada
+
         if (!devNotif.querySelector('.notif-icon')) {
             const icon = document.createElement('span');
             icon.className = 'notif-icon';
             icon.innerText = '⚠️';
             icon.style.cursor = 'pointer';
             devNotif.appendChild(icon);
-
-            // Event: klik ikon peringatan untuk restore notifikasi
             icon.addEventListener('click', restoreNotif);
         }
         devNotif.classList.add('minimized');
@@ -81,15 +75,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (notifClose && devNotif && notifText) {
         notifClose.addEventListener('click', minimizeNotif);
     }
+}
 
-    // Tahun otomatis pada footer
+/* -------------------- FOOTER YEAR -------------------- */
+function initFooterYear() {
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+}
 
-    // Validasi email
+/* -------------------- VALIDATION -------------------- */
+function initValidation() {
     const emailLink = document.getElementById('emailLink');
+    const phoneLink = document.getElementById('phoneLink');
+    const addressLink = document.getElementById('addressLink');
+
     if (emailLink) {
-        emailLink.addEventListener('click', function(e) {
+        emailLink.addEventListener('click', function (e) {
             const email = "defry.pku@gmail.com";
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
@@ -99,10 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Validasi telepon
-    const phoneLink = document.getElementById('phoneLink');
     if (phoneLink) {
-        phoneLink.addEventListener('click', function(e) {
+        phoneLink.addEventListener('click', function (e) {
             const phone = "081234567890";
             const phonePattern = /^[0-9]{10,15}$/;
             if (!phonePattern.test(phone.replace(/[^0-9]/g, ""))) {
@@ -112,10 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Validasi alamat (sederhana, hanya cek tidak kosong)
-    const addressLink = document.getElementById('addressLink');
     if (addressLink) {
-        addressLink.addEventListener('click', function(e) {
+        addressLink.addEventListener('click', function (e) {
             const address = "Jl. Teknologi No. 123, Jakarta";
             if (!address || address.length < 5) {
                 alert("Alamat tidak valid!");
@@ -123,25 +120,21 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+}
 
-    // Sidebar toggle
+/* -------------------- SIDEBAR TOGGLE -------------------- */
+function initSidebarToggle() {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
-    // body sudah dideklarasikan di atas
+    const body = document.body;
 
     if (sidebarToggle && sidebar && body) {
         sidebarToggle.addEventListener('click', function () {
             sidebar.classList.toggle('active');
             body.classList.toggle('sidebar-open');
-            // Sembunyikan tombol ketika sidebar aktif
-        if (sidebar.classList.contains('active')) {
-            sidebarToggle.style.display = 'none';
-        } else {
-            sidebarToggle.style.display = '';
-        }
+            sidebarToggle.style.display = sidebar.classList.contains('active') ? 'none' : '';
         });
 
-        // Optional: klik di luar sidebar untuk menutup di mobile
         document.addEventListener('click', function (e) {
             if (
                 sidebar.classList.contains('active') &&
@@ -150,105 +143,65 @@ document.addEventListener('DOMContentLoaded', function () {
             ) {
                 sidebar.classList.remove('active');
                 body.classList.remove('sidebar-open');
-                // Tampilkan kembali tombol ketika sidebar ditutup
-            sidebarToggle.style.display = '';
+                sidebarToggle.style.display = '';
             }
         });
     }
+}
 
-    // Infinite scroll untuk service carousel (lebih mulus, tanpa blur pada card utama)
+/* -------------------- CAROUSEL -------------------- */
+function initCarousel() {
     const carousel = document.getElementById('service-carousel');
     const btnLeft = document.querySelector('.carousel-btn.left');
     const btnRight = document.querySelector('.carousel-btn.right');
 
-    if (carousel) {
-        // Duplikat isi carousel untuk efek infinity
-        carousel.innerHTML += carousel.innerHTML;
+    if (!carousel) return;
 
-        // Scroll ke tengah saat load
-        setTimeout(() => {
-            const card = carousel.querySelector('.photocard');
-            if (card) {
-                const cardWidth = card.offsetWidth + parseInt(getComputedStyle(carousel).gap || 24);
-                carousel.scrollLeft = carousel.scrollWidth / 2 - carousel.offsetWidth / 2;
-            }
-        }, 100);
+    carousel.innerHTML += carousel.innerHTML;
 
-        // Infinity scroll logic
-        let isJumping = false;
-        carousel.addEventListener('scroll', function () {
-            if (isJumping) return;
-            const maxScroll = carousel.scrollWidth / 2;
-            if (carousel.scrollLeft < 10) {
-                isJumping = true;
-                carousel.scrollLeft += maxScroll - 20;
-                setTimeout(() => { isJumping = false; }, 0);
-            } else if (carousel.scrollLeft > carousel.scrollWidth - carousel.offsetWidth - 10) {
-                isJumping = true;
-                carousel.scrollLeft -= maxScroll - 20;
-                setTimeout(() => { isJumping = false; }, 0);
-            }
+    setTimeout(() => {
+        const card = carousel.querySelector('.photocard');
+        if (card) {
+            const cardWidth = card.offsetWidth + parseInt(getComputedStyle(carousel).gap || 24);
+            carousel.scrollLeft = carousel.scrollWidth / 2 - carousel.offsetWidth / 2;
+        }
+    }, 100);
+
+    let isJumping = false;
+    carousel.addEventListener('scroll', function () {
+        if (isJumping) return;
+        const maxScroll = carousel.scrollWidth / 2;
+        if (carousel.scrollLeft < 10) {
+            isJumping = true;
+            carousel.scrollLeft += maxScroll - 20;
+            setTimeout(() => { isJumping = false; }, 0);
+        } else if (carousel.scrollLeft > carousel.scrollWidth - carousel.offsetWidth - 10) {
+            isJumping = true;
+            carousel.scrollLeft -= maxScroll - 20;
+            setTimeout(() => { isJumping = false; }, 0);
+        }
+    });
+
+    const scrollAmount = 270; // Sesuaikan dengan lebar photocard + margin
+
+    if (leftBtn && rightBtn && carousel) {
+        leftBtn.addEventListener("click", () => {
+            carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
         });
 
-        // Tombol geser
-        const card = carousel.querySelector('.photocard');
-        let scrollAmount = 300;
-        if (card) {
-            scrollAmount = card.offsetWidth + parseInt(getComputedStyle(carousel).gap || 24);
-        }
-        if (btnLeft && btnRight) {
-            btnLeft.addEventListener('click', function () {
-                // Geser ke kiri sebanyak satu card (termasuk gap)
-                const card = carousel.querySelector('.photocard');
-                let scrollAmount = 0;
-                if (card) {
-                    const style = window.getComputedStyle(carousel);
-                    const gap = parseInt(style.gap) || 0;
-                    scrollAmount = card.offsetWidth + gap;
-                } else {
-                    scrollAmount = carousel.offsetWidth * 0.9;
-                }
-                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-
-                // Infinity logic: jika sudah hampir di ujung kiri, lompat ke tengah
-                setTimeout(() => {
-                    const maxScroll = carousel.scrollWidth / 2;
-                    if (carousel.scrollLeft < 10) {
-                        carousel.scrollLeft += maxScroll - 20;
-                    }
-                }, 400);
-            });
-
-            btnRight.addEventListener('click', function () {
-                // Geser ke kanan sebanyak satu card (termasuk gap)
-                const card = carousel.querySelector('.photocard');
-                let scrollAmount = 0;
-                if (card) {
-                    const style = window.getComputedStyle(carousel);
-                    const gap = parseInt(style.gap) || 0;
-                    scrollAmount = card.offsetWidth + gap;
-                } else {
-                    scrollAmount = carousel.offsetWidth * 0.9;
-                }
-                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-
-                // Infinity logic: jika sudah hampir di ujung kanan, lompat ke tengah
-                setTimeout(() => {
-                    const maxScroll = carousel.scrollWidth / 2;
-                    if (carousel.scrollLeft > carousel.scrollWidth - carousel.offsetWidth - 10) {
-                        carousel.scrollLeft -= maxScroll - 20;
-                    }
-                }, 400);
-            });
-        }
+        rightBtn.addEventListener("click", () => {
+            carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        });
     }
+}
 
-    // Highlight photocard tengah pada scroll (hanya blur card lain, card utama tetap jelas)
+/* -------------------- PHOTOCARD HIGHLIGHT -------------------- */
+function initPhotocardHighlighting() {
+    const cardWrapper = document.querySelector('.card-wrapper');
+    if (!cardWrapper || !cardWrapper.querySelectorAll('.photocard').length) return;
+
     function setActivePhotocard() {
-        const cardWrapper = document.querySelector('.card-wrapper');
         const photocards = document.querySelectorAll('.photocard');
-        if (!cardWrapper || !photocards.length) return;
-
         let minDiff = Infinity;
         let activeCard = null;
         const wrapperRect = cardWrapper.getBoundingClientRect();
@@ -265,47 +218,40 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         photocards.forEach(card => {
+            const desc = card.querySelector('.service-desc');
             if (card === activeCard) {
                 card.classList.add('active');
                 card.style.opacity = "1";
                 card.style.filter = "none";
-                const desc = card.querySelector('.service-desc');
                 if (desc) desc.style.filter = "none";
             } else {
                 card.classList.remove('active');
                 card.style.opacity = "0.6";
                 card.style.filter = "blur(2px)";
-                const desc = card.querySelector('.service-desc');
                 if (desc) desc.style.filter = "blur(2px)";
             }
         });
     }
 
-    // Scroll ke card aktif agar selalu di tengah pada mobile
     function scrollToActiveCard() {
         if (window.innerWidth > 900) return;
-        const cardWrapper = document.querySelector('.card-wrapper');
         const activeCard = document.querySelector('.photocard.active');
-        if (cardWrapper && activeCard) {
+        if (activeCard) {
             const wrapperRect = cardWrapper.getBoundingClientRect();
             const cardRect = activeCard.getBoundingClientRect();
-            const scrollLeft = cardWrapper.scrollLeft;
             const offset = cardRect.left - wrapperRect.left - (wrapperRect.width / 2 - cardRect.width / 2);
-            cardWrapper.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' });
+            cardWrapper.scrollTo({ left: cardWrapper.scrollLeft + offset, behavior: 'smooth' });
         }
     }
-    window.addEventListener('resize', scrollToActiveCard);
 
-    const cardWrapper = document.querySelector('.card-wrapper');
-    if (cardWrapper && cardWrapper.querySelectorAll('.photocard').length) {
+    setActivePhotocard();
+    cardWrapper.addEventListener('scroll', () => {
         setActivePhotocard();
-        cardWrapper.addEventListener('scroll', function() {
-            setActivePhotocard();
-            scrollToActiveCard();
-        });
-        window.addEventListener('resize', function() {
-            setActivePhotocard();
-            scrollToActiveCard();
-        });
-    }
-});
+        scrollToActiveCard();
+    });
+
+    window.addEventListener('resize', () => {
+        setActivePhotocard();
+        scrollToActiveCard();
+    });
+}
