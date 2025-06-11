@@ -290,66 +290,183 @@ section,
 .sidebar-logo {
     transition: 
         background 0.4s cubic-bezier(.4,0,.2,1),
-        color 0.4s cubic-bezier(.4,0,.2,1),
+        color 0.4s cubic-behavior(.4,0,.2,1),
         border-color 0.4s cubic-bezier(.4,0,.2,1);
 }
 
-/* Photocard styles */
-.photocards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    justify-items: center;
-    margin-top: 1.5rem;
+/* Card wrapper: scroll horizontal */
+.card-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    align-items: stretch;
+    position: relative;
+    overflow-y: hidden; /* Hilangkan scrollbar vertikal pada carousel */
 }
 
+/* Sembunyikan scrollbar vertikal di semua browser */
+.card-wrapper::-webkit-scrollbar:vertical {
+    display: none;
+}
+.card-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #ffd700 #eee;
+}
+
+/* Photocard dasar */
 .photocard {
+    flex: 0 0 270px;
+    max-width: 90vw;
+    scroll-snap-align: center;
     background: #fafafa;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     overflow: hidden;
-    width: 320px;
-    min-height: 260px;
+    min-height: 220px;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding: 1rem 1rem 1.2rem 1rem;
+    transition: 
+        transform 0.3s cubic-bezier(.4,0,.2,1),
+        box-shadow 0.3s cubic-bezier(.4,0,.2,1),
+        filter 0.3s cubic-bezier(.4,0,.2,1),
+        opacity 0.3s cubic-behavior(.4,0,.2,1);
+    opacity: 0.6;
+    filter: blur(2px);
+    z-index: 1;
 }
 
 .photocard img {
     width: 100%;
-    max-width: 200px;
+    max-width: 180px;
+    min-width: 120px;
     height: auto;
     aspect-ratio: 4/3;
-    object-fit: contain; /* Gambar tidak terpotong, tetap proporsional */
+    object-fit: contain;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 0.5rem auto;
     border-radius: 8px 8px 0 0;
     background: #eaeaea;
 }
 
-/* Responsive: 2 kolom di mobile */
+/* Service desc blur */
+.photocard .service-desc {
+    filter: blur(2px);
+    transition: filter 0.3s;
+}
+
+/* Photocard aktif (tengah) */
+.photocard.active {
+    transform: scale(1.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    opacity: 1;
+    filter: none;
+    z-index: 2;
+}
+.photocard.active .service-desc {
+    filter: none;
+}
+
+/* Responsive: photocard dan gambar fleksibel di mobile */
 @media (max-width: 900px) {
-    .photocards {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
     .photocard {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        min-height: 0;
-        padding: 1rem;
+        flex: 0 0 80vw;
+        max-width: 95vw;
+        min-width: 160px;
+        padding: 0.7rem 0.5rem 1rem 0.5rem;
     }
     .photocard img {
-        max-width: 100%;
+        max-width: 90vw;
+        min-width: 80px;
         height: auto;
         aspect-ratio: 4/3;
-        min-height: 100px;
+    }
+    .service-desc {
+        font-size: 0.98rem;
+    }
+    .photocard p {
+        font-size: 1.05rem;
+    }
+}
+
+/* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
+@media (max-width: 900px) {
+    .card-wrapper {
+        gap: 0;
+        padding-bottom: 1rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        align-items: stretch;
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .photocard {
+        flex: 0 0 92vw;
+        max-width: 96vw;
+        min-width: 0;
+        margin: 0 auto;
+        padding: 1rem 0.7rem 1.2rem 0.7rem;
+        scroll-snap-align: center;
+        box-sizing: border-box;
+        opacity: 1;
+        filter: none;
+        min-height: unset;
+        height: auto;
+    }
+    .photocard img {
+        max-width: 120px;
+        min-width: 60px;
+        width: 60vw;
+        height: auto;
+        margin: 0 auto 0.7rem auto;
+        aspect-ratio: 4/3;
         object-fit: contain;
+        display: block;
+        border-radius: 8px 8px 0 0;
+        background: #eaeaea;
+    }
+    .service-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+        min-height: unset;
+        max-width: 50vw;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+        text-align: center;
+        filter: none !important;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        overflow: visible;
+        height: auto;
+    }
+    .photocard p {
+        font-size: 1.08rem;
+        margin-bottom: 0.5rem;
+    }
+    /* Hilangkan efek blur di mobile */
+    .photocard,
+    .photocard .service-desc {
+        filter: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Responsive: tombol carousel tetap proporsional di mobile */
+@media (max-width: 900px) {
+    .carousel-btn {
+        font-size: 1.4rem;
+        width: 2rem;
+        height: 2rem;
     }
 }
 
@@ -745,4 +862,72 @@ html {
 
 .dark-mode #dev-notif .notif-icon {
     color: #ffd700;
+}
+
+/* Tambahkan di styles.css */
+/* Container tombol dan card-wrapper */
+.carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.carousel-btn {
+    background: #ffd700;
+    border: none;
+    color: #222;
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.carousel-btn:hover, .carousel-btn:focus {
+    background: #ffe066;
+    color: #000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+.carousel-btn.left {
+    margin-right: 0.5rem;
+}
+.carousel-btn.right {
+    margin-left: 0.5rem;
+}
+.card-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    align-items: stretch;
+    position: relative;
+    overflow-y: hidden; /* Hilangkan scrollbar vertikal pada carousel */
+}
+
+/* Sembunyikan scrollbar vertikal di semua browser */
+.card-wrapper::-webkit-scrollbar:vertical {
+    display: none;
+}
+.card-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #ffd700 #eee;
+}
+
+/* Responsive: tombol lebih kecil di mobile */
+@media (max-width: 900px) {
+    .carousel-btn {
+        font-size: 1.4rem;
+        width: 2rem;
+        height: 2rem;
+    }
 }
