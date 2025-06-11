@@ -347,17 +347,9 @@ section,
     scrollbar-width: auto;
     scrollbar-color: #ffd700 #eee;
   }
-  .photocard {
-    flex: 0 0 92vw;
-    max-width: 92vw;
-    min-width: 0;
-    margin: 0 auto;
-    padding: 1rem 0.7rem 1.2rem 0.7rem;
-    scroll-snap-align: center;
-    box-sizing: border-box;
-    opacity: 1 !important;
-    filter: none !important;
-    height: auto;
+  .services .card-wrapper {
+    min-height: 180px;
+    height: 200px;
   }
     .card-wrapper::-webkit-scrollbar {
         display: block;
@@ -405,6 +397,12 @@ section,
         overflow: visible;
         height: auto;
     }
+    .services .photocard {
+    min-width: 80vw;
+    max-width: 92vw;
+    flex: 1 1 80vw;
+    padding: 0.7rem 0.5rem 1rem 0.5rem;
+  }
     .photocard p {
         font-size: 1.08rem;
         margin-bottom: 0.5rem;
@@ -423,8 +421,27 @@ section,
     color: #ffd700;
 }
 
-.dark-mode .photocard p {
-    color: #ffd700;
+.dark-mode .photocard p,
+.dark-mode .photocard .service-desc {
+  color: #ffd700 !important;
+}
+
+.dark-mode .photocard img {
+  background: #181818;
+}
+
+/* Darkmode Services */
+.dark-mode .services .card-wrapper {
+  background: #232323;
+  scrollbar-color: #ffd700 #232323;
+}
+
+.dark-mode .card-wrapper::-webkit-scrollbar {
+  background: #232323;
+}
+
+.dark-mode .card-wrapper::-webkit-scrollbar-thumb {
+  background: #ffd700;
 }
 
 /* Contact card styles */
@@ -805,6 +822,8 @@ html {
   padding-bottom: 1rem;
   scrollbar-width: thin;
   scrollbar-color: #ccc #f5f5f5;
+  min-height: 420px; /* atur tinggi minimum lebih kecil */
+  height: 450px;     /* atur tinggi total lebih kecil */
 }
 
 .services .photocard {
@@ -825,7 +844,7 @@ html {
 
 .services .photocard img {
   display: block;
-  margin: 0 auto 0.5rem auto;
+  margin: 0 auto 0.1rem auto;
   width: auto;
   max-width: 220px;
   height: auto;
@@ -846,7 +865,7 @@ html {
 
 .services .photocard .service-desc {
   display: block;
-  margin-top: 0.25rem;
+  margin-top: 0.1rem;
   margin-bottom: 0;
   font-size: 0.98em;
   line-height: 1.3;
