@@ -293,88 +293,185 @@ section,
         color 0.4s cubic-behavior(.4,0,.2,1),
         border-color 0.4s cubic-bezier(.4,0,.2,1);
 }
+
+/* Card wrapper: scroll horizontal */
 .card-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
-    padding: 0 1rem;
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 500px; /* batas maksimal lebar card-wrapper */
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+    justify-items: center;
 }
 
+/* Photocard: lebar penuh grid, tetap di tengah */
 .photocard {
-    background: #fff;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    background: #fafafa;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
-}
-
-.photocard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.photocard img {
-    max-width: 100%;
+    justify-content: center;
+    padding: 1rem 0.7rem 1.2rem 0.7rem;
+    box-sizing: border-box;
+    opacity: 1 !important;
+    filter: none !important;
     height: auto;
-    border-radius: 8px 8px 0 0;
-    object-fit: cover;
-    margin-bottom: 0.7rem;
 }
 
-.photocard p {
-    margin: 0;
-    font-size: 1rem;
-    text-align: center;
+/* Responsive: tetap 1 kolom dan max-width menyesuaikan layar */
+@media (max-width: 600px) {
+    .card-wrapper {
+        max-width: 98vw;
+        gap: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .photocard {
+        max-width: 100vw;
+    }
 }
 
-.service-desc {
-    font-size: 0.95rem;
-    color: #666;
-    text-align: center;
-    margin-top: 0.5rem;
-    line-height: 1.5;
-}
-
-/* Responsive Styling for Mobile */
+/* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
 @media (max-width: 900px) {
     .card-wrapper {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 0 1rem;
-        margin: 1rem 0;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0;
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
+        padding-bottom: 1rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        align-items: stretch;
+        position: relative;
+        scrollbar-width: auto;
+        scrollbar-color: #ffd700 #eee;
     }
-
+    .card-wrapper::-webkit-scrollbar {
+        display: block;
+        height: 8px;
+        background: #eee;
+    }
+    .card-wrapper::-webkit-scrollbar-thumb {
+        background: #ffd700;
+        border-radius: 4px;
+    }
     .photocard {
-        width: 100%;
-        max-width: 100%;
+        flex: 0 0 92vw;
+        max-width: 96vw;
+        min-width: 0;
         margin: 0 auto;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-        background: #fafafa;
-    }
-
-    .photocard img {
-        max-width: 100%;
+        padding: 1rem 0.7rem 1.2rem 0.7rem;
+        scroll-snap-align: center;
+        box-sizing: border-box;
+        opacity: 1 !important;
+        filter: none !important;
         height: auto;
-        border-radius: 8px;
+    }
+    .photocard img {
+        max-width: 120px;
+        min-width: 60px;
+        width: 60vw;
+        height: auto;
+        margin: 0 auto 0.7rem auto;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        display: block;
+        border-radius: 8px 8px 0 0;
         background: #eaeaea;
     }
-
     .service-desc {
         font-size: 1rem;
         line-height: 1.6;
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
         text-align: center;
         margin-top: 0.5rem;
+        margin-bottom: 0;
+        overflow: visible;
+        height: auto;
     }
+    .photocard p {
+        font-size: 1.08rem;
+        margin-bottom: 0.5rem;
+    }
+    /* Hilangkan efek blur di mobile */
+    .photocard,
+    .photocard .service-desc {
+        filter: none !important;
+        opacity: 1 !important;
+    }
+}
 
+/* MOBILE: Tampilkan photocard sebagai list biasa (vertikal) */
+@media (max-width: 900px) {
+    .card-wrapper {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        width: 100%;
+        max-width: 98vw;
+        margin: 0 auto;
+        padding-bottom: 0;
+        overflow: visible !important;
+        scroll-snap-type: none !important;
+    }
+    .photocard {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        background: #fafafa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0.7rem 1.2rem 0.7rem;
+        box-sizing: border-box;
+        opacity: 1 !important;
+        filter: none !important;
+        height: auto;
+    }
+    .photocard img {
+        max-width: 120px;
+        min-width: 60px;
+        width: 60vw;
+        height: auto;
+        margin: 0 auto 0.7rem auto;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        display: block;
+        border-radius: 8px 8px 0 0;
+        background: #eaeaea;
+    }
+    .service-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+        text-align: left;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        overflow: visible;
+        height: auto;
+    }
     .photocard p {
         font-size: 1.08rem;
         margin-bottom: 0.5rem;
@@ -577,4 +674,136 @@ section,
     background: #232323;
     box-shadow: none;
     outline: none;
+}
+
+/* Scroll offset for anchor links so content is not hidden behind sticky navbar */
+:root {
+    scroll-padding-top: 80px; /* Sesuaikan dengan tinggi header/navbar Anda */
+}
+
+@media (max-width: 900px) {
+    :root {
+        scroll-padding-top: 65px; /* Jika navbar lebih kecil di mobile */
+    }
+}
+
+/* Smooth scrolling behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 900px) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .sidebar {
+        transform: translateX(-110%);
+        width: 40vw;
+        min-width: 180px;
+        max-width: 320px;
+        padding-top: 1.5rem;
+    }
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 16px rgba(0,0,0,0.13);
+    }
+    .sidebar-toggle {
+        display: block;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    body.sidebar-open {
+        overflow: hidden;
+    }
+    .navbar {
+        display: none; /* Sembunyikan navbar di mobile */
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+    .nav-links li {
+        width: 100%;
+    }
+    .nav-links a {
+        color: #fff;
+        padding: 0.7rem 0;
+        display: block;
+        width: 100%;
+    }
+    .sidebar-darkmode-toggle {
+        margin: 1.2rem 0 0.7rem 0;
+        width: 90%;
+    }
+}
+
+@media (min-width: 901px) {
+    .sidebar,
+    .sidebar-toggle {
+        display: none !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+    }
+    .navbar {
+        display: flex !important;
+    }
+    html {
+        font-size: 20px;
+    }
+    body {
+        padding: 0;
+    }
+    .navbar {
+        max-width: 1400px;    /* Lebar maksimal navbar lebih besar */
+        padding: 2rem 3rem;
+        font-size: 1.15rem;
+    }
+    .main-content {
+        max-width: 1400px;    /* Lebar maksimal konten utama lebih besar */
+        margin: 0 auto !important;
+    }
+    .services, .about, .contact, .hero {
+        max-width: 1200px;    /* Lebar maksimal section utama lebih besar */
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    .photocard {
+        font-size: 1.15rem;
+        padding: 1.5rem 1.2rem;
+        gap: 2.5rem;
+    }
+    .contact-card {
+        font-size: 1.15rem;
+        padding: 2rem 2rem;
+    }
+    h1, h2, h3 {
+        font-size: 2.2rem;
+    }
+    h1 {
+        font-size: 2.8rem;
+    }
+    .contact-icon {
+        font-size: 2.5rem;
+    }
+    .contact-label {
+        font-size: 1.2rem;
+    }
+    .contact-value {
+        font-size: 1.1rem;
+    }
+    footer {
+        font-size: 1.1rem;
+        padding: 1.5rem 0;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 }
