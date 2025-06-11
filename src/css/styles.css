@@ -293,162 +293,91 @@ section,
         color 0.4s cubic-behavior(.4,0,.2,1),
         border-color 0.4s cubic-bezier(.4,0,.2,1);
 }
-
-/* Card wrapper: scroll horizontal */
 .card-wrapper {
-    display: flex;
-    overflow-x: auto;
-    gap: 1.5rem;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 0 1rem;
     align-items: stretch;
-    position: relative;
-    overflow-y: hidden; /* Hilangkan scrollbar vertikal pada carousel */
 }
 
-/* Sembunyikan scrollbar vertikal di semua browser */
-.card-wrapper::-webkit-scrollbar:vertical {
-    display: none;
-}
-.card-wrapper {
-    scrollbar-width: thin;
-    scrollbar-color: #ffd700 #eee;
-}
-
-/* Photocard dasar */
 .photocard {
-    flex: 0 0 270px;
-    max-width: 90vw;
-    scroll-snap-align: center;
-    background: #fafafa;
+    background: #fff;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    overflow: hidden;
-    min-height: 220px;
-    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 1rem 1rem 1.2rem 1rem;
-    transition: 
-        transform 0.3s cubic-bezier(.4,0,.2,1),
-        box-shadow 0.3s cubic-bezier(.4,0,.2,1),
-        filter 0.3s cubic-bezier(.4,0,.2,1),
-        opacity 0.3s cubic-behavior(.4,0,.2,1);
-    opacity: 0.6;
-    filter: blur(2px);
-    z-index: 1;
+    justify-content: start;
+}
+
+.photocard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .photocard img {
-    width: 100%;
-    max-width: 180px;
-    min-width: 120px;
+    max-width: 100%;
     height: auto;
-    aspect-ratio: 4/3;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 0.5rem auto;
     border-radius: 8px 8px 0 0;
-    background: #eaeaea;
+    object-fit: cover;
+    margin-bottom: 0.7rem;
 }
 
-/* Service desc blur */
-.photocard .service-desc {
-    filter: blur(2px);
-    transition: filter 0.3s;
+.photocard p {
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
 }
 
-/* Photocard aktif (tengah) */
-.photocard.active {
-    transform: scale(1.12);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    opacity: 1;
-    filter: none;
-    z-index: 2;
-}
-.photocard.active .service-desc {
-    filter: none;
+.service-desc {
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+    line-height: 1.5;
 }
 
-/* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
+/* Responsive Styling for Mobile */
 @media (max-width: 900px) {
     .card-wrapper {
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-        gap: 0;
-        width: 100vw;
-        max-width: 100vw;
-        margin: 0;
-        padding-bottom: 1rem;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        justify-content: flex-start;
-        align-items: stretch;
-        position: relative;
-        scrollbar-width: auto;
-        scrollbar-color: #ffd700 #eee;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 1rem;
+        margin: 1rem 0;
     }
-    .card-wrapper::-webkit-scrollbar {
-        display: block;
-        height: 8px;
-        background: #eee;
-    }
-    .card-wrapper::-webkit-scrollbar-thumb {
-        background: #ffd700;
-        border-radius: 4px;
-    }
+
     .photocard {
-        flex: 0 0 92vw;
-        max-width: 96vw;
-        min-width: 0;
+        width: 100%;
+        max-width: 100%;
         margin: 0 auto;
-        padding: 1rem 0.7rem 1.2rem 0.7rem;
-        scroll-snap-align: center;
-        box-sizing: border-box;
-        opacity: 1 !important;
-        filter: none !important;
-        height: auto;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        background: #fafafa;
     }
+
     .photocard img {
-        max-width: 120px;
-        min-width: 60px;
-        width: 60vw;
+        max-width: 100%;
         height: auto;
-        margin: 0 auto 0.7rem auto;
-        aspect-ratio: 4/3;
-        object-fit: contain;
-        display: block;
-        border-radius: 8px 8px 0 0;
+        border-radius: 8px;
         background: #eaeaea;
     }
+
     .service-desc {
         font-size: 1rem;
         line-height: 1.6;
-        max-width: 85%;
-        word-break: break-word;
-        white-space: normal;
-        display: block;
         text-align: center;
         margin-top: 0.5rem;
-        margin-bottom: 0;
-        overflow: visible;
-        height: auto;
     }
+
     .photocard p {
         font-size: 1.08rem;
         margin-bottom: 0.5rem;
-    }
-    /* Hilangkan efek blur di mobile */
-    .photocard,
-    .photocard .service-desc {
-        filter: none !important;
-        opacity: 1 !important;
     }
 }
 
@@ -648,253 +577,4 @@ section,
     background: #232323;
     box-shadow: none;
     outline: none;
-}
-
-/* Scroll offset for anchor links so content is not hidden behind sticky navbar */
-:root {
-    scroll-padding-top: 80px; /* Sesuaikan dengan tinggi header/navbar Anda */
-}
-
-@media (max-width: 900px) {
-    :root {
-        scroll-padding-top: 65px; /* Jika navbar lebih kecil di mobile */
-    }
-}
-
-/* Smooth scrolling behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-@media (max-width: 900px) {
-    html {
-        scroll-behavior: smooth;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 900px) {
-    .sidebar {
-        transform: translateX(-110%);
-        width: 40vw;
-        min-width: 180px;
-        max-width: 320px;
-        padding-top: 1.5rem;
-    }
-    .sidebar.active {
-        transform: translateX(0);
-        box-shadow: 2px 0 16px rgba(0,0,0,0.13);
-    }
-    .sidebar-toggle {
-        display: block;
-    }
-    .main-content {
-        margin-left: 0;
-    }
-    body.sidebar-open {
-        overflow: hidden;
-    }
-    .navbar {
-        display: none; /* Sembunyikan navbar di mobile */
-    }
-    .nav-links {
-        flex-direction: column;
-        gap: 0.7rem;
-        width: 100%;
-        padding-left: 0;
-        margin-top: 0.5rem;
-    }
-    .nav-links li {
-        width: 100%;
-    }
-    .nav-links a {
-        color: #fff;
-        padding: 0.7rem 0;
-        display: block;
-        width: 100%;
-    }
-    .sidebar-darkmode-toggle {
-        margin: 1.2rem 0 0.7rem 0;
-        width: 90%;
-    }
-}
-
-@media (min-width: 901px) {
-    .sidebar,
-    .sidebar-toggle {
-        display: none !important;
-    }
-    .main-content {
-        margin-left: 0 !important;
-    }
-    .navbar {
-        display: flex !important;
-    }
-    html {
-        font-size: 20px;
-    }
-    body {
-        padding: 0;
-    }
-    .navbar {
-        max-width: 1400px;    /* Lebar maksimal navbar lebih besar */
-        padding: 2rem 3rem;
-        font-size: 1.15rem;
-    }
-    .main-content {
-        max-width: 1400px;    /* Lebar maksimal konten utama lebih besar */
-        margin: 0 auto !important;
-    }
-    .services, .about, .contact, .hero {
-        max-width: 1200px;    /* Lebar maksimal section utama lebih besar */
-        padding-left: 3rem;
-        padding-right: 3rem;
-    }
-    .photocard {
-        font-size: 1.15rem;
-        padding: 1.5rem 1.2rem;
-        gap: 2.5rem;
-    }
-    .contact-card {
-        font-size: 1.15rem;
-        padding: 2rem 2rem;
-    }
-    h1, h2, h3 {
-        font-size: 2.2rem;
-    }
-    h1 {
-        font-size: 2.8rem;
-    }
-    .contact-icon {
-        font-size: 2.5rem;
-    }
-    .contact-label {
-        font-size: 1.2rem;
-    }
-    .contact-value {
-        font-size: 1.1rem;
-    }
-    footer {
-        font-size: 1.1rem;
-        padding: 1.5rem 0;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-}
-
-/* Tambahkan/ubah di styles.css */
-#dev-notif {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    background: #ffd700;
-    color: #222;
-    font-weight: bold;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    font-size: 1.05rem;
-    letter-spacing: 1px;
-    border: 2px solid #11110f;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    animation: notif-float 0.7s;
-    transition: width 0.3s, padding 0.3s;
-}
-#dev-notif.minimized {
-    padding: 0.7rem 1.1rem;
-    width: auto;
-    min-width: 0;
-    justify-content: center;
-}
-#dev-notif .notif-icon {
-    font-size: 1.5em;
-    margin: 0;
-}
-#notif-text {
-    display: inline;
-}
-#notif-close {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin-left: 12px;
-    color: #222;
-}
-@keyframes notif-float {
-    from { transform: translateY(40px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-}
-
-/* Notifikasi peringatan di dark mode */
-.dark-mode #dev-notif {
-    background: #232323;
-    color: #ffd700;
-    border: 2px solid #ffd700;
-}
-
-.dark-mode #notif-close {
-    color: #ffd700;
-}
-
-.dark-mode #dev-notif .notif-icon {
-    color: #ffd700;
-}
-
-/* Tambahkan di styles.css */
-/* Container tombol dan card-wrapper */
-.carousel-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    position: relative;
-}
-
-.carousel-btn {
-    background: #ffd700;
-    border: none;
-    color: #222;
-    font-size: 2rem;
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.carousel-btn:hover, .carousel-btn:focus {
-    background: #ffe066;
-    color: #000;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-}
-.carousel-btn.left {
-    margin-right: 0.5rem;
-}
-.carousel-btn.right {
-    margin-left: 0.5rem;
-}
-
-/* Responsive: tombol lebih kecil di mobile */
-@media (max-width: 900px) {
-    .carousel-btn {
-        display: none !important;
-    }
-    .carousel-nav {
-        display: flex;
-        width: 100vw;
-        max-width: 100vw;
-        overflow: visible;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-        margin: 0 auto;
-    }
 }
