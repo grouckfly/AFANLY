@@ -297,15 +297,38 @@ section,
 /* Card wrapper: scroll horizontal */
 .card-wrapper {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
     width: 100%;
-    max-width: 500px; /* batas maksimal lebar card-wrapper */
+    max-width: 900px; /* samakan dengan navbar jika perlu */
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 1rem;
     box-sizing: border-box;
     justify-items: center;
+}
+
+/* Responsive: 2 kolom di tablet */
+@media (max-width: 900px) {
+    .card-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 98vw;
+        gap: 1.2rem;
+    }
+}
+
+/* Responsive: 1 kolom di mobile */
+@media (max-width: 600px) {
+    .card-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 98vw;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .photocard {
+        max-width: 100vw;
+    }
 }
 
 /* Photocard: lebar penuh grid, tetap di tengah */
@@ -325,19 +348,6 @@ section,
     opacity: 1 !important;
     filter: none !important;
     height: auto;
-}
-
-/* Responsive: tetap 1 kolom dan max-width menyesuaikan layar */
-@media (max-width: 600px) {
-    .card-wrapper {
-        max-width: 98vw;
-        gap: 1rem;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .photocard {
-        max-width: 100vw;
-    }
 }
 
 /* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
