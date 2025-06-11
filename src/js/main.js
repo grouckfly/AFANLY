@@ -5,12 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateDarkModeButton() {
         const isDark = body.classList.contains('dark-mode');
-        if (toggle) toggle.innerHTML = isDark ? '🌙 Mode Gelap' : '☀️ Mode Cerah';
-        if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙 Mode Gelap' : '☀️ Mode Cerah';
+        if (toggle) toggle.innerHTML = isDark ? '🌙' : '☀️';
+        if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙' : '☀️';
     }
 
     // Cek preferensi sebelumnya
-    if (localStorage.getItem('theme') === 'dark') {
+    let theme = localStorage.getItem('theme');
+    if (!theme) {
+        // Aktifkan dark mode otomatis jika jam >= 18:00
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour >= 18 || hour < 6) {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        }
+    } else if (theme === 'dark') {
         body.classList.add('dark-mode');
     }
     updateDarkModeButton();
