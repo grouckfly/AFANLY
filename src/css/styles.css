@@ -684,3 +684,65 @@ html {
         margin: 0 auto;
     }
 }
+
+/* Tambahkan/ubah di styles.css */
+#dev-notif {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    background: #ffd700;
+    color: #222;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    border: 2px solid #11110f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: notif-float 0.7s;
+    transition: width 0.3s, padding 0.3s;
+}
+#dev-notif.minimized {
+    padding: 0.7rem 1.1rem;
+    width: auto;
+    min-width: 0;
+    justify-content: center;
+}
+#dev-notif .notif-icon {
+    font-size: 1.5em;
+    margin: 0;
+}
+#notif-text {
+    display: inline;
+}
+#notif-close {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 12px;
+    color: #222;
+}
+@keyframes notif-float {
+    from { transform: translateY(40px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Notifikasi peringatan di dark mode */
+.dark-mode #dev-notif {
+    background: #232323;
+    color: #ffd700;
+    border: 2px solid #ffd700;
+}
+
+.dark-mode #notif-close {
+    color: #ffd700;
+}
+
+.dark-mode #dev-notif .notif-icon {
+    color: #ffd700;
+}

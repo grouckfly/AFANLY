@@ -47,6 +47,40 @@ document.addEventListener('DOMContentLoaded', function () {
             updateDarkModeButton();
         });
     }
+
+    // Notifikasi dev-notif
+    const devNotif = document.getElementById('dev-notif');
+    const notifText = document.getElementById('notif-text');
+    const notifClose = document.getElementById('notif-close');
+
+    function minimizeNotif() {
+        notifText.style.display = 'none';
+        notifClose.style.display = 'none';
+        // Tambahkan ikon peringatan jika belum ada
+        if (!devNotif.querySelector('.notif-icon')) {
+            const icon = document.createElement('span');
+            icon.className = 'notif-icon';
+            icon.innerText = '⚠️';
+            icon.style.cursor = 'pointer';
+            devNotif.appendChild(icon);
+
+            // Event: klik ikon peringatan untuk restore notifikasi
+            icon.addEventListener('click', restoreNotif);
+        }
+        devNotif.classList.add('minimized');
+    }
+
+    function restoreNotif() {
+        notifText.style.display = 'inline';
+        notifClose.style.display = 'inline-block';
+        const icon = devNotif.querySelector('.notif-icon');
+        if (icon) icon.remove();
+        devNotif.classList.remove('minimized');
+    }
+
+    if (notifClose && devNotif && notifText) {
+        notifClose.addEventListener('click', minimizeNotif);
+    }
 });
 
 // Tahun otomatis pada footer
