@@ -901,27 +901,6 @@ html {
 .carousel-btn.right {
     margin-left: 0.5rem;
 }
-.card-wrapper {
-    display: flex;
-    overflow-x: auto;
-    gap: 1.5rem;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
-    align-items: stretch;
-    position: relative;
-    overflow-y: hidden; /* Hilangkan scrollbar vertikal pada carousel */
-}
-
-/* Sembunyikan scrollbar vertikal di semua browser */
-.card-wrapper::-webkit-scrollbar:vertical {
-    display: none;
-}
-.card-wrapper {
-    scrollbar-width: thin;
-    scrollbar-color: #ffd700 #eee;
-}
 
 /* Responsive: tombol lebih kecil di mobile */
 @media (max-width: 900px) {

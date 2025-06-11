@@ -155,44 +155,70 @@ function initCarousel() {
     const btnLeft = document.querySelector('.carousel-btn.left');
     const btnRight = document.querySelector('.carousel-btn.right');
 
-    if (!carousel) return;
+    if (!carousel || !btnLeft || !btnRight) return;
 
-    carousel.innerHTML += carousel.innerHTML;
+    // Cloning items for infinite loop
+    const cloneCount = 3;
+    const cards = [...carousel.children];
 
-    setTimeout(() => {
-        const card = carousel.querySelector('.photocard');
-        if (card) {
-            const cardWidth = card.offsetWidth + parseInt(getComputedStyle(carousel).gap || 24);
-            carousel.scrollLeft = carousel.scrollWidth / 2 - carousel.offsetWidth / 2;
-        }
-    }, 100);
+    for (let i = 0; i < cloneCount; i++) {
+        carousel.appendChild(cards[i].cloneNode(true)); // clone awal ke akhir
+        carousel.insertBefore(cards[cards.length - 1 - i].cloneNode(true), carousel.firstChild); // clone akhir ke awal
+    }
 
-    let isJumping = false;
-    carousel.addEventListener('scroll', function () {
-        if (isJumping) return;
-        const maxScroll = carousel.scrollWidth / 2;
-        if (carousel.scrollLeft < 10) {
-            isJumping = true;
-            carousel.scrollLeft += maxScroll - 20;
-            setTimeout(() => { isJumping = false; }, 0);
-        } else if (carousel.scrollLeft > carousel.scrollWidth - carousel.offsetWidth - 10) {
-            isJumping = true;
-            carousel.scrollLeft -= maxScroll - 20;
-            setTimeout(() => { isJumping = false; }, 0);
+    // Scroll ke posisi tengah (offset clones)
+    let startIndex = cloneCount;
+    const getItemWidth = () => {
+        const card = carousel.querySelector(".photocard");
+        const gap = parseInt(getComputedStyle(carousel).gap || 0);
+        return card ? card.offsetWidth + gap : 300;
+    };
+    let itemWidth = getItemWidth();
+    carousel.scrollLeft = startIndex * itemWidth;
+
+    // Fungsi geser ke card berikutnya/sebelumnya secara mulus
+    function scrollToCard(direction) {
+        itemWidth = getItemWidth();
+        carousel.scrollBy({ left: direction === 'left' ? -itemWidth : itemWidth, behavior: "smooth" });
+
+        // Infinity logic: jika sudah di ujung, lompat ke tengah
+        setTimeout(() => {
+            const maxScroll = itemWidth * (cards.length + cloneCount);
+            if (carousel.scrollLeft <= 0) {
+                carousel.scrollLeft = itemWidth * cards.length;
+            } else if (carousel.scrollLeft >= maxScroll) {
+                carousel.scrollLeft = itemWidth * cloneCount;
+            }
+        }, 400);
+    }
+
+    btnLeft.addEventListener("click", () => scrollToCard('left'));
+    btnRight.addEventListener("click", () => scrollToCard('right'));
+
+    // Infinite loop effect untuk swipe manual
+    carousel.addEventListener("scroll", () => {
+        itemWidth = getItemWidth();
+        const maxScroll = itemWidth * (cards.length + cloneCount);
+        if (carousel.scrollLeft <= 0) {
+            carousel.scrollLeft = itemWidth * cards.length;
+        } else if (carousel.scrollLeft >= maxScroll) {
+            carousel.scrollLeft = itemWidth * cloneCount;
         }
     });
 
-    const scrollAmount = 270; // Sesuaikan dengan lebar photocard + margin
-
-    if (leftBtn && rightBtn && carousel) {
-        leftBtn.addEventListener("click", () => {
-            carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
-
-        rightBtn.addEventListener("click", () => {
-            carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-    }
+    // Disable smooth scroll temporarily if forced jump
+    let lastScrollLeft = carousel.scrollLeft;
+    carousel.addEventListener("scroll", () => {
+        itemWidth = getItemWidth();
+        if (Math.abs(carousel.scrollLeft - lastScrollLeft) > itemWidth * cards.length) {
+            carousel.style.scrollBehavior = "auto";
+            carousel.scrollLeft = itemWidth * cloneCount;
+            requestAnimationFrame(() => {
+                carousel.style.scrollBehavior = "smooth";
+            });
+        }
+        lastScrollLeft = carousel.scrollLeft;
+    });
 }
 
 /* -------------------- PHOTOCARD HIGHLIGHT -------------------- */
