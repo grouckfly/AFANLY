@@ -244,10 +244,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Scroll ke card aktif agar selalu di tengah pada mobile
+    function scrollToActiveCard() {
+        if (window.innerWidth > 900) return;
+        const cardWrapper = document.querySelector('.card-wrapper');
+        const activeCard = document.querySelector('.photocard.active');
+        if (cardWrapper && activeCard) {
+            const wrapperRect = cardWrapper.getBoundingClientRect();
+            const cardRect = activeCard.getBoundingClientRect();
+            const scrollLeft = cardWrapper.scrollLeft;
+            const offset = cardRect.left - wrapperRect.left - (wrapperRect.width / 2 - cardRect.width / 2);
+            cardWrapper.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' });
+        }
+    }
+    window.addEventListener('resize', scrollToActiveCard);
+
     const cardWrapper = document.querySelector('.card-wrapper');
     if (cardWrapper && cardWrapper.querySelectorAll('.photocard').length) {
         setActivePhotocard();
-        cardWrapper.addEventListener('scroll', setActivePhotocard);
-        window.addEventListener('resize', setActivePhotocard);
+        cardWrapper.addEventListener('scroll', function() {
+            setActivePhotocard();
+            scrollToActiveCard();
+        });
+        window.addEventListener('resize', function() {
+            setActivePhotocard();
+            scrollToActiveCard();
+        });
     }
 });
