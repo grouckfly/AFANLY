@@ -302,6 +302,7 @@ section,
     display: flex;
     overflow-x: auto;
     grid-template-columns: repeat(3, 1fr);
+    background: #fff;
     gap: 1.5rem;
     width: 100%;
     max-width: 900px;
@@ -324,7 +325,7 @@ section,
     margin: 0;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    background: #fafafa;
+    background: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -346,20 +347,20 @@ section,
     overflow-x: auto;
     overflow-y: hidden;
     gap: 1.2rem;
-    width: 90vw;
-    max-width: 90vw;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
-    padding-bottom: 1rem;
+    padding: 1rem 1rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     scroll-behavior: smooth;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: stretch;
     position: relative;
-    scrollbar-width: auto;
-    scrollbar-color: #ffd700 #eee;
-  }
+    box-sizing: border-box;
+    }
+  
   .services .card-wrapper {
     min-height: 180px;
     height: 200px;
@@ -374,8 +375,9 @@ section,
         border-radius: 4px;
     }
     .photocard {
-        flex: 0 0 92vw;
-        max-width: 96vw;
+        flex: 0 0 auto;
+        width: 85vw;
+        max-width: 400px;
         min-width: 0;
         margin: 0 auto;
         padding: 1rem 0.7rem 1.2rem 0.7rem;
@@ -407,56 +409,111 @@ section,
         white-space: normal;
         display: block;
         text-align: center;
-        margin-top: 0.5rem;
-        margin-bottom: 0;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
         overflow: visible;
         height: auto;
     }
+    /* Judul layanan pada photocard */
+    .services .photocard p {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin: 0.2rem 0 0 0;
+    color: #222;
+    letter-spacing: 0.2px;
+    }
+
+    /* Deskripsi layanan pada photocard */
+    .services .photocard .service-desc {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.96em;
+    line-height: 1.4;
+    color: #555;
+    font-weight: 400;
+    opacity: 0.92;
+    }
     .services .photocard {
-    min-width: 80vw;
-    max-width: 92vw;
-    flex: 1 1 80vw;
-    padding: 0.7rem 0.5rem 1rem 0.5rem;
+        min-width: 90vw;
+        max-width: 95vw;
+        padding: 0.5rem;
+    }
+    .services .photocard img {
+        max-width: 70vw;
+        max-height: 120px;
+    }
+    .services .card-wrapper {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    gap: 1rem;
+    padding: 1rem 0.75rem; /* padding kiri-kanan kecil agar pas */
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
   }
-    .photocard p {
-        font-size: 1.08rem;
-        margin-bottom: 0.5rem;
-    }
-    /* Hilangkan efek blur di mobile */
-    .photocard,
-    .photocard .service-desc {
-        filter: none !important;
-        opacity: 1 !important;
-    }
+
+  .services .photocard {
+    flex: 0 0 auto;
+    width: 88vw; /* pas dengan viewport */
+    max-width: 360px;
+    margin: 0 auto;
+    scroll-snap-align: center;
+    background: var(--card-bg, #fff); /* pakai warna default */
+  }
+
+  .services .photocard img {
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #eaeaea;
+  }
 }
 
-/* Dark mode for photocard */
+/* Dark style untuk photocard */
 .dark-mode .photocard {
-    background: #232323;
-    color: #ffd700;
+    background-color: #2a2a2a !important;
+    color: #ffd700 !important;
 }
 
 .dark-mode .photocard p,
 .dark-mode .photocard .service-desc {
-  color: #ffd700 !important;
+    color: #ffd700 !important;
 }
 
 .dark-mode .photocard img {
-  background: #181818;
+    background: #181818;
 }
 
-/* Darkmode Services */
+/* === DARK MODE: card-wrapper & photocard === */
+.dark-mode .services .photocard p {
+  color: #ffd700;
+}
+
+.dark-mode .services .photocard .service-desc {
+  color: #ffe066;
+  opacity: 0.85;
+}
+
 .dark-mode .services .card-wrapper {
-  background: #232323 !important;
-  scrollbar-color: #ffd700 #232323;
+    background-color: #1e1e1e !important;
+    scrollbar-color: #ffd700 #1e1e1e;
 }
 
 .dark-mode .card-wrapper::-webkit-scrollbar {
-  background: #232323;
+    background: #1e1e1e;
 }
 
 .dark-mode .card-wrapper::-webkit-scrollbar-thumb {
-  background: #ffd700;
+    background: #ffd700;
 }
 
 /* Contact card styles */
@@ -857,6 +914,14 @@ html {
   scroll-snap-align: center;
 }
 
+.services .photocard p {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin: 0.2rem 0 0 0;
+  color: #222;
+  letter-spacing: 0.2px;
+}
+
 .services .photocard img {
   display: block;
   margin: 0 auto 0.1rem auto;
@@ -882,20 +947,8 @@ html {
   display: block;
   margin-top: 0.1rem;
   margin-bottom: 0;
-  font-size: 0.98em;
+  font-size: 0.80em;
   line-height: 1.3;
   color: #555;
   /* Jika ingin lebih rapat, bisa gunakan margin-top: 0.15rem; */
-}
-
-@media (max-width: 900px) {
-  .services .photocard {
-    min-width: 90vw;
-    max-width: 95vw;
-    padding: 0.5rem;
-  }
-  .services .photocard img {
-    max-width: 70vw;
-    max-height: 120px;
-  }
 }

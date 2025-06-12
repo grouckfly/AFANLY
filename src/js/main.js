@@ -14,30 +14,38 @@ function initDarkMode() {
     const sidebarDarkBtn = document.getElementById('sidebarDarkModeToggle');
     const body = document.body;
 
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            body.classList.add('dark-mode');
+        } else {
+            body.classList.remove('dark-mode');
+        }
+        localStorage.setItem('theme', theme);
+        updateDarkModeButton();
+    }
+
     function updateDarkModeButton() {
         const isDark = body.classList.contains('dark-mode');
         if (toggle) toggle.innerHTML = isDark ? '🌙' : '☀️';
         if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙' : '☀️';
     }
 
-    let theme = localStorage.getItem('theme');
-    if (!theme) {
+    // Inisialisasi mode berdasarkan localStorage atau waktu
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+        applyTheme(storedTheme);
+    } else {
         const hour = new Date().getHours();
-        if (hour >= 18 || hour < 6) {
-            body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark');
-        }
-    } else if (theme === 'dark') {
-        body.classList.add('dark-mode');
+        const autoTheme = (hour >= 18 || hour < 6) ? 'dark' : 'light';
+        applyTheme(autoTheme);
     }
-    updateDarkModeButton();
 
+    // Event toggle tombol
     [toggle, sidebarDarkBtn].forEach(btn => {
         if (btn) {
             btn.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-                updateDarkModeButton();
+                const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+                applyTheme(newTheme);
             });
         }
     });
