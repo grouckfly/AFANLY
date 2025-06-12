@@ -7,6 +7,51 @@ function toggleMenu() {
   }
 }
 
-function tambahKeranjang(namaProduk) {
-  alert(`${namaProduk} telah ditambahkan ke keranjang.`);
+function validasiPembelian(namaProduk) {
+  const modal = document.getElementById('modalKontak');
+  const closeBtn = document.getElementById('closeModalKontak');
+  const waBtn = document.getElementById('modalWaBtn');
+  const emailBtn = document.getElementById('modalEmailBtn');
+  const namaProdukSpan = document.getElementById('modalNamaProduk');
+
+  // Tampilkan nama produk di modal
+  if (namaProdukSpan) {
+    namaProdukSpan.textContent = namaProduk;
+  }
+
+  // Template pesan
+  const pesanWA = `Pembelian Barang AFANLY%0A%0ANama:%0AAlamat:%0ABarang yang diinginkan: ${encodeURIComponent(namaProduk)}%0ADeskripsi:`;
+  const subjectEmail = `Pembelian Barang AFANLY`;
+  const bodyEmail = `Nama:%0AAlamat:%0ABarang yang diinginkan: ${encodeURIComponent(namaProduk)}%0ADeskripsi:`;
+
+  // Set href dinamis
+  waBtn.href = `https://wa.me/628127659073?text=${pesanWA}`;
+  emailBtn.href = `mailto:defry.pku@gmail.com?subject=${subjectEmail}&body=${bodyEmail}`;
+
+  // Tampilkan modal
+  modal.style.display = 'flex';
+
+  // Tutup modal saat tombol close diklik
+  closeBtn.onclick = function() {
+    modal.style.display = 'none';
+  };
+
+  // Tutup modal saat klik di luar modal-content
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
 }
+
+// Pasang event pada semua tombol "Beli Sekarang"
+document.addEventListener('DOMContentLoaded', function() {
+  const beliButtons = document.querySelectorAll('.beli-btn');
+  beliButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const namaProduk = btn.getAttribute('data-produk');
+      validasiPembelian(namaProduk);
+    });
+  });
+});

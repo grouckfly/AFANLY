@@ -68,6 +68,50 @@
   background: #1565c0;
 }
 
+/* Modal Kontak */
+.modal-kontak {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  min-width: 260px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  position: relative;
+}
+.close-modal {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.modal-btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.modal-btn.wa { background: #25d366; }
+.modal-btn.wa:hover { background: #128c7e; }
+.modal-btn.email { background: #1e88e5; }
+.modal-btn.email:hover { background: #1565c0; }
+
 /* === DARK MODE PRODUK === */
 .dark-mode .produk-container {
   background: #1e1e1e;
@@ -95,4 +139,36 @@
 
 .dark-mode .produk button:hover {
   background: #e6c200;
+}
+
+/* Dark mode untuk modal kontak */
+.dark-mode .modal-kontak {
+  background: rgba(20,20,20,0.7);
+}
+
+.dark-mode .modal-content {
+  background: #232323;
+  color: #ffd700;
+  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
+}
+
+.dark-mode .close-modal {
+  color: #ffd700;
+}
+
+.dark-mode .modal-btn.wa {
+  background: #128c7e;
+  color: #fff;
+}
+.dark-mode .modal-btn.wa:hover {
+  background: #25d366;
+  color: #232323;
+}
+.dark-mode .modal-btn.email {
+  background: #ffd700;
+  color: #232323;
+}
+.dark-mode .modal-btn.email:hover {
+  background: #e6c400de;
+  color: #232323;
 }

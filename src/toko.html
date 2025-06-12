@@ -48,42 +48,42 @@
                         <h3>Laptop ASUS VivoBook</h3>
                         <p>Laptop ringan, cocok untuk kerja dan kuliah. RAM 8GB, SSD 512GB.</p>
                         <span class="harga">Rp7.500.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Laptop ASUS VivoBook">Beli Sekarang</button>
                     </div>
                     <div class="produk">
                         <img src="img/nobarang.jpg" alt="Smartphone">
                         <h3>Smartphone Samsung A15</h3>
                         <p>Layar Super AMOLED, baterai tahan lama, kamera 50MP.</p>
                         <span class="harga">Rp2.800.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Smartphone Samsung A15">Beli Sekarang</button>
                     </div>
                     <div class="produk">
                         <img src="img/nobarang.jpg" alt="Printer">
                         <h3>Printer Canon PIXMA</h3>
                         <p>Printer warna, cocok untuk kebutuhan kantor dan rumah.</p>
                         <span class="harga">Rp1.200.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Printer Canon PIXMA">Beli Sekarang</button>
                     </div>
                     <div class="produk">
                         <img src="img/nobarang.jpg" alt="Router WiFi">
                         <h3>Router TP-Link Archer</h3>
                         <p>Dual Band, kecepatan tinggi, jangkauan luas.</p>
                         <span class="harga">Rp650.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Router TP-Link Archer">Beli Sekarang</button>
                     </div>
                     <div class="produk">
                         <img src="img/nobarang.jpg" alt="CCTV">
                         <h3>Paket CCTV 4 Channel</h3>
                         <p>Termasuk DVR dan pemasangan. Cocok untuk rumah & toko.</p>
                         <span class="harga">Rp2.500.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Paket CCTV 4 Channel">Beli Sekarang</button>
                     </div>
                     <div class="produk">
                         <img src="img/nobarang.jpg" alt="Keyboard">
                         <h3>Keyboard Mechanical RGB</h3>
                         <p>Nyaman untuk gaming dan mengetik, lampu warna-warni.</p>
                         <span class="harga">Rp350.000</span>
-                        <button>Beli Sekarang</button>
+                        <button class="beli-btn" data-produk="Keyboard Mechanical RGB">Beli Sekarang</button>
                     </div>
                 </div>
             </section>
@@ -115,6 +115,21 @@
         <footer>
             <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
+    </div>
+    <!-- Modal Kontak -->
+    <div id="modalKontak" class="modal-kontak" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalKontak">&times;</span>
+            <h3>Hubungi Kami</h3>
+            <p>
+                Anda ingin memesan: <b id="modalNamaProduk">[Nama Produk]</b>
+            </p>
+            <p>Pilih kontak untuk pemesanan:</p>
+            <div class="modal-actions">
+                <a href="#" target="_blank" class="modal-btn wa" id="modalWaBtn">WhatsApp</a>
+                <a href="#" target="_blank" class="modal-btn email" id="modalEmailBtn">Email</a>
+            </div>
+        </div>
     </div>
     <div id="dev-notif">
         <span id="notif-text">Website Masi Dalam Proses Pengembangan!!!</span>
