@@ -1,3 +1,49 @@
+//Constants for product categories
+const semuaProduk = [
+  {
+    nama: "Laptop ASUS VivoBook",
+    jenis: "Komputer",
+    deskripsi: "Laptop ringan, cocok untuk kerja dan kuliah. RAM 8GB, SSD 512GB.",
+    harga: "Rp7.500.000",
+    gambar: "img/nobarang.jpg"
+  },
+  {
+    nama: "Smartphone Samsung A15",
+    jenis: "Komputer",
+    deskripsi: "Layar Super AMOLED, baterai tahan lama, kamera 50MP.",
+    harga: "Rp2.800.000",
+    gambar: "img/nobarang.jpg"
+  },
+  {
+    nama: "Printer Canon PIXMA",
+    jenis: "Alat Kantor",
+    deskripsi: "Printer warna, cocok untuk kebutuhan kantor dan rumah.",
+    harga: "Rp1.200.000",
+    gambar: "img/nobarang.jpg"
+  },
+  {
+    nama: "Router TP-Link Archer",
+    jenis: "Alat Kantor",
+    deskripsi: "Dual Band, kecepatan tinggi, jangkauan luas.",
+    harga: "Rp650.000",
+    gambar: "img/nobarang.jpg"
+  },
+  {
+    nama: "Paket CCTV 4 Channel",
+    jenis: "Security System",
+    deskripsi: "Termasuk DVR dan pemasangan. Cocok untuk rumah & toko.",
+    harga: "Rp2.500.000",
+    gambar: "img/nobarang.jpg"
+  },
+  {
+    nama: "Keyboard Mechanical RGB",
+    jenis: "Komputer",
+    deskripsi: "Nyaman untuk gaming dan mengetik, lampu warna-warni.",
+    harga: "Rp350.000",
+    gambar: "img/nobarang.jpg"
+  }
+];
+
 function toggleMenu() {
   const navMenu = document.getElementById("nav-menu");
   if (navMenu.style.display === "flex") {
@@ -76,3 +122,40 @@ function InitSliderHero() {
 
 // Panggil saat halaman dimuat
 document.addEventListener('DOMContentLoaded', InitSliderHero);
+
+// Fungsi filter produk
+function renderProduk(data) {
+  const list = document.getElementById("produkList");
+  list.innerHTML = "";
+  data.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "produk";
+    item.innerHTML = `
+      <img src="${p.gambar}" alt="${p.nama}">
+      <h3>${p.nama}</h3>
+      <p>${p.deskripsi}</p>
+      <span class="harga">${p.harga}</span>
+      <button class="beli-btn">Beli Sekarang</button>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function filterProduk() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const kategori = document.getElementById("kategoriSelect").value;
+
+  const hasil = semuaProduk.filter(p => {
+    const cocokNama = p.nama.toLowerCase().includes(search);
+    const cocokKategori = kategori === "all" || p.jenis === kategori;
+    return cocokNama && cocokKategori;
+  });
+
+  renderProduk(hasil);
+}
+
+document.getElementById("searchInput").addEventListener("input", filterProduk);
+document.getElementById("kategoriSelect").addEventListener("change", filterProduk);
+
+// Inisialisasi
+renderProduk(semuaProduk);

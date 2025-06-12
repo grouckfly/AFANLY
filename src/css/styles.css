@@ -103,6 +103,21 @@ header {
     z-index: 1;
 }
 
+#contact {
+  scroll-margin-top: 110px; /* Atur sesuai tinggi navbar + sedikit jarak */
+  padding-top: 1.5rem;      /* Tambahkan padding atas agar judul tidak tertutup */
+}
+
+#about {
+  scroll-margin-top: 110px; /* Atur sesuai tinggi navbar + sedikit jarak */
+  padding-top: 1.5rem;      /* Tambahkan padding atas agar judul tidak tertutup */
+}
+
+#services {
+  scroll-margin-top: 110px; /* Atur sesuai tinggi navbar + sedikit jarak */
+  padding-top: 1.5rem;      /* Tambahkan padding atas agar judul tidak tertutup */
+}
+
 .services, .about, .contact {
     max-width: 700px;
     margin: 2rem auto;
