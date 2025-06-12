@@ -204,44 +204,68 @@ function initServicesSection() {
 }
 
 /* -------------------- Auto Swipe -------------------- */
-function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 3500) {
+function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 3000) {
     const cardWrapper = document.querySelector(selector);
     if (!cardWrapper) return;
+
     const cards = cardWrapper.querySelectorAll('.photocard');
     if (!cards.length) return;
+
     let idx = 0;
     let interval = null;
+    let isUserInteracting = false;
+    let userInteractedTimeout = null;
 
     function scrollToCard(i) {
         if (!cards[i]) return;
 
         const card = cards[i];
-        const offsetLeft = card.offsetLeft;
-        const cardWrapperPadding = parseInt(getComputedStyle(cardWrapper).paddingLeft) || 0;
+        const cardOffset = card.offsetLeft;
+        const paddingLeft = parseInt(getComputedStyle(cardWrapper).paddingLeft) || 0;
 
         cardWrapper.scrollTo({
-            left: offsetLeft - cardWrapperPadding,
+            left: cardOffset - paddingLeft,
             behavior: 'smooth'
         });
     }
 
     function start() {
+        stop(); // clear existing interval
         interval = setInterval(() => {
-            idx = (idx + 1) % cards.length;
-            scrollToCard(idx);
+            if (!isUserInteracting) {
+                idx = (idx + 1) % cards.length;
+                scrollToCard(idx);
+            }
         }, intervalMs);
     }
 
     function stop() {
-        clearInterval(interval);
+        if (interval) {
+            clearInterval(interval);
+            interval = null;
+        }
     }
 
-    cardWrapper.addEventListener('mouseenter', stop);
-    cardWrapper.addEventListener('mouseleave', start);
-    cardWrapper.addEventListener('touchstart', stop, { passive: true });
-    cardWrapper.addEventListener('touchend', start);
+    function markInteracting() {
+        isUserInteracting = true;
+        stop();
 
+        // Hentikan sementara, lalu lanjutkan auto-scroll setelah 5 detik tidak ada interaksi
+        if (userInteractedTimeout) clearTimeout(userInteractedTimeout);
+        userInteractedTimeout = setTimeout(() => {
+            isUserInteracting = false;
+            start();
+        }, 5000);
+    }
+
+    // Tangkap berbagai jenis interaksi:
+    const interactionEvents = ['touchstart', 'pointerdown', 'mousedown', 'wheel', 'keydown'];
+    interactionEvents.forEach(evt => {
+        cardWrapper.addEventListener(evt, markInteracting, { passive: true });
+    });
+
+    // Jalankan auto scroll awal
     start();
-    // Return stop function if you want to control it from outside
+
     return stop;
 }
