@@ -5,12 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko AFANLY</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/toko.css">
 </head>
 <body>
+    <div class="floating-bar">
+        <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
+        <div class="sidebar-floating-logo">Toko AFANLY</div>
+    </div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button id="sidebarDarkModeToggle" aria-label="Toggle Dark Mode" class="sidebar-darkmode-toggle">🌓</button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#produk">Barang</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <header>
+            <nav class="navbar">
+                <div class="logo">Toko AFANLY</div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#produk">Barang</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+                <button id="darkModeToggle" aria-label="Toggle Dark Mode">🌓 Mode Gelap</button>
+            </nav>
+        </header>
+        <main>
+            <section class="hero">
+                <div class="hero-bg"></div>
+                <h1>Ingin membeli barang elektronik?</h1>
+                <p>Kami menjual barang-barang elektronik untuk kebutuhan anda.</p>
+            </section>
+            <section id="produk" class="produk">
+                <h2>Produk Kami</h2>
+                <div class="produk-container">
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="Laptop">
+                        <h3>Laptop ASUS VivoBook</h3>
+                        <p>Laptop ringan, cocok untuk kerja dan kuliah. RAM 8GB, SSD 512GB.</p>
+                        <span class="harga">Rp7.500.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="Smartphone">
+                        <h3>Smartphone Samsung A15</h3>
+                        <p>Layar Super AMOLED, baterai tahan lama, kamera 50MP.</p>
+                        <span class="harga">Rp2.800.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="Printer">
+                        <h3>Printer Canon PIXMA</h3>
+                        <p>Printer warna, cocok untuk kebutuhan kantor dan rumah.</p>
+                        <span class="harga">Rp1.200.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="Router WiFi">
+                        <h3>Router TP-Link Archer</h3>
+                        <p>Dual Band, kecepatan tinggi, jangkauan luas.</p>
+                        <span class="harga">Rp650.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="CCTV">
+                        <h3>Paket CCTV 4 Channel</h3>
+                        <p>Termasuk DVR dan pemasangan. Cocok untuk rumah & toko.</p>
+                        <span class="harga">Rp2.500.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                    <div class="produk">
+                        <img src="img/nobarang.jpg" alt="Keyboard">
+                        <h3>Keyboard Mechanical RGB</h3>
+                        <p>Nyaman untuk gaming dan mengetik, lampu warna-warni.</p>
+                        <span class="harga">Rp350.000</span>
+                        <button>Beli Sekarang</button>
+                    </div>
+                </div>
+            </section>
+            <section id="contact" class="contact">
+                <h2>Kontak</h2>
+                <p>Hubungi kami untuk informasi lebih lanjut</p>
+                <div class="contact-cards">
+                    <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Layanan%20AFANLY&body=Nama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A" 
+                    id="emailLink" class="contact-card" title="Kirim Email" target="_blank" rel="noopener">
+                        <span class="contact-icon">📧</span>
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value">defry.pku@gmail.com</span>
+                    </a>
+                    <a href="https://wa.me/628127659073?text=Permintaan%20Layanan%20AFANLY%0A%0ANama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
+                     id="phoneLink" class="contact-card" target="_blank" rel="noopener" title="Chat WhatsApp">
+                        <span class="contact-icon">💬</span>
+                        <span class="contact-label">WhatsApp</span>
+                        <span class="contact-value">0812-7659-073</span>
+                    </a>
+                    <a href="https://www.google.com/maps/place/Gg.+Garuda,+Sedati+Gede,+Kec.+Sedati,+Kabupaten+Sidoarjo,+Jawa+Timur+61253/@-7.3720523,112.754425,17z/data=!4m6!3m5!1s0x2dd7e4e68d9c2f59:0xa3ebd5a594e9cb71!8m2!3d-7.3720523!4d112.754425!16s%2Fg%2F1jkynl_88?force=pwa&source=mlapk&g_ep=Eg1tbF8yMDI1MDYwNF8wIOC7DCoASAJQAA%3D%3D"
+                        target="_blank" rel="noopener" id="addressLink" class="contact-card" title="Lihat di Google Maps">
+                        <span class="contact-icon">📍</span>
+                        <span class="contact-label">Alamat</span>
+                        <span class="contact-value">Jl. Hj. Syukur 7, Gg. Garuda, Sidoarjo</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
+        </footer>
+    </div>
     <div id="dev-notif">
         <span id="notif-text">Website Masi Dalam Proses Pengembangan!!!</span>
         <button id="notif-close" aria-label="Tutup Notifikasi" style="background:none;border:none;font-size:1.2em;cursor:pointer;margin-left:12px;">✖</button>
     </div>
     <script src="js/main.js"></script>
+    <script src="js/toko.js"></script>
 </body>
 </html>
