@@ -23,7 +23,7 @@ header {
     justify-content: space-between;
     max-width: 900px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.3rem 0.7rem;
     gap: 1rem; /* tambahkan baris ini agar logo kiri, tombol kanan */
     background: #fff;
     color: #222;
@@ -31,7 +31,8 @@ header {
 
 .logo {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
+    padding: 0 !important;
     flex: 1 1 auto; /* logo akan tetap di kiri */
     text-align: left;
     color: #222;
@@ -40,13 +41,15 @@ header {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     margin: 0;
     padding: 0;
     flex: 0 1 auto;
 }
 
 .nav-links a {
+    font-size: 0.98rem;
+    padding: 0.2rem 0; 
     color: #222;
     text-decoration: none;
     font-weight: 500;
@@ -296,16 +299,22 @@ section,
 
 /* Card wrapper: scroll horizontal */
 .card-wrapper {
-    display: grid;
+    display: flex;
+    overflow-x: auto;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     width: 100%;
-    max-width: 900px; /* samakan dengan navbar jika perlu */
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 1rem;
     box-sizing: border-box;
     justify-items: center;
+    touch-action: pan-y;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Photocard: lebar penuh grid, tetap di tengah */
@@ -325,6 +334,8 @@ section,
     opacity: 1 !important;
     filter: none !important;
     height: auto;
+    scroll-snap-align: start;
+    -webkit-scroll-snap-align: start;
 }
 
 /* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
@@ -341,6 +352,8 @@ section,
     padding-bottom: 1rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scroll-behavior: smooth;
     justify-content: flex-start;
     align-items: stretch;
     position: relative;
@@ -371,6 +384,8 @@ section,
         opacity: 1 !important;
         filter: none !important;
         height: auto;
+        scroll-snap-align: start;
+        -webkit-scroll-snap-align: start;
     }
     .photocard img {
         max-width: 120px;
@@ -432,7 +447,7 @@ section,
 
 /* Darkmode Services */
 .dark-mode .services .card-wrapper {
-  background: #232323;
+  background: #232323 !important;
   scrollbar-color: #ffd700 #232323;
 }
 

@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initFooterYear();
     initValidation();
     initSidebarToggle();
-    initPhotocardHighlighting();
     initServicesSection();
+    startAutoScrollCardWrapper();
 });
 
 /* -------------------- DARK MODE -------------------- */
@@ -193,33 +193,47 @@ function initServicesSection() {
         const walk = (x - startX) * 1.5;
         cardWrapper.scrollLeft = scrollLeft - walk;
     });
+}
 
-    // --- AUTOPLAY PHOTOCARD ---
+/* -------------------- Auto Swipe -------------------- */
+function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 3500) {
+    const cardWrapper = document.querySelector(selector);
+    if (!cardWrapper) return;
     const cards = cardWrapper.querySelectorAll('.photocard');
+    if (!cards.length) return;
     let idx = 0;
     let interval = null;
 
     function scrollToCard(i) {
         if (!cards[i]) return;
-        cards[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+        const card = cards[i];
+        const offsetLeft = card.offsetLeft;
+        const cardWrapperPadding = parseInt(getComputedStyle(cardWrapper).paddingLeft) || 0;
+
+        cardWrapper.scrollTo({
+            left: offsetLeft - cardWrapperPadding,
+            behavior: 'smooth'
+        });
     }
 
-    function startAutoScroll() {
+    function start() {
         interval = setInterval(() => {
             idx = (idx + 1) % cards.length;
             scrollToCard(idx);
-        }, 3500);
+        }, intervalMs);
     }
 
-    function stopAutoScroll() {
+    function stop() {
         clearInterval(interval);
     }
 
-    // Pause saat mouse/touch di atas slider
-    cardWrapper.addEventListener('mouseenter', stopAutoScroll);
-    cardWrapper.addEventListener('mouseleave', startAutoScroll);
-    cardWrapper.addEventListener('touchstart', stopAutoScroll, {passive:true});
-    cardWrapper.addEventListener('touchend', startAutoScroll);
+    cardWrapper.addEventListener('mouseenter', stop);
+    cardWrapper.addEventListener('mouseleave', start);
+    cardWrapper.addEventListener('touchstart', stop, { passive: true });
+    cardWrapper.addEventListener('touchend', start);
 
-    startAutoScroll();
+    start();
+    // Return stop function if you want to control it from outside
+    return stop;
 }
