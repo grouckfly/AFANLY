@@ -13,6 +13,10 @@
 
 /* Kartu produk */
 .produk {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
   text-align: center;
   padding: 2rem 1rem;
   background: var(--bg-section, #f9f9f9);
@@ -31,6 +35,11 @@
   border-radius: 0.7rem;
   margin-bottom: 1rem;
   background: #eee;
+}
+
+.produk .beli-btn {
+  margin-top: auto;
+  width: 100%;
 }
 
 .produk h3 {
