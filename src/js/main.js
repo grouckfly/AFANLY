@@ -204,7 +204,7 @@ function initServicesSection() {
 }
 
 /* -------------------- Auto Swipe -------------------- */
-function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 3000) {
+function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 5000) {
     const cardWrapper = document.querySelector(selector);
     if (!cardWrapper) return;
 
