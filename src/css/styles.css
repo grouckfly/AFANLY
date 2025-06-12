@@ -158,7 +158,7 @@ footer {
     box-shadow: 2px 0 12px rgba(0,0,0,0.07);
 }
 
-.sidebar-logo {
+.sidebar-floating-logo {
     color: #222;
 }
 
@@ -270,7 +270,7 @@ footer {
 .dark-mode .contact-value,
 .dark-mode .contact-label,
 .dark-mode .logo,
-.dark-mode .sidebar-logo,
+.dark-mode .sidebar-floating-logo,
 .dark-mode .photocard p,
 .dark-mode .nav-links a,
 .dark-mode .sidebar-links a,
@@ -290,7 +290,7 @@ section,
 .contact-card,
 .sidebar-links a,
 .logo,
-.sidebar-logo {
+.sidebar-floating-logo {
     transition: 
         background 0.4s cubic-bezier(.4,0,.2,1),
         color 0.4s cubic-behavior(.4,0,.2,1),
@@ -339,8 +339,21 @@ section,
     -webkit-scroll-snap-align: start;
 }
 
-/* Mobile: hanya satu card per view, gambar sedang, deskripsi jelas */
+/* Mobile Phone */
+@media (min-width: 901px) {
+  .sidebar-floating-logo {
+    display: none !important;
+  }
+}
+
 @media (max-width: 900px) {
+    .sidebar-floating-logo {
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+    top: 10px;
+    right: 10px;
+    }
+    
     .card-wrapper {
     display: flex !important;
     flex-direction: row;
@@ -604,14 +617,24 @@ section,
     width: 100%;
     padding: 0 1.2rem 1.5rem 1.2rem;
     box-sizing: border-box;
+    position: relative;
+    min-height: 48px; /* pastikan cukup tinggi untuk tombol dan logo */
 }
 
-.sidebar-logo {
-    font-size: 1.4rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: #222;
-    margin-bottom: 0;
+.sidebar-floating-logo {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 300;
+  background: #fff;
+  color: #222;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0.4rem 1rem;
+  pointer-events: auto;
+  transition: background 0.3s, color 0.3s;
 }
 
 .sidebar-links {
@@ -642,7 +665,9 @@ section,
 
 .sidebar-toggle {
     display: none;
-    position: fixed;
+    position: static; /* default, biar tetap di kiri sidebar-header */
+    margin-right: 1rem;
+    order: 1;
     top: 18px;
     left: 18px;
     z-index: 200;
@@ -654,12 +679,6 @@ section,
     padding: 0.3em 0.7em;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
-}
-
-.sidebar-darkmode-toggle {
-    margin: 0;
-    align-self: auto;
-    cursor: pointer;
 }
 
 /* Sembunyikan teks pada tombol dark mode, hanya tampilkan ikon */
@@ -692,6 +711,9 @@ section,
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    align-self: auto;
+    cursor: pointer;
 }
 
 /* Dark mode: efek border pada hover/focus */
@@ -702,6 +724,12 @@ section,
     background: #232323;
     box-shadow: none;
     outline: none;
+}
+
+.dark-mode .sidebar-floating-logo {
+  background: #232323;
+  color: #ffd700;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
 }
 
 /* Scroll offset for anchor links so content is not hidden behind sticky navbar */
