@@ -29,6 +29,8 @@
 }
 
 .produk img {
+  display: block;
+  margin: 0 auto 1rem auto;
   width: 120px;
   height: 120px;
   object-fit: cover;
@@ -180,4 +182,16 @@
 .dark-mode .modal-btn.email:hover {
   background: #e6c400de;
   color: #232323;
+}
+
+/* Responsif */
+@media (max-width: 700px) {
+  .produk {
+    align-items: center;
+    text-align: center;
+  }
+  .produk img {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
