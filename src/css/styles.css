@@ -308,14 +308,21 @@ section,
 
 .sidebar-toggle {
     background: transparent;
-    color: #111;
-    border: 2px solid #111;
-    box-shadow: none;
-    font-size: 2rem;
-    border-radius: 6px;
-    padding: 0.3em 0.7em;
-    cursor: pointer;
-    transition: color 0.3s, border 0.3s, background 0.3s;
+        color: #111;
+        border: 2px solid #111;
+        box-shadow: none;
+        font-size: 2rem;
+        border-radius: 6px;
+        padding: 0.3em 0.7em;
+        cursor: pointer;
+        transition: color 0.3s, border 0.3s, background 0.3s;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
 }
 
 .sidebar-toggle:hover,
@@ -351,6 +358,14 @@ section,
   padding: 0.4rem 1rem;
   pointer-events: auto;
   transition: background 0.3s, color 0.3s;
+}
+
+.sidebar-floating-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .sidebar-links {
