@@ -123,6 +123,47 @@
 .modal-btn.email { background: #1e88e5; }
 .modal-btn.email:hover { background: #1565c0; }
 
+.hero-heading {
+  display: inline-block;
+  align-items: center;
+  font-size: 2rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#hero-slider-container {
+  display: inline-block;
+  position: relative;
+  width: auto;
+  height: 1.6em; /* cukup tinggi agar semua teks tampil */
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.hero-slider-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  white-space: nowrap;
+  color: #1e88e5 !important;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transform: translateY(100%);
+  line-height: 1.2em;
+  font-weight: 700;
+}
+
+.hero-slider-item.active {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+}
+
+/* === DARK MODE Hero Slider=== */
+.dark-mode .hero-slider-item {
+  color: #1e88e5 !important;
+}
+
 /* === DARK MODE PRODUK === */
 .dark-mode .produk-container {
   background: #1e1e1e;

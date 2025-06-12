@@ -55,3 +55,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// Inisialisasi fungsi slider hero
+function InitSliderHero() {
+  const items = document.querySelectorAll('#hero-slider-container .hero-slider-item');
+  let current = 0;
+
+  function showNext() {
+    items[current].classList.remove('active');
+    current = (current + 1) % items.length;
+    items[current].classList.add('active');
+  }
+
+  // Tampilkan pertama
+  items[current].classList.add('active');
+
+  // Ubah setiap 3 detik
+  setInterval(showNext, 3000);
+}
+
+// Panggil saat halaman dimuat
+document.addEventListener('DOMContentLoaded', InitSliderHero);
