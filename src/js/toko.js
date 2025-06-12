@@ -53,6 +53,17 @@ function toggleMenu() {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Event untuk tombol beli
+  document.body.addEventListener('click', function(e) {
+    if (e.target.classList.contains('beli-btn')) {
+      e.preventDefault();
+      const namaProduk = e.target.getAttribute('data-produk');
+      validasiPembelian(namaProduk);
+    }
+  });
+});
+
 function validasiPembelian(namaProduk) {
   const modal = document.getElementById('modalKontak');
   const closeBtn = document.getElementById('closeModalKontak');
@@ -90,18 +101,6 @@ function validasiPembelian(namaProduk) {
   };
 }
 
-// Pasang event pada semua tombol "Beli Sekarang"
-document.addEventListener('DOMContentLoaded', function() {
-  const beliButtons = document.querySelectorAll('.beli-btn');
-  beliButtons.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const namaProduk = btn.getAttribute('data-produk');
-      validasiPembelian(namaProduk);
-    });
-  });
-});
-
 // Inisialisasi fungsi slider hero
 function InitSliderHero() {
   const items = document.querySelectorAll('#hero-slider-container .hero-slider-item');
@@ -135,7 +134,7 @@ function renderProduk(data) {
       <h3>${p.nama}</h3>
       <p>${p.deskripsi}</p>
       <span class="harga">${p.harga}</span>
-      <button class="beli-btn">Beli Sekarang</button>
+      <button class="beli-btn" data-produk="${p.nama}">Beli</button>
     `;
     list.appendChild(item);
   });
