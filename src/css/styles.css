@@ -1,4 +1,12 @@
-/* Reset & Base */
+:root {
+    scroll-padding-top: 80px; /* Sesuaikan dengan tinggi header/navbar Anda */
+}
+
+/* Smooth scrolling behavior */
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -152,10 +160,136 @@ footer {
     color: #222;
 }
 
-.sidebar {
-    background: #fff; /* Ubah dari #f5f5f5 ke #fff untuk light mode */
+/* Animasi transisi untuk dark/light mode */
+body,
+header,
+.navbar,
+footer,
+.sidebar,
+.main-content,
+section,
+.photocard,
+.contact-card,
+.sidebar-links a,
+.logo,
+.sidebar-floating-logo {
+    transition: 
+        background 0.4s cubic-bezier(.4,0,.2,1),
+        color 0.4s cubic-behavior(.4,0,.2,1),
+        border-color 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+/* Card wrapper: scroll horizontal */
+.card-wrapper {
+    display: flex;
+    overflow-x: auto;
+    grid-template-columns: repeat(3, 1fr);
+    background: #fff;
+    gap: 1rem;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+    justify-items: center;
+    touch-action: pan-y;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Photocard: lebar penuh grid, tetap di tengah */
+.photocard {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.7rem 1.2rem 0.7rem;
+    box-sizing: border-box;
+    opacity: 1 !important;
+    filter: none !important;
+    height: auto;
+    scroll-snap-align: start;
+    -webkit-scroll-snap-align: start;
+}
+
+/* Contact card styles */
+.contact-cards {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 1.2rem 1.5rem;
+    min-width: 180px;
+    text-decoration: none;
     color: #222;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    position: relative;
+}
+
+.contact-card:hover {
+    background: #ffd70022;
+    color: #222;
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+}
+
+.contact-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-label {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.5px;
+}
+
+.contact-value {
+    font-size: 1rem;
+    color: #444;
+    word-break: break-all;
+    text-align: center;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10vw;
+    height: 100vh;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2000;
     box-shadow: 2px 0 12px rgba(0,0,0,0.07);
+    padding-top: 2rem;
+    transition: transform 0.3s;
+}
+
+.sidebar.active {
+  transform: translateX(0);
 }
 
 .sidebar-floating-logo {
@@ -191,6 +325,494 @@ footer {
     border-color: #ffd700;
     outline: none;
 }
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1.2rem 1.5rem 1.2rem;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 48px; /* pastikan cukup tinggi untuk tombol dan logo */
+}
+
+.sidebar-floating-logo {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 300;
+  background: #fff;
+  color: #222;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0.4rem 1rem;
+  pointer-events: auto;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.sidebar-links li {
+    width: 100%;
+}
+
+.sidebar-links a {
+    display: block;
+    color: #222;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    font-size: 1.08rem;
+    transition: background 0.18s, color 0.18s;
+}
+
+.sidebar-links a:hover,
+.sidebar-links a.active {
+    background: #ffd90052;
+    color: #000000;
+}
+
+.sidebar-toggle {
+    display: none;
+    position: static; /* default, biar tetap di kiri sidebar-header */
+    margin-right: 1rem;
+    order: 1;
+    top: 18px;
+    left: 18px;
+    z-index: 200;
+    background: none;
+    color: #000000;
+    border: none;
+    font-size: 2rem;
+    border-radius: 6px;
+    padding: 0.3em 0.7em;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+
+/* Notifikasi dev-notif: warna mengikuti mode */
+#dev-notif {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    left: auto;
+    transform: none;
+    background: #fffbe6;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    animation: notif-float 1s ease;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+#notif-close {
+    background: none;
+    border: none;
+    color: #d60000;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 1em;
+    transition: color 0.2s;
+}
+
+
+
+/* Services section styles */
+.services .card-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f5f5f5;
+  min-height: 420px; /* atur tinggi minimum lebih kecil */
+  height: 450px;     /* atur tinggi total lebih kecil */
+}
+
+.services .photocard {
+  min-width: 350px;
+  max-width: 90vw;
+  flex: 0 0 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1rem;
+  text-align: center;
+  transition: 
+    transform 0.18s cubic-bezier(.4,2,.6,1),
+    box-shadow 0.18s cubic-bezier(.4,2,.6,1);
+  cursor: grab;
+  scroll-snap-align: center;
+}
+
+.services .photocard p {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin: 0.2rem 0 0 0;
+  color: #222;
+  letter-spacing: 0.2px;
+}
+
+.services .photocard img {
+  display: block;
+  margin: 0 auto 0.1rem auto;
+  width: auto;
+  max-width: 220px;
+  height: auto;
+  max-height: 160px;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.services .photocard:active,
+.services .photocard.dragging,
+.services .photocard:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.07);
+  z-index: 2;
+}
+
+.services .photocard .service-desc {
+  display: block;
+  margin-top: 0.1rem;
+  margin-bottom: 0;
+  font-size: 0.80em;
+  line-height: 1.3;
+  color: #555;
+  /* Jika ingin lebih rapat, bisa gunakan margin-top: 0.15rem; */
+}
+
+.floating-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 48px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 0.3rem 1rem;
+}
+
+.floating-bar .sidebar-toggle {
+  order: 1;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #222;
+  cursor: pointer;
+}
+
+.floating-bar .sidebar-floating-logo {
+  order: 2;
+  margin-left: auto; /* dorong logo ke kanan */
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+@media (max-width: 900px) {
+
+    :root {
+        scroll-padding-top: 65px; /* Jika navbar lebih kecil di mobile */
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .sidebar-floating-logo {
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+    top: 10px;
+    right: 10px;
+    }
+
+    
+    .sidebar {
+        transform: translateX(-110%);
+        width: 40vw;
+        min-width: 180px;
+        max-width: 320px;
+        padding-top: 1.5rem;
+    }
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 16px rgba(0,0,0,0.13);
+    }
+    .sidebar-toggle {
+        display: block;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    body.sidebar-open {
+        overflow: hidden;
+    }
+    .navbar {
+        display: none; /* Sembunyikan navbar di mobile */
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+    .nav-links li {
+        width: 100%;
+    }
+    .nav-links a {
+        color: #fff;
+        padding: 0.7rem 0;
+        display: block;
+        width: 100%;
+    }
+    .sidebar-darkmode-toggle {
+        margin: 1.2rem 0 0.7rem 0;
+        width: 90%;
+    }
+    
+    .card-wrapper {
+    display: flex !important;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1rem 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scroll-behavior: smooth;
+    justify-content: center;
+    align-items: stretch;
+    position: relative;
+    box-sizing: border-box;
+    }
+  .services {
+    overflow: hidden;
+    position: relative;
+    }
+  
+    .services .card-wrapper {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    gap: 1rem;
+    padding: 1rem 0.75rem; /* padding kiri-kanan kecil agar pas */
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+  }
+    .card-wrapper::-webkit-scrollbar {
+        display: block;
+        height: 8px;
+        background: #eee;
+    }
+    .card-wrapper::-webkit-scrollbar-thumb {
+        background: #ffd700;
+        border-radius: 4px;
+    }
+    .photocard {
+        flex: 0 0 auto;
+        width: 85vw;
+        max-width: 400px;
+        min-width: 0;
+        margin: 0 auto;
+        padding: 1rem 0.7rem 1.2rem 0.7rem;
+        scroll-snap-align: center;
+        box-sizing: border-box;
+        opacity: 1 !important;
+        filter: none !important;
+        height: auto;
+        scroll-snap-align: start;
+        -webkit-scroll-snap-align: start;
+    }
+    .photocard img {
+        max-width: 120px;
+        min-width: 60px;
+        width: 60vw;
+        height: auto;
+        margin: 0 auto 0.7rem auto;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        display: block;
+        border-radius: 8px 8px 0 0;
+        background: #eaeaea;
+    }
+    .service-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        overflow: visible;
+        height: auto;
+    }
+
+    .services .photocard {
+    flex: 0 0 auto;
+    width: 85vw;
+    max-width: 360px;
+    margin: 0 auto;
+    scroll-snap-align: center;
+    border-radius: 12px;
+    }
+
+    /* Judul layanan pada photocard */
+    .services .photocard p {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin: 0.2rem 0 0 0;
+    color: #222;
+    letter-spacing: 0.2px;
+    }
+
+    /* Deskripsi layanan pada photocard */
+    .services .photocard .service-desc {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.96em;
+    line-height: 1.4;
+    color: #555;
+    font-weight: 400;
+    opacity: 0.92;
+    }
+    .services .photocard {
+        min-width: 90vw;
+        max-width: 95vw;
+        padding: 0.5rem;
+    }
+    .services .photocard img {
+        max-width: 70vw;
+        max-height: 120px;
+    }
+
+  .services .photocard {
+    flex: 0 0 auto;
+    width: 88vw; /* pas dengan viewport */
+    max-width: 360px;
+    margin: 0 auto;
+    scroll-snap-align: center;
+    background: var(--card-bg, #fff); /* pakai warna default */
+  }
+
+  .services .photocard img {
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #eaeaea;
+  }
+}
+
+
+@media (min-width: 901px) {
+    .sidebar-floating-logo {
+        display: none !important;
+    }
+    .sidebar,
+    .sidebar-toggle {
+        display: none !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+    }
+    .navbar {
+        display: flex !important;
+    }
+    html {
+        font-size: 20px;
+    }
+    body {
+        padding: 0;
+    }
+    .navbar {
+        max-width: 1400px;    /* Lebar maksimal navbar lebih besar */
+        padding: 2rem 3rem;
+        font-size: 1.15rem;
+    }
+    .main-content {
+        max-width: 1400px;    /* Lebar maksimal konten utama lebih besar */
+        margin: 0 auto !important;
+    }
+    .services, .about, .contact, .hero {
+        max-width: 1200px;    /* Lebar maksimal section utama lebih besar */
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    .photocard {
+        font-size: 1.15rem;
+        padding: 1.5rem 1.2rem;
+        gap: 2.5rem;
+    }
+    .contact-card {
+        font-size: 1.15rem;
+        padding: 2rem 2rem;
+    }
+    h1, h2, h3 {
+        font-size: 2.2rem;
+    }
+    h1 {
+        font-size: 2.8rem;
+    }
+    .contact-icon {
+        font-size: 2.5rem;
+    }
+    .contact-label {
+        font-size: 1.2rem;
+    }
+    .contact-value {
+        font-size: 1.1rem;
+    }
+    footer {
+        font-size: 1.1rem;
+        padding: 1.5rem 0;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .floating-bar {
+    display: none !important;
+  }
+}
+
+
 
 /* Dark mode: hanya garis putih, tanpa background */
 .dark-mode .sidebar-toggle {
@@ -278,220 +900,18 @@ footer {
     color: #ffffff !important;
 }
 
-/* Animasi transisi untuk dark/light mode */
-body,
-header,
-.navbar,
-footer,
-.sidebar,
-.main-content,
-section,
-.photocard,
-.contact-card,
-.sidebar-links a,
-.logo,
-.sidebar-floating-logo {
-    transition: 
-        background 0.4s cubic-bezier(.4,0,.2,1),
-        color 0.4s cubic-behavior(.4,0,.2,1),
-        border-color 0.4s cubic-bezier(.4,0,.2,1);
+/* Dark style */
+.dark-mode .floating-bar {
+  background: #232323;
+  color: #ffd700;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
 }
 
-/* Card wrapper: scroll horizontal */
-.card-wrapper {
-    display: flex;
-    overflow-x: auto;
-    grid-template-columns: repeat(3, 1fr);
-    background: #fff;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 1rem;
-    box-sizing: border-box;
-    justify-items: center;
-    touch-action: pan-y;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    -webkit-scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+.dark-mode .floating-bar .sidebar-toggle,
+.dark-mode .floating-bar .sidebar-floating-logo {
+  color: #ffd700;
 }
 
-/* Photocard: lebar penuh grid, tetap di tengah */
-.photocard {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 0.7rem 1.2rem 0.7rem;
-    box-sizing: border-box;
-    opacity: 1 !important;
-    filter: none !important;
-    height: auto;
-    scroll-snap-align: start;
-    -webkit-scroll-snap-align: start;
-}
-
-/* Mobile Phone */
-@media (min-width: 901px) {
-  .sidebar-floating-logo {
-    display: none !important;
-  }
-}
-
-@media (max-width: 900px) {
-    .sidebar-floating-logo {
-    font-size: 1rem;
-    padding: 0.3rem 0.7rem;
-    top: 10px;
-    right: 10px;
-    }
-    
-    .card-wrapper {
-    display: flex !important;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 1.2rem;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 1rem 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-    scroll-behavior: smooth;
-    justify-content: center;
-    align-items: stretch;
-    position: relative;
-    box-sizing: border-box;
-    }
-  
-  .services .card-wrapper {
-    min-height: 180px;
-    height: 200px;
-  }
-    .card-wrapper::-webkit-scrollbar {
-        display: block;
-        height: 8px;
-        background: #eee;
-    }
-    .card-wrapper::-webkit-scrollbar-thumb {
-        background: #ffd700;
-        border-radius: 4px;
-    }
-    .photocard {
-        flex: 0 0 auto;
-        width: 85vw;
-        max-width: 400px;
-        min-width: 0;
-        margin: 0 auto;
-        padding: 1rem 0.7rem 1.2rem 0.7rem;
-        scroll-snap-align: center;
-        box-sizing: border-box;
-        opacity: 1 !important;
-        filter: none !important;
-        height: auto;
-        scroll-snap-align: start;
-        -webkit-scroll-snap-align: start;
-    }
-    .photocard img {
-        max-width: 120px;
-        min-width: 60px;
-        width: 60vw;
-        height: auto;
-        margin: 0 auto 0.7rem auto;
-        aspect-ratio: 4/3;
-        object-fit: contain;
-        display: block;
-        border-radius: 8px 8px 0 0;
-        background: #eaeaea;
-    }
-    .service-desc {
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 100%;
-        word-break: break-word;
-        white-space: normal;
-        display: block;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-        overflow: visible;
-        height: auto;
-    }
-    /* Judul layanan pada photocard */
-    .services .photocard p {
-    font-size: 1.08rem;
-    font-weight: 600;
-    margin: 0.2rem 0 0 0;
-    color: #222;
-    letter-spacing: 0.2px;
-    }
-
-    /* Deskripsi layanan pada photocard */
-    .services .photocard .service-desc {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.96em;
-    line-height: 1.4;
-    color: #555;
-    font-weight: 400;
-    opacity: 0.92;
-    }
-    .services .photocard {
-        min-width: 90vw;
-        max-width: 95vw;
-        padding: 0.5rem;
-    }
-    .services .photocard img {
-        max-width: 70vw;
-        max-height: 120px;
-    }
-    .services .card-wrapper {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-    gap: 1rem;
-    padding: 1rem 0.75rem; /* padding kiri-kanan kecil agar pas */
-    margin: 0 auto;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    justify-content: flex-start;
-  }
-
-  .services .photocard {
-    flex: 0 0 auto;
-    width: 88vw; /* pas dengan viewport */
-    max-width: 360px;
-    margin: 0 auto;
-    scroll-snap-align: center;
-    background: var(--card-bg, #fff); /* pakai warna default */
-  }
-
-  .services .photocard img {
-    width: 100%;
-    height: auto;
-    max-height: 140px;
-    object-fit: contain;
-    border-radius: 8px;
-    background: #eaeaea;
-  }
-}
-
-/* Dark style untuk photocard */
 .dark-mode .photocard {
     background-color: #2a2a2a !important;
     color: #ffd700 !important;
@@ -529,55 +949,6 @@ section,
     background: #ffd700;
 }
 
-/* Contact card styles */
-.contact-cards {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-}
-
-.contact-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #f7f7f7;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    padding: 1.2rem 1.5rem;
-    min-width: 180px;
-    text-decoration: none;
-    color: #222;
-    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
-    position: relative;
-}
-
-.contact-card:hover {
-    background: #ffd70022;
-    color: #222;
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.13);
-}
-
-.contact-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-.contact-label {
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-    letter-spacing: 0.5px;
-}
-
-.contact-value {
-    font-size: 1rem;
-    color: #444;
-    word-break: break-all;
-    text-align: center;
-}
-
 .dark-mode .contact-card {
     background: #232323;
     color: #ffd700;
@@ -590,95 +961,6 @@ section,
 
 .dark-mode .contact-value {
     color: #ffd700;
-}
-
-/* Sidebar styles */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 10vw;
-    height: 100vh;
-    background: #f5f5f5;
-    color: #222;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 100;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.07);
-    padding-top: 2rem;
-    transition: transform 0.3s;
-}
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 1.2rem 1.5rem 1.2rem;
-    box-sizing: border-box;
-    position: relative;
-    min-height: 48px; /* pastikan cukup tinggi untuk tombol dan logo */
-}
-
-.sidebar-floating-logo {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 300;
-  background: #fff;
-  color: #222;
-  font-weight: bold;
-  font-size: 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  padding: 0.4rem 1rem;
-  pointer-events: auto;
-  transition: background 0.3s, color 0.3s;
-}
-
-.sidebar-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-
-.sidebar-links li {
-    width: 100%;
-}
-
-.sidebar-links a {
-    display: block;
-    color: #222;
-    text-decoration: none;
-    padding: 1rem 2rem;
-    font-size: 1.08rem;
-    transition: background 0.18s, color 0.18s;
-}
-
-.sidebar-links a:hover,
-.sidebar-links a.active {
-    background: #ffd90052;
-    color: #000000;
-}
-
-.sidebar-toggle {
-    display: none;
-    position: static; /* default, biar tetap di kiri sidebar-header */
-    margin-right: 1rem;
-    order: 1;
-    top: 18px;
-    left: 18px;
-    z-index: 200;
-    background: none;
-    color: #000000;
-    border: none;
-    font-size: 2rem;
-    border-radius: 6px;
-    padding: 0.3em 0.7em;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
 }
 
 /* Sembunyikan teks pada tombol dark mode, hanya tampilkan ikon */
@@ -732,169 +1014,6 @@ section,
   box-shadow: 0 2px 12px rgba(0,0,0,0.18);
 }
 
-/* Scroll offset for anchor links so content is not hidden behind sticky navbar */
-:root {
-    scroll-padding-top: 80px; /* Sesuaikan dengan tinggi header/navbar Anda */
-}
-
-@media (max-width: 900px) {
-    :root {
-        scroll-padding-top: 65px; /* Jika navbar lebih kecil di mobile */
-    }
-}
-
-/* Smooth scrolling behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-@media (max-width: 900px) {
-    html {
-        scroll-behavior: smooth;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 900px) {
-    .sidebar {
-        transform: translateX(-110%);
-        width: 40vw;
-        min-width: 180px;
-        max-width: 320px;
-        padding-top: 1.5rem;
-    }
-    .sidebar.active {
-        transform: translateX(0);
-        box-shadow: 2px 0 16px rgba(0,0,0,0.13);
-    }
-    .sidebar-toggle {
-        display: block;
-    }
-    .main-content {
-        margin-left: 0;
-    }
-    body.sidebar-open {
-        overflow: hidden;
-    }
-    .navbar {
-        display: none; /* Sembunyikan navbar di mobile */
-    }
-    .nav-links {
-        flex-direction: column;
-        gap: 0.7rem;
-        width: 100%;
-        padding-left: 0;
-        margin-top: 0.5rem;
-    }
-    .nav-links li {
-        width: 100%;
-    }
-    .nav-links a {
-        color: #fff;
-        padding: 0.7rem 0;
-        display: block;
-        width: 100%;
-    }
-    .sidebar-darkmode-toggle {
-        margin: 1.2rem 0 0.7rem 0;
-        width: 90%;
-    }
-}
-
-@media (min-width: 901px) {
-    .sidebar,
-    .sidebar-toggle {
-        display: none !important;
-    }
-    .main-content {
-        margin-left: 0 !important;
-    }
-    .navbar {
-        display: flex !important;
-    }
-    html {
-        font-size: 20px;
-    }
-    body {
-        padding: 0;
-    }
-    .navbar {
-        max-width: 1400px;    /* Lebar maksimal navbar lebih besar */
-        padding: 2rem 3rem;
-        font-size: 1.15rem;
-    }
-    .main-content {
-        max-width: 1400px;    /* Lebar maksimal konten utama lebih besar */
-        margin: 0 auto !important;
-    }
-    .services, .about, .contact, .hero {
-        max-width: 1200px;    /* Lebar maksimal section utama lebih besar */
-        padding-left: 3rem;
-        padding-right: 3rem;
-    }
-    .photocard {
-        font-size: 1.15rem;
-        padding: 1.5rem 1.2rem;
-        gap: 2.5rem;
-    }
-    .contact-card {
-        font-size: 1.15rem;
-        padding: 2rem 2rem;
-    }
-    h1, h2, h3 {
-        font-size: 2.2rem;
-    }
-    h1 {
-        font-size: 2.8rem;
-    }
-    .contact-icon {
-        font-size: 2.5rem;
-    }
-    .contact-label {
-        font-size: 1.2rem;
-    }
-    .contact-value {
-        font-size: 1.1rem;
-    }
-    footer {
-        font-size: 1.1rem;
-        padding: 1.5rem 0;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-}
-/* Notifikasi dev-notif: warna mengikuti mode */
-#dev-notif {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    left: auto;
-    transform: none;
-    background: #fffbe6;
-    color: #000000;
-    border: 2px solid #000000;
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    animation: notif-float 1s ease;
-    transition: background 0.3s, color 0.3s, border-color 0.3s;
-}
-
-#notif-close {
-    background: none;
-    border: none;
-    color: #d60000;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin-left: 1em;
-    transition: color 0.2s;
-}
-
 /* Dark mode: warna dev-notif menyesuaikan */
 .dark-mode #dev-notif {
     background: #232323;
@@ -910,73 +1029,4 @@ html {
 @keyframes notif-float {
     from { opacity: 0; transform: translateY(30px);}
     to   { opacity: 1; transform: translateY(0);}
-}
-
-/* Services section styles */
-.services .card-wrapper {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  gap: 1.5rem;
-  padding-bottom: 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc #f5f5f5;
-  min-height: 420px; /* atur tinggi minimum lebih kecil */
-  height: 450px;     /* atur tinggi total lebih kecil */
-}
-
-.services .photocard {
-  min-width: 350px;
-  max-width: 90vw;
-  flex: 0 0 100%;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 1rem;
-  text-align: center;
-  transition: 
-    transform 0.18s cubic-bezier(.4,2,.6,1),
-    box-shadow 0.18s cubic-bezier(.4,2,.6,1);
-  cursor: grab;
-  scroll-snap-align: center;
-}
-
-.services .photocard p {
-  font-size: 1.08rem;
-  font-weight: 600;
-  margin: 0.2rem 0 0 0;
-  color: #222;
-  letter-spacing: 0.2px;
-}
-
-.services .photocard img {
-  display: block;
-  margin: 0 auto 0.1rem auto;
-  width: auto;
-  max-width: 220px;
-  height: auto;
-  max-height: 160px;
-  aspect-ratio: 4/3;
-  object-fit: contain;
-  border-radius: 8px;
-  background: #f3f3f3;
-}
-
-.services .photocard:active,
-.services .photocard.dragging,
-.services .photocard:hover {
-  transform: scale(1.04) translateY(-4px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.07);
-  z-index: 2;
-}
-
-.services .photocard .service-desc {
-  display: block;
-  margin-top: 0.1rem;
-  margin-bottom: 0;
-  font-size: 0.80em;
-  line-height: 1.3;
-  color: #555;
-  /* Jika ingin lebih rapat, bisa gunakan margin-top: 0.15rem; */
 }
