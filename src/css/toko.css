@@ -8,6 +8,16 @@
   padding: 2rem;
   box-sizing: border-box;
   background-color: #f9f9f9;
+  flex: 1 1 calc(25% - 1rem);
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 23%;
+  box-sizing: border-box;
+  min-width: 220px;
 }
 
 #produk h2,
@@ -45,23 +55,15 @@
 }
 
 .produk-slider {
-  flex: 4;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: stretch;
-}
-
-.produk {
-  flex: 1 1 calc(25% - 1rem);
-  background-color: white;
-  padding: 1rem;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  min-width: 220px;
+  flex-direction: row;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1.5rem;
+  /* Optional: agar tidak ada scroll bar di bawah pada browser modern */
+  scrollbar-width: thin;
+  scrollbar-color: #1e88e5 #f5f5f5;
 }
 
 .produk img {
@@ -100,6 +102,54 @@
 
 .beli-btn:hover {
   background-color: #1565c0;
+}
+
+/* Produk tidak tersedia */
+.produk-notfound {
+  width: 40%;
+  text-align: center;
+  color: var(--text-color);
+  background: var(--bg-color);
+  font-size: 1.1em;
+  padding: 2em 1em 1.5em 1em;
+  border-radius: 1rem;
+  margin: 1.5em auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.produk-notfound .notfound-actions {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+.produk-notfound .notfound-btn {
+  padding: 0.7em 1.5em;
+  border-radius: 0.5em;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background: #25d366;
+  transition: background 0.2s;
+  border: none;
+  display: inline-block;
+}
+
+.produk-notfound .notfound-btn.email {
+  background: #1e88e5;
+}
+
+.produk-notfound .notfound-btn.wa:hover {
+  background: #128c7e;
+}
+
+.produk-notfound .notfound-btn.email:hover {
+  background: #1565c0;
 }
 
 
