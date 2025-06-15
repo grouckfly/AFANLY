@@ -140,16 +140,16 @@ function initSidebarToggle() {
     const sidebar = document.getElementById("sidebar");
     const sidebarToggle = document.getElementById("sidebarToggle");
     const body = document.body;
+    const sidebarLinks = document.querySelectorAll(".sidebar-links a"); // Ambil semua link di sidebar
 
     // Event toggle sidebar
     sidebarToggle.addEventListener("click", function () {
         sidebar.classList.toggle("active"); // Tampilkan/sembunyikan sidebar
-        body.classList.toggle("sidebar-open"); // Tambahkan efek jika diperlukan
+        body.classList.toggle("sidebar-open"); // Efek blur jika diperlukan
     });
 
-    // Tutup sidebar jika klik di luar
+    // Tutup sidebar jika klik di luar area
     document.addEventListener("click", function (e) {
-        // Tutup jika klik di luar sidebar
         if (
             sidebar.classList.contains("active") &&
             !sidebar.contains(e.target) &&
@@ -159,7 +159,16 @@ function initSidebarToggle() {
             body.classList.remove("sidebar-open");
         }
     });
+
+    // Tutup sidebar setelah link diklik
+    sidebarLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            sidebar.classList.remove("active"); // Sembunyikan sidebar
+            body.classList.remove("sidebar-open");
+        });
+    });
 }
+
 
 /* -------------------- SECTION SERVICES -------------------- */
 function initServicesSection() {

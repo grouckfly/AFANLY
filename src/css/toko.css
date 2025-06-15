@@ -1,22 +1,20 @@
 /* Container produk */
 #produk {
-  scroll-margin-top: 110px; /* Atur sesuai tinggi navbar + sedikit jarak */
-  padding-top: 1.5rem;      /* Tambahkan padding atas agar judul tidak tertutup */
+  scroll-margin-top: 110px;
+  padding-top: 1.5rem;
 }
+
 .produk {
   width: 100%;
-  padding: 2rem;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
-  flex: 1 1 calc(25% - 1rem);
-  background-color: white;
   padding: 1rem;
+  box-sizing: border-box;
+  background-color: var(--card-bg);
+  flex: 1 1 calc(25% - 1rem);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   flex: 0 0 23%;
-  box-sizing: border-box;
   min-width: 220px;
 }
 
@@ -24,14 +22,26 @@
 .produk h2 {
   text-align: center;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+
+/* Garis dekoratif di bawah heading */
+#produk h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--accent-color);
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
 }
 
 .produk-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+  justify-content: center;
 }
 
 .produk-filter-bar {
@@ -39,10 +49,10 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  background-color: white;
+  background-color: var(--card-bg);
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-sm);
   justify-content: center;
 }
 
@@ -52,6 +62,8 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
 }
 
 .produk-slider {
@@ -61,9 +73,8 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 1.5rem;
-  /* Optional: agar tidak ada scroll bar di bawah pada browser modern */
   scrollbar-width: thin;
-  scrollbar-color: #1e88e5 #f5f5f5;
+  scrollbar-color: var(--accent-color) #f5f5f5;
 }
 
 .produk img {
@@ -71,11 +82,15 @@
   height: 150px;
   object-fit: contain;
   margin-bottom: 1rem;
+  background: #f3f3f3;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
 
 .produk h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
 .produk p {
@@ -87,21 +102,22 @@
 .harga {
   font-weight: bold;
   margin: 0.5rem 0;
-  color: #1e88e5;
+  color: var(--accent-color);
 }
 
 .beli-btn {
   padding: 0.5rem;
-  background-color: #1e88e5;
+  background-color: var(--accent-color);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .beli-btn:hover {
-  background-color: #1565c0;
+  filter: brightness(90%);
 }
 
 /* Produk tidak tersedia */
@@ -109,17 +125,17 @@
   width: 40%;
   text-align: center;
   color: var(--text-color);
-  background: var(--bg-color);
+  background: var(--card-bg);
   font-size: 1.1em;
   padding: 2em 1em 1.5em 1em;
   border-radius: 1rem;
   margin: 1.5em auto;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.2em;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: var(--transition-color);
 }
 
 .produk-notfound .notfound-actions {
@@ -141,7 +157,7 @@
 }
 
 .produk-notfound .notfound-btn.email {
-  background: #1e88e5;
+  background: var(--accent-color);
 }
 
 .produk-notfound .notfound-btn.wa:hover {
@@ -149,7 +165,7 @@
 }
 
 .produk-notfound .notfound-btn.email:hover {
-  background: #1565c0;
+  filter: brightness(90%);
 }
 
 
@@ -158,18 +174,19 @@
   position: fixed;
   z-index: 9999;
   left: 0; top: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.modal-content {
-  background: #fff;
+.modal-content-kontak {
+  background: var(--modal-bg);
+  color: var(--text-color);
   padding: 2rem 1.5rem;
   border-radius: 1rem;
   text-align: center;
   min-width: 260px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  box-shadow: var(--shadow-lg);
   position: relative;
 }
 .close-modal {
@@ -177,6 +194,7 @@
   top: 1rem; right: 1rem;
   font-size: 1.5rem;
   cursor: pointer;
+  color: var(--text-color);
 }
 .modal-actions {
   margin-top: 1.5rem;
@@ -194,8 +212,8 @@
 }
 .modal-btn.wa { background: #25d366; }
 .modal-btn.wa:hover { background: #128c7e; }
-.modal-btn.email { background: #1e88e5; }
-.modal-btn.email:hover { background: #1565c0; }
+.modal-btn.email { background: var(--accent-color); }
+.modal-btn.email:hover { filter: brightness(90%); }
 
 .hero-heading {
   display: inline-block;
@@ -209,7 +227,7 @@
   display: inline-block;
   position: relative;
   width: auto;
-  height: 1.6em; /* cukup tinggi agar semua teks tampil */
+  height: 1.6em;
   overflow: hidden;
   vertical-align: middle;
 }
@@ -220,7 +238,7 @@
   left: 0;
   opacity: 0;
   white-space: nowrap;
-  color: #1e88e5 !important;
+  color: var(--accent-color) !important;
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
   transform: translateY(100%);
   line-height: 1.2em;
@@ -234,42 +252,33 @@
 }
 
 /* Dark mode produk filter */
-body.dark-mode .produk-filter-bar {
-  background: #1e1e1e;
-  color: #ffd700;
+.dark-mode .produk-filter-bar {
+  background: var(--card-bg);
 }
 
-body.dark-mode .produk-filter-bar input,
-body.dark-mode .produk-filter-bar select {
+.dark-mode .produk-filter-bar input,
+.dark-mode .produk-filter-bar select {
   background: #181c22;
-  color: #fffef8;
   border: 1px solid #444;
 }
 
-body.dark-mode .produk-filter-bar input::placeholder {
+.dark-mode .produk-filter-bar input::placeholder {
   color: #bdbdbd;
-  opacity: 1;
-}
-
-/* === DARK MODE Hero Slider=== */
-.dark-mode .hero-slider-item {
-  color: #1e88e5 !important;
 }
 
 /* === DARK MODE PRODUK === */
-.dark-mode .produk-container {
-  background: #1e1e1e;
-}
-
 .dark-mode .produk {
-  background: #2a2a2a;
-  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.04);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
 }
 
 .dark-mode .produk h3,
-.dark-mode .produk p,
+.dark-mode .produk p {
+  color: var(--text-color);
+}
+
 .dark-mode .harga {
-  color: #ffd700;
+  color: var(--accent-color);
 }
 
 .dark-mode .produk img {
@@ -277,44 +286,28 @@ body.dark-mode .produk-filter-bar input::placeholder {
 }
 
 .dark-mode .produk button {
-  background: #ffd700;
+  background: var(--accent-color);
   color: #000;
 }
 
 .dark-mode .produk button:hover {
-  background: #e6c200;
+  filter: brightness(90%);
 }
 
 /* Dark mode untuk modal kontak */
-.dark-mode .modal-kontak {
-  background: rgba(20,20,20,0.7);
+.dark-mode .modal-content-kontak {
+  background: var(--modal-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow-lg);
 }
 
-.dark-mode .modal-content {
-  background: #232323;
-  color: #ffd700;
-  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
-}
-
-.dark-mode .close-modal {
-  color: #ffd700;
-}
-
-.dark-mode .modal-btn.wa {
-  background: #128c7e;
-  color: #fff;
-}
-.dark-mode .modal-btn.wa:hover {
-  background: #25d366;
-  color: #232323;
-}
 .dark-mode .modal-btn.email {
-  background: #ffd700;
+  background: var(--accent-color);
   color: #232323;
 }
+
 .dark-mode .modal-btn.email:hover {
-  background: #e6c400de;
-  color: #232323;
+  filter: brightness(90%);
 }
 
 /* Responsif */
@@ -327,6 +320,7 @@ body.dark-mode .produk-filter-bar input::placeholder {
 @media (max-width: 768px) {
   .produk-wrapper {
     flex-direction: column;
+    align-items: center;
   }
 
   .produk-slider {
@@ -335,7 +329,11 @@ body.dark-mode .produk-filter-bar input::placeholder {
   }
 
   .produk {
-    flex: 0 0 70%;
+    flex: 0 0 80%;
     min-width: 250px;
+  }
+  
+  .produk-notfound {
+    width: 90%;
   }
 }
