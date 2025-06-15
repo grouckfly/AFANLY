@@ -4,9 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
     initFooterYear();
     initValidation();
     initSidebarToggle();
-    initServicesSection();
-    startAutoScrollCardWrapper();
     initKritikSaranModal();
+
+    // Hanya inisialisasi services jika ada elemen terkait
+    if (document.querySelector(".services .card-wrapper")) {
+        initServicesSection();
+        startAutoScrollCardWrapper();
+    }
 });
 
 /* -------------------- DARK MODE -------------------- */
@@ -159,8 +163,18 @@ function initSidebarToggle() {
 
 /* -------------------- SECTION SERVICES -------------------- */
 function initServicesSection() {
-    // Swipe/drag support for .card-wrapper
     const cardWrapper = document.querySelector(".services .card-wrapper");
+
+    // Validasi keberadaan elemen sebelum melanjutkan
+    if (!cardWrapper) {
+        console.warn("Services section tidak ditemukan, melewati initServicesSection.");
+        return; // Keluar dari fungsi
+        
+    }
+
+    console.log("Inisialisasi initServicesSection berhasil."); // Tambahkan ini
+
+    // Mengatur event listener jika cardWrapper ada
     let isDown = false,
         startX,
         scrollLeft;
@@ -171,45 +185,40 @@ function initServicesSection() {
         startX = e.pageX - cardWrapper.offsetLeft;
         scrollLeft = cardWrapper.scrollLeft;
     });
+
     cardWrapper.addEventListener("mouseleave", () => {
         isDown = false;
         cardWrapper.classList.remove("dragging");
     });
+
     cardWrapper.addEventListener("mouseup", () => {
         isDown = false;
         cardWrapper.classList.remove("dragging");
     });
+
     cardWrapper.addEventListener("mousemove", (e) => {
         if (!isDown) return;
         e.preventDefault();
         const x = e.pageX - cardWrapper.offsetLeft;
-        const walk = (x - startX) * 1.5; // scroll-fast
-        cardWrapper.scrollLeft = scrollLeft - walk;
-    });
-
-    // Touch events for mobile
-    cardWrapper.addEventListener("touchstart", (e) => {
-        isDown = true;
-        startX = e.touches[0].pageX - cardWrapper.offsetLeft;
-        scrollLeft = cardWrapper.scrollLeft;
-    });
-    cardWrapper.addEventListener("touchend", () => {
-        isDown = false;
-    });
-    cardWrapper.addEventListener("touchmove", (e) => {
-        if (!isDown) return;
-        const x = e.touches[0].pageX - cardWrapper.offsetLeft;
         const walk = (x - startX) * 1.5;
         cardWrapper.scrollLeft = scrollLeft - walk;
     });
 }
 
+
 /* -------------------- Auto Swipe -------------------- */
 function startAutoScrollCardWrapper(selector = ".services .card-wrapper", intervalMs = 5000) {
     const cardWrapper = document.querySelector(selector);
-    if (!cardWrapper) return;
 
-    const cards = cardWrapper.querySelectorAll('.photocard');
+    // Cek keberadaan elemen
+    if (!cardWrapper) {
+        console.warn("Card wrapper tidak ditemukan, auto-scroll akan dilewati.");
+        return; // Keluar dari fungsi
+    }
+
+    console.log("Inisialisasi startAutoScrollCardWrapper berhasil."); // Tambahkan ini
+
+    const cards = cardWrapper.querySelectorAll(".photocard");
     if (!cards.length) return;
 
     let idx = 0;
@@ -224,14 +233,14 @@ function startAutoScrollCardWrapper(selector = ".services .card-wrapper", interv
         const cardOffset = card.offsetLeft;
         const paddingLeft = parseInt(getComputedStyle(cardWrapper).paddingLeft) || 0;
 
-        cardWrapper.scrollTo({
+        cardWrapper.scroll({
             left: cardOffset - paddingLeft,
-            behavior: 'smooth'
+            behavior: "smooth",
         });
     }
 
     function start() {
-        stop(); // clear existing interval
+        stop(); // Clear interval sebelumnya
         interval = setInterval(() => {
             if (!isUserInteracting) {
                 idx = (idx + 1) % cards.length;
@@ -251,7 +260,7 @@ function startAutoScrollCardWrapper(selector = ".services .card-wrapper", interv
         isUserInteracting = true;
         stop();
 
-        // Hentikan sementara, lalu lanjutkan auto-scroll setelah 5 detik tidak ada interaksi
+        // Lanjutkan auto-scroll setelah 5 detik tidak ada interaksi
         if (userInteractedTimeout) clearTimeout(userInteractedTimeout);
         userInteractedTimeout = setTimeout(() => {
             isUserInteracting = false;
@@ -259,17 +268,16 @@ function startAutoScrollCardWrapper(selector = ".services .card-wrapper", interv
         }, 5000);
     }
 
-    // Tangkap berbagai jenis interaksi:
-    const interactionEvents = ['touchstart', 'pointerdown', 'mousedown', 'wheel', 'keydown'];
-    interactionEvents.forEach(evt => {
+    // Tangkap interaksi pengguna
+    const interactionEvents = ["touchstart", "pointerdown", "mousedown", "wheel", "keydown"];
+    interactionEvents.forEach((evt) => {
         cardWrapper.addEventListener(evt, markInteracting, { passive: true });
     });
 
-    // Jalankan auto scroll awal
+    // Mulai auto-scroll
     start();
-
-    return stop;
 }
+
 
 /* -------------------- KRITIK DAN SARAN -------------------- */
 function initKritikSaranModal() {
@@ -279,6 +287,7 @@ function initKritikSaranModal() {
     const sidebar = document.getElementById("sidebar");
     const body = document.body;
 
+    
     kritikSaranBtns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             modal.style.display = "flex"; // Tampilkan modal
