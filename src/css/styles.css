@@ -159,81 +159,77 @@
         }
 
         /* ===== DARK MODE TOGGLE BUTTON STYLES ===== */
-        .dark-mode-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 64px;
-            height: 32px;
-            background-color: #ccc;
-            border-radius: 16px;
-            position: relative;
-            cursor: pointer;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.4s ease;
-        }
-
-        .dark-mode-toggle .slider {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: #fff;
-            top: 4px;
-            left: 4px;
-            transition: 0.4s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .dark-mode-toggle .sun-icon,
-        .dark-mode-toggle .moon-icon {
-            position: absolute;
-            top: 50%;
-            width: 16px;
-            height: 16px;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: #fff;
-            transition: opacity 0.3s ease;
-        }
-
-        .dark-mode-toggle .mode-text {
-            font-size: 0.85rem;
-            margin-left: 72px; /* Sebelah kanan toggle */
-            color: #333;
-        }
-
-        .dark-mode-toggle .sun-icon {
-            left: 8px;
-            opacity: 1;
-        }
-
-        .dark-mode-toggle .moon-icon {
-            right: 8px;
-            opacity: 0;
-        }
-
-        /* Dark mode styles */
-        .dark-mode .dark-mode-toggle {
-            background-color: #4d4d4d;
-        }
-
-        .dark-mode .dark-mode-toggle .slider {
-            transform: translateX(30px);
-            background-color: #f0f0f0;
-        }
-
-        .dark-mode .dark-mode-toggle .sun-icon {
-            opacity: 0;
-        }
-
-        .dark-mode .dark-mode-toggle .moon-icon {
-            opacity: 1;
-        }
-
-        .dark-mode .dark-mode-toggle .mode-text {
-            color: #fff;
-        }
+                .dark-mode-toggle {
+                    display: flex;
+                    align-items: center;
+                    width: 64px;
+                    height: 32px;
+                    background-color: #ccc;
+                    border-radius: 16px;
+                    position: relative;
+                    cursor: pointer;
+                    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+                    transition: background-color 0.4s ease;
+                }
+        
+                .dark-mode-toggle .slider {
+                    position: absolute;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background-color: #fff;
+                    top: 4px;
+                    left: 4px;
+                    transition: 0.4s;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                }
+        
+                .dark-mode-toggle .sun-icon,
+                .dark-mode-toggle .moon-icon {
+                    font-size: 14px;
+                    transition: opacity 0.3s ease;
+                    position: absolute;
+                }
+        
+                .sun-icon {
+                    opacity: 1;
+                }
+        
+                .moon-icon {
+                    opacity: 0;
+                }
+        
+                .dark-mode-toggle .mode-text {
+                    font-size: 0.85rem;
+                    margin-left: 72px;
+                    color: #333;
+                }
+        
+                /* Dark mode */
+                .dark-mode .dark-mode-toggle {
+                    background-color: #4d4d4d;
+                }
+        
+                .dark-mode .dark-mode-toggle .slider {
+                    transform: translateX(30px);
+                    background-color: #f0f0f0;
+                }
+        
+                .dark-mode .sun-icon {
+                    opacity: 0;
+                }
+        
+                .dark-mode .moon-icon {
+                    opacity: 1;
+                }
+        
+                .dark-mode .dark-mode-toggle .mode-text {
+                    color: #fff;
+                }
 
         /* Hover effects */
         .dark-mode-toggle:hover .slider {

@@ -24,17 +24,32 @@ function initDarkMode() {
   const moonIcon = toggle.querySelector(".moon-icon");
   const modeText = toggle.querySelector(".mode-text");
 
+  const sidebarSunIcon = sidebarDarkBtn.querySelector(".sun-icon");
+  const sidebarMoonIcon = sidebarDarkBtn.querySelector(".moon-icon");
+  const sidebarModeText = sidebarDarkBtn.querySelector(".mode-text");
+
   function applyTheme(theme) {
-    if (theme === "dark") {
+    const isDarkMode = theme === "dark";
+    if (isDarkMode) {
       body.classList.add("dark-mode");
+      // Update main toggle
       sunIcon.style.display = "none";
       moonIcon.style.display = "inline-block";
       modeText.textContent = "Mode Gelap";
+      // Update sidebar toggle
+      sidebarSunIcon.style.display = "none";
+      sidebarMoonIcon.style.display = "inline-block";
+      sidebarModeText.textContent = "Mode Gelap";
     } else {
       body.classList.remove("dark-mode");
+      // Update main toggle
       sunIcon.style.display = "inline-block";
       moonIcon.style.display = "none";
       modeText.textContent = "Mode Cerah";
+      // Update sidebar toggle
+      sidebarSunIcon.style.display = "inline-block";
+      sidebarMoonIcon.style.display = "none";
+      sidebarModeText.textContent = "Mode Cerah";
     }
     localStorage.setItem("theme", theme);
     updateAriaAttributes();
