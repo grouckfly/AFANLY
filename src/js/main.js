@@ -20,11 +20,21 @@ function initDarkMode() {
   const sidebarDarkBtn = document.getElementById("sidebarDarkModeToggle");
   const body = document.body;
 
+  const sunIcon = toggle.querySelector(".sun-icon");
+  const moonIcon = toggle.querySelector(".moon-icon");
+  const modeText = toggle.querySelector(".mode-text");
+
   function applyTheme(theme) {
     if (theme === "dark") {
       body.classList.add("dark-mode");
+      sunIcon.style.display = "none";
+      moonIcon.style.display = "inline-block";
+      modeText.textContent = "Mode Gelap";
     } else {
       body.classList.remove("dark-mode");
+      sunIcon.style.display = "inline-block";
+      moonIcon.style.display = "none";
+      modeText.textContent = "Mode Cerah";
     }
     localStorage.setItem("theme", theme);
     updateAriaAttributes();
@@ -53,9 +63,8 @@ function initDarkMode() {
   [toggle, sidebarDarkBtn].forEach((btn) => {
     if (btn) {
       btn.addEventListener("click", () => {
-        const newTheme = body.classList.contains("dark-mode")
-          ? "light"
-          : "dark";
+        const isCurrentlyDark = body.classList.contains("dark-mode");
+        const newTheme = isCurrentlyDark ? "light" : "dark";
         applyTheme(newTheme);
       });
     }
@@ -64,6 +73,7 @@ function initDarkMode() {
   // Inisialisasi atribut aria
   updateAriaAttributes();
 }
+
 
 /* -------------------- SIDEBAR -------------------- */
 function initSidebar() {
