@@ -127,20 +127,14 @@ function renderProduk(data) {
   const list = document.getElementById("produkList");
   list.innerHTML = "";
   if (data.length === 0) {
-    list.innerHTML = `
-      <div class="produk-notfound">
-        <div>Barang Tidak Tersedia.<br>Ingin request barang? Hubungi kami:</div>
-        <div class="notfound-actions">
-          <a href="https://wa.me/628127659073?text=Permintaan%20Barang%20AFANLY%0A%0AHalo%20AFANLY%20saya%20ingin%20menanyakan%20barang%20yang%20tidak%20ada%20di%20toko.%0A%0ANama:%0AAlamat:%0ABarang%20yang%20diinginkan:%0ADeskripsi:" 
-            target="_blank" class="notfound-btn wa">WhatsApp</a>
-
-          <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Barang%20AFANLY&body=Halo%20AFANLY%20saya%20ingin%20menanyakan%20barang%20yang%20tidak%20ada%20di%20toko.%0A%0ANama:%0AAlamat:%0ABarang%20yang%20diinginkan:%0ADeskripsi:" 
-            target="_blank" class="notfound-btn email">Email</a>
-        </div>
-      </div>
-    `;
+    document.getElementById("produk-notfound").style.display = "block"; // Tampilkan elemen produk-notfound
+    list.style.display = "none"; // Sembunyikan list produk
     return;
-  }
+    } else {
+        document.getElementById("produk-notfound").style.display = "none"; // Sembunyikan elemen produk-notfound
+        list.style.display = "flex"; // Tampilkan produk list
+    }
+
   data.forEach(p => {
     const item = document.createElement("div");
     item.className = "produk";
