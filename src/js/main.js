@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     initDarkMode();
+    initSidebar();
+    initModal();
     initDevNotif();
-    initFooterYear();
+    initYear();
     initValidation();
-    initSidebarToggle();
     initKritikSaranModal();
 
     // Hanya inisialisasi services jika ada elemen terkait
@@ -15,86 +16,126 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* -------------------- DARK MODE -------------------- */
 function initDarkMode() {
-    const toggle = document.getElementById('darkModeToggle');
-    const sidebarDarkBtn = document.getElementById('sidebarDarkModeToggle');
-    const body = document.body;
+            const toggle = document.getElementById('darkModeToggle');
+            const sidebarDarkBtn = document.getElementById('sidebarDarkModeToggle');
+            const body = document.body;
 
-    function applyTheme(theme) {
-        if (theme === 'dark') {
-            body.classList.add('dark-mode');
-        } else {
-            body.classList.remove('dark-mode');
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.add('dark-mode');
+                } else {
+                    body.classList.remove('dark-mode');
+                }
+                localStorage.setItem('theme', theme);
+                updateAriaAttributes();
+            }
+
+            function updateAriaAttributes() {
+                const isDark = body.classList.contains('dark-mode');
+                [toggle, sidebarDarkBtn].forEach(btn => {
+                    if (btn) {
+                        btn.setAttribute('aria-checked', isDark.toString());
+                    }
+                });
+            }
+
+            // Inisialisasi mode berdasarkan localStorage atau waktu
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                applyTheme(storedTheme);
+            } else {
+                const hour = new Date().getHours();
+                const autoTheme = (hour >= 18 || hour < 6) ? 'dark' : 'light';
+                applyTheme(autoTheme);
+            }
+
+            // Event toggle tombol
+            [toggle, sidebarDarkBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+                        applyTheme(newTheme);
+                    });
+                }
+            });
+
+            // Inisialisasi atribut aria
+            updateAriaAttributes();
         }
-        localStorage.setItem('theme', theme);
-        updateDarkModeButton();
-    }
 
-    function updateDarkModeButton() {
-        const isDark = body.classList.contains('dark-mode');
-        if (toggle) toggle.innerHTML = isDark ? '🌙' : '☀️';
-        if (sidebarDarkBtn) sidebarDarkBtn.innerHTML = isDark ? '🌙' : '☀️';
-    }
+/* -------------------- SIDEBAR -------------------- */
+function initSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
 
-    // Inisialisasi mode berdasarkan localStorage atau waktu
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) {
-        applyTheme(storedTheme);
-    } else {
-        const hour = new Date().getHours();
-        const autoTheme = (hour >= 18 || hour < 6) ? 'dark' : 'light';
-        applyTheme(autoTheme);
-    }
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            
+            // Tambahkan event listener untuk klik di luar sidebar
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            });
 
-    // Event toggle tombol
-    [toggle, sidebarDarkBtn].forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', () => {
-                const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-                applyTheme(newTheme);
+            // Tutup sidebar saat mengklik link
+            const sidebarLinks = document.querySelectorAll('.sidebar-links a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                });
             });
         }
-    });
-}
+
+/* -------------------- MODAL -------------------- */
+function initModal() {
+            const modal = document.getElementById('kritik-saran-modal');
+            const kritikSaranBtns = document.querySelectorAll('.kritik-saran-btn');
+            const closeBtn = document.querySelector('.modal-close');
+
+            kritikSaranBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
 
 /* -------------------- DEV NOTIF -------------------- */
 function initDevNotif() {
-    const devNotif = document.getElementById('dev-notif');
-    const notifText = document.getElementById('notif-text');
-    const notifClose = document.getElementById('notif-close');
+            const notif = document.getElementById('dev-notif');
+            const closeBtn = document.getElementById('notif-close');
 
-    function minimizeNotif() {
-        notifText.style.display = 'none';
-        notifClose.style.display = 'none';
+            closeBtn.addEventListener('click', () => {
+                notif.style.display = 'none';
+            });
 
-        if (!devNotif.querySelector('.notif-icon')) {
-            const icon = document.createElement('span');
-            icon.className = 'notif-icon';
-            icon.innerText = '⚠️';
-            icon.style.cursor = 'pointer';
-            devNotif.appendChild(icon);
-            icon.addEventListener('click', restoreNotif);
+            // Sembunyikan notifikasi setelah 7 detik
+            setTimeout(() => {
+                notif.style.display = 'none';
+            }, 7000);
         }
-        devNotif.classList.add('minimized');
-    }
-
-    function restoreNotif() {
-        notifText.style.display = 'inline';
-        notifClose.style.display = 'inline-block';
-        const icon = devNotif.querySelector('.notif-icon');
-        if (icon) icon.remove();
-        devNotif.classList.remove('minimized');
-    }
-
-    if (notifClose && devNotif && notifText) {
-        notifClose.addEventListener('click', minimizeNotif);
-    }
-}
 
 /* -------------------- FOOTER YEAR -------------------- */
-function initFooterYear() {
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-}
+function initYear() {
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+        }
+        
 
 /* -------------------- VALIDATION -------------------- */
 function initValidation() {
@@ -134,41 +175,6 @@ function initValidation() {
         });
     }
 }
-
-/* -------------------- SIDEBAR TOGGLE -------------------- */
-function initSidebarToggle() {
-    const sidebar = document.getElementById("sidebar");
-    const sidebarToggle = document.getElementById("sidebarToggle");
-    const body = document.body;
-    const sidebarLinks = document.querySelectorAll(".sidebar-links a"); // Ambil semua link di sidebar
-
-    // Event toggle sidebar
-    sidebarToggle.addEventListener("click", function () {
-        sidebar.classList.toggle("active"); // Tampilkan/sembunyikan sidebar
-        body.classList.toggle("sidebar-open"); // Efek blur jika diperlukan
-    });
-
-    // Tutup sidebar jika klik di luar area
-    document.addEventListener("click", function (e) {
-        if (
-            sidebar.classList.contains("active") &&
-            !sidebar.contains(e.target) &&
-            e.target !== sidebarToggle
-        ) {
-            sidebar.classList.remove("active"); // Sembunyikan sidebar
-            body.classList.remove("sidebar-open");
-        }
-    });
-
-    // Tutup sidebar setelah link diklik
-    sidebarLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-            sidebar.classList.remove("active"); // Sembunyikan sidebar
-            body.classList.remove("sidebar-open");
-        });
-    });
-}
-
 
 /* -------------------- SECTION SERVICES -------------------- */
 function initServicesSection() {

@@ -13,13 +13,17 @@
     <div class="floating-bar">
         <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
         <div class="sidebar-floating-logo" style="display: flex; align-items: center;">
-        <span style="font-weight: bold; font-size: 1.1em; margin-right: 8px;">Toko AFANLY</span>
-            <img src="img/Logo AFANLY.png" alt="Logo AFANLY" style="height:40px;width:40px;border-radius:50%;vertical-align:middle;">
+        <span>Toko AFANLY</span>
+            <img style="margin-right: 25px;" src="img/Logo AFANLY.png" alt="Logo AFANLY">
         </div>
     </div>
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <button id="sidebarDarkModeToggle" aria-label="Toggle Dark Mode" class="sidebar-darkmode-toggle">🌓</button>
+            <div class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch" aria-checked="false">
+                <span class="slider"></span>
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </div>
         </div>
         <ul class="sidebar-links">
             <li><a href="#">Home</a></li>
@@ -41,7 +45,11 @@
                     <li><a href="#contact">Kontak</a></li>
                     <li><a id="sidebar-kritik-saran" class="kritik-saran-btn">Kritik & Saran</a></li>
                 </ul>
-                <button id="darkModeToggle" aria-label="Toggle Dark Mode">🌓 Mode Gelap</button>
+                <div class="dark-mode-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+                    <span class="slider"></span>
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </div>    
             </nav>
         </header>
         <main>
