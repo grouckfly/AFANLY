@@ -26,6 +26,7 @@
             <li><a href="#services">Layanan Kami</a></li>
             <li><a href="#contact">Kontak</a></li>
             <li><a href="toko.html" target="_blank">Toko</a></li>
+            <li><a id="sidebar-kritik-saran" class="kritik-saran-btn" href="#">Kritik & Saran</a></li>
         </ul>
     </aside>
     <div class="main-content">
@@ -40,6 +41,7 @@
                     <li><a href="#services">Layanan Kami</a></li>
                     <li><a href="#contact">Kontak</a></li>
                     <li><a href="toko.html" target="_blank">Toko</a></li>
+                    <li><a id="sidebar-kritik-saran" class="kritik-saran-btn" href="#">Kritik & Saran</a></li>
                 </ul>
                 <button id="darkModeToggle" aria-label="Toggle Dark Mode">🌓 Mode Gelap</button>
             </nav>
@@ -130,9 +132,29 @@
             <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
     </div>
+    <!-- Modal Kritik & Saran -->
+    <div id="kritik-saran-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Hubungi Kami untuk Kritik & Saran</h2>
+            <div class="modal-buttons">
+                <a href="https://wa.me/628127659073?text=Kritik%20Dan%20Saran%20AFANLY%0A%0ANama%3A%0AKritik%3A%0ASaran%3A"
+                class="modal-button whatsapp-button" target="_blank" rel="noopener">
+                    WhatsApp
+                </a>
+                <a href="mailto:defry.pku@gmail.com?subject=Kritik%20dan%20Saran%20AFANLY&body=Nama%3A%0AKritik%3A%0ASaran%3A" 
+                class="modal-button email-button"
+                    target="_blank" rel="noopener">
+                    Email
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div id="dev-notif">
         <span id="notif-text">Website Masi Dalam Proses Pengembangan!!!</span>
-        <button id="notif-close" aria-label="Tutup Notifikasi" style="background:none;border:none;font-size:1.2em;cursor:pointer;margin-left:12px;">✖</button>
+        <button id="notif-close" aria-label="Tutup Notifikasi"
+            style="background:none;border:none;font-size:1.2em;cursor:pointer;margin-left:12px;">✖</button>
     </div>
     <script src="js/main.js"></script>
 </body>

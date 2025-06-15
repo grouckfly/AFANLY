@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initSidebarToggle();
     initServicesSection();
     startAutoScrollCardWrapper();
+    initKritikSaranModal();
 });
 
 /* -------------------- DARK MODE -------------------- */
@@ -132,30 +133,30 @@ function initValidation() {
 
 /* -------------------- SIDEBAR TOGGLE -------------------- */
 function initSidebarToggle() {
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
     const body = document.body;
 
-    if (sidebarToggle && sidebar && body) {
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('active');
-            body.classList.toggle('sidebar-open');
-            sidebarToggle.style.display = sidebar.classList.contains('active') ? 'none' : '';
-        });
+    // Event toggle sidebar
+    sidebarToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("active"); // Tampilkan/sembunyikan sidebar
+        body.classList.toggle("sidebar-open"); // Tambahkan efek jika diperlukan
+    });
 
-        document.addEventListener('click', function (e) {
-            if (
-                sidebar.classList.contains('active') &&
-                !sidebar.contains(e.target) &&
-                e.target !== sidebarToggle
-            ) {
-                sidebar.classList.remove('active');
-                body.classList.remove('sidebar-open');
-                sidebarToggle.style.display = '';
-            }
-        });
-    }
+    // Tutup sidebar jika klik di luar
+    document.addEventListener("click", function (e) {
+        // Tutup jika klik di luar sidebar
+        if (
+            sidebar.classList.contains("active") &&
+            !sidebar.contains(e.target) &&
+            e.target !== sidebarToggle
+        ) {
+            sidebar.classList.remove("active"); // Sembunyikan sidebar
+            body.classList.remove("sidebar-open");
+        }
+    });
 }
+
 /* -------------------- SECTION SERVICES -------------------- */
 function initServicesSection() {
     // Swipe/drag support for .card-wrapper
@@ -269,3 +270,40 @@ function startAutoScrollCardWrapper(selector = ".services .card-wrapper", interv
 
     return stop;
 }
+
+/* -------------------- KRITIK DAN SARAN -------------------- */
+function initKritikSaranModal() {
+    const modal = document.getElementById("kritik-saran-modal");
+    const closeModal = modal.querySelector(".modal-close");
+    const kritikSaranBtns = document.querySelectorAll(".kritik-saran-btn");
+    const sidebar = document.getElementById("sidebar");
+    const body = document.body;
+
+    kritikSaranBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            modal.style.display = "flex"; // Tampilkan modal
+
+            // Jika tombol berasal dari sidebar, tutup sidebar
+            if (
+                btn.id === "sidebar-kritik-saran" && 
+                sidebar.classList.contains("active")
+            ) {
+                sidebar.classList.remove("active"); // Sembunyikan sidebar
+                body.classList.remove("sidebar-open");
+            }
+        });
+    });
+
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none"; // Sembunyikan modal
+    });
+
+    // Tutup modal jika klik di luar konten
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+}
+
+/* -------------------- END OF SCRIPT -------------------- */
