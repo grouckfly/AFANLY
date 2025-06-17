@@ -207,6 +207,34 @@
     filter: brightness(90%);
 }
 
+/* ===== TOMBOL SPESIFIKASI ===== */
+.produk-actions {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.spec-btn {
+    padding: 0.5rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: filter 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.spec-btn:hover {
+    filter: brightness(90%);
+}
+
+
 /* Modal Kontak */
 .modal-kontak {
     position: fixed;
@@ -323,6 +351,10 @@
     .produk p {
         color: #bbb;
     }
+  
+    .dark-mode .spec-btn {
+        background-color: #5a6268;
+    }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -338,7 +370,12 @@
   }
 }
 
+
 @media (max-width: 768px) {
+    .produk-actions {
+        flex-direction: column;
+    }
+
     .produk-wrapper {
         flex-direction: column;
         align-items: center;

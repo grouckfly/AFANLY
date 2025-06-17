@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesifikasi Produk - Toko AFANLY</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/toko.css">
+    <link rel="stylesheet" href="css/spesifikasi.css">
+    <link rel="icon" type="image/png" href="img/Logo_AFANLY.png">
+</head>
+<body>
+    <div class="floating-bar">
+        <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
+        <div class="sidebar-floating-logo" style="display: flex; align-items: center;">
+        <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
+        <span>Toko AFANLY</span>
+            <img style="margin-right: 25px;" src="img/Logo_AFANLY.png" alt="Logo AFANLY">
+        </div>
+    </div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch" aria-checked="false">
+                <span class="slider">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                </span>
+                <span class="mode-text">Mode Cerah</span>
+            </div>
+        </div>
+    </aside>
+    <div class="main-content">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="img/Logo_AFANLY.png" alt="Logo AFANLY" style="height:85px;width:85px;vertical-align:middle;margin-right:8px;">
+                    Toko AFANLY
+                </div>
+                <div class="dark-mode-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+                    <span class="slider">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </span>
+                    <span class="mode-text">Mode Cerah</span>
+                </div>    
+            </nav>
+        </header>
+        <main>
+            <section id="spesifikasi" class="spesifikasi">
+                <div id="detail-produk" class="produk-detail">
+                    <!-- Detail produk akan diisi oleh JavaScript -->
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="js/spesifikasi.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/toko.js"></script>
+</body>
+</html>

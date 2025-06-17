@@ -138,12 +138,19 @@ function renderProduk(data) {
   data.forEach(p => {
     const item = document.createElement("div");
     item.className = "produk";
+    
+    // Encode nama produk untuk URL
+    const encodedNama = encodeURIComponent(p.nama);
+    // <p>${p.deskripsi}</p>
     item.innerHTML = `
       <img src="${p.gambar}" alt="${p.nama}">
       <h3>${p.nama}</h3>
-      <p>${p.deskripsi}</p>
+      
       <span class="harga">${p.harga}</span>
-      <button class="beli-btn" data-produk="${p.nama}">Beli</button>
+      <div class="produk-actions">
+        <button class="beli-btn" data-produk="${p.nama}">Beli</button>
+        <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
+      </div>
     `;
     list.appendChild(item);
   });
@@ -167,3 +174,6 @@ document.getElementById("kategoriSelect").addEventListener("change", filterProdu
 
 // Inisialisasi
 renderProduk(semuaProduk);
+
+// Simpan produk ke localStorage agar bisa diakses di halaman spesifikasi
+localStorage.setItem('semuaProduk', JSON.stringify(semuaProduk));
