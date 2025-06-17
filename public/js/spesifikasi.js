@@ -1,5 +1,5 @@
+/*  Spesifikasi Produk - Halaman Detail Produk */
 document.addEventListener('DOMContentLoaded', function() {
-
     // Ambil parameter dari URL
     const urlParams = new URLSearchParams(window.location.search);
     const namaProduk = decodeURIComponent(urlParams.get('produk'));
@@ -14,13 +14,26 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('detail-produk').innerHTML = `
                 <img src="${produk.gambar}" alt="${produk.nama}" class="detail-image">
                 <div class="detail-info">
-                <h2>${produk.nama}</h2>
+                    <h2>${produk.nama}</h2>
                     <p><strong>Jenis:</strong> ${produk.jenis}</p>
                     <p><strong>Harga:</strong> ${produk.harga}</p>
                     <p><strong>Deskripsi:</strong> ${produk.deskripsi}</p>
-                    <a href="toko.html#produk" class="spec-btn" style="margin-top: 1rem;">Kembali ke Produk</a>
+                    <div class="produk-actions">
+                        <button class="beli-btn" data-produk="${produk.nama}">Beli</button>
+                        <a href="toko.html#produk" class="spec-btn" style="margin-top: 1rem;">Kembali ke Produk</a>
+                    </div>
                 </div>
             `;
+
+            // Tambahkan event listener untuk tombol "Beli"
+            const tombolBeli = document.querySelector('.beli-btn');
+            if (tombolBeli) {
+                tombolBeli.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const namaProduk = this.getAttribute('data-produk');
+                    validasiPembelian(namaProduk);
+                });
+            }
         } else {
             document.getElementById('detail-produk').innerHTML = `
                 <h2>Produk Tidak Ditemukan</h2>
