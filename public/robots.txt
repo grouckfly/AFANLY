@@ -2,5 +2,6 @@
 
 User-agent: *                  # Berlaku untuk semua crawler
 Allow: /                       # Izinkan rayapan di seluruh situs
+Allow: /sitemap.xml
 
 Sitemap: https://afanly.vercel.app/sitemap.xml
