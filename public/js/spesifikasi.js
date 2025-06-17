@@ -164,3 +164,7 @@ function initDarkMode() {
   // Inisialisasi atribut aria
   updateAriaAttributes();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    initDevNotif(); // Pastikan notifikasi pengembangan diinisialisasi
+});
