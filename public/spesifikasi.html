@@ -1,29 +1,32 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Spesifikasi Produk - Toko AFANLY</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/toko.css">
-    <link rel="stylesheet" href="css/spesifikasi.css">
-    <link rel="icon" type="image/png" href="img/Logo_AFANLY.png">
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/toko.css" rel="stylesheet" />
+    <link href="css/spesifikasi.css" rel="stylesheet" />
+    <link href="img/Logo_AFANLY.png" rel="icon" type="image/png" />
 </head>
+
 <body>
     <div class="floating-bar">
-        <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
+        <button aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle" id="sidebarToggle">☰</button>
         <div class="sidebar-floating-logo" style="display: flex; align-items: center;">
-        <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
-        <span>Toko AFANLY</span>
-            <img style="margin-right: 25px;" src="img/Logo_AFANLY.png" alt="Logo AFANLY">
+            <button aria-label="Toggle Notification" class="dev-notif-toggle" id="sidebar-notif-toggle">🔔</button>
+            <span>Toko AFANLY</span>
+            <img alt="Logo AFANLY" src="img/Logo_AFANLY.png" style="margin-right: 25px;" />
         </div>
     </div>
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch" aria-checked="false">
+            <div aria-checked="false" class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch">
                 <span class="slider">
-                        <span class="sun-icon">☀️</span>
-                        <span class="moon-icon">🌙</span>
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
                 </span>
                 <span class="mode-text">Mode Cerah</span>
             </div>
@@ -33,31 +36,41 @@
         <header>
             <nav class="navbar">
                 <div class="logo">
-                    <img src="img/Logo_AFANLY.png" alt="Logo AFANLY" style="height:85px;width:85px;vertical-align:middle;margin-right:8px;">
+                    <img alt="Logo AFANLY" src="img/Logo_AFANLY.png"
+                        style="height:85px;width:85px;vertical-align:middle;margin-right:8px;" />
                     Toko AFANLY
                 </div>
-                <div class="dark-mode-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+            <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                <div aria-checked="false" class="dark-mode-toggle" id="darkModeToggle" role="switch">
                     <span class="slider">
                         <span class="sun-icon">☀️</span>
                         <span class="moon-icon">🌙</span>
                     </span>
                     <span class="mode-text">Mode Cerah</span>
-                </div>    
+                </div>
             </nav>
         </header>
         <main>
-            <section id="spesifikasi" class="spesifikasi">
-                <div id="detail-produk" class="produk-detail">
+            <section class="spesifikasi" id="spesifikasi">
+                <div class="produk-detail" id="detail-produk">
                     <!-- Detail produk akan diisi oleh JavaScript -->
                 </div>
             </section>
         </main>
         <footer>
-            <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
+            <p>© <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
     </div>
+
+
+    <div id="dev-notif">
+        <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
+        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    
+    </div>
+    
     <script src="js/spesifikasi.js"></script>
     <script src="js/main.js"></script>
     <script src="js/toko.js"></script>
 </body>
+
 </html>

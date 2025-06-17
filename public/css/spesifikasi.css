@@ -1,8 +1,14 @@
-/* Mengadopsi variabel global dari styles.css */
+/* Tambahkan variabel untuk dark mode */
 :root {
-    --highlight-color: var(--accent-color);
-    --bg-detil-produk: var(--contact-card-bg);
-    --text-color-spesifikasi: var(--text-color);
+    --highlight-color: #007bff;
+    --bg-detil-produk: #f8f9fa;
+    --text-color-spesifikasi: #333;
+}
+
+.dark-mode {
+    --highlight-color: #007bff;
+    --bg-detil-produk: #1e1e1e;
+    --text-color-spesifikasi: #f8f9fa;
 }
 
 #spesifikasi {
@@ -12,42 +18,21 @@
     box-shadow: var(--shadow-md);
 }
 
+/* Tetap gunakan variabel di semua elemen */
 #spesifikasi .produk-detail {
     background-color: var(--bg-detil-produk);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow-lg);
     color: var(--text-color-spesifikasi);
-    max-width: 960px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* Gaya untuk bagian gambar */
-#spesifikasi .produk-detail .detail-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: var(--shadow-md);
-    margin: 1rem 0;
-}
-
-/* Gaya untuk bagian teks */
-#spesifikasi .produk-detail .detail-info {
-    padding: 1rem;
-    line-height: 1.6;
+    /* ... kode lainnya tetap ... */
 }
 
 #spesifikasi .produk-detail h2 {
-    color: var(--highlight-color);
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    color: var(--text-color-spesifikasi);
+    /* ... kode lainnya tetap ... */
 }
 
+/* Pastikan semua teks menggunakan variabel warna */
 #spesifikasi .produk-detail p {
-    font-size: 1rem;
-    color: var(--text-color);
-    margin: 0.5rem 0;
+    color: var(--text-color-spesifikasi);
 }
 
 #spesifikasi .produk-detail .spec-btn {
@@ -55,33 +40,178 @@
     margin-top: 1.5rem;
     padding: 0.8rem 2rem;
     background-color: var(--highlight-color);
-    color: var(--button-color);
+    color: black;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #spesifikasi .produk-detail .spec-btn:hover {
-    background-color: var(--accent-hover);
     transform: scale(1.05);
 }
 
-/* Responsif */
+/* Detail Produk Container */
+#detail-produk {
+    display: flex;
+    flex-direction: row; /* Tampilkan konten dalam bentuk baris */
+    align-items: flex-start; /* Rata atas konten */
+    gap: 20px; /* Beri jarak antara gambar dan spesifikasi */
+    max-width: 1200px; /* Batas maksimum lebar kontainer */
+    margin: 0 auto; /* Pusatkan kontainer */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Gambar Produk */
+#detail-produk img.detail-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    cursor: pointer; /* Gambar interaktif */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Efek Pembesaran Gambar */
+#detail-produk img.detail-image.fullscreen {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5); /* Perbesar dengan rasio lebih besar */
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8); /* Latar belakang lebih gelap */
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out; /* Efek transisi untuk pengalaman lebih halus */
+}
+
+/* Informasi Spesifikasi */
+#detail-produk .detail-info {
+    flex: 1; /* Isi ruang kosong yang tersisa */
+    text-align: left; /* Pastikan teks sejajar ke kiri */
+    padding-left: 20px; /* Jarak tambahan di sebelah kiri spesifikasi */
+    color: var(--text-color-spesifikasi, #333);
+}
+
+/* Heading Spesifikasi */
+#detail-produk .detail-info h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+/* Deskripsi Produk */
+#detail-produk .detail-info p {
+    margin: 10px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Tombol Aksi */
+#detail-produk .spec-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#detail-produk .spec-btn:hover {
+    background-color: #0056b3; /* Warna lebih gelap saat hovering */
+}
+
+/* Responsivitas untuk Layar Maksimum 900px */
+@media (max-width: 900px) {
+    #detail-produk {
+        flex-direction: column; /* Tampilkan gambar di atas informasi */
+        gap: 15px; /* Kurangi jarak antar elemen */
+        padding: 1.5rem; /* Kurangi padding kontainer */
+    }
+
+    #detail-produk img.detail-image {
+        width: 80%; /* Gambar sedikit lebih kecil */
+        max-width: 350px; /* Maksimum ukuran gambar pada resolusi ini */
+        margin: 0 auto; /* Tengahkan gambar */
+    }
+
+    #detail-produk img.detail-image.fullscreen {
+        width: auto;
+        height: auto;
+        max-width: 95vw; /* Tawarkan lebar maksimum 95% viewport */
+        max-height: 95vh; /* Tawarkan tinggi maksimum 95% viewport */
+        border-radius: 10px; /* Tetap menggunakan sudut bulat */
+        background: rgba(0, 0, 0, 0.8); /* Latar belakang semi-transparan */
+    }
+
+    #detail-produk .detail-info {
+        text-align: center; /* Tengahkan teks detail produk */
+    }
+
+    #detail-produk .detail-info h2 {
+        font-size: 1.6rem; /* Kurangi ukuran heading */
+    }
+
+    #detail-produk .detail-info p {
+        font-size: 1rem; /* Ukuran teks lebih proporsional */
+        margin: 10px 0;
+    }
+
+    #detail-produk .spec-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+
+/* Responsivitas untuk Layar Maksimum 768px */
 @media (max-width: 768px) {
-    #spesifikasi {
-        padding: 1rem;
+    #detail-produk {
+        flex-direction: column; /* Kembali ke susunan kolom pada layar kecil */
     }
-    #spesifikasi .produk-detail {
-        padding: 1rem;
+
+    #detail-produk .detail-info {
+        padding-left: 0; /* Hilangkan padding kiri */
+        text-align: center; /* Tengahkan teks */
     }
-    #spesifikasi .produk-detail h2 {
-        font-size: 1.5rem;
+
+    #detail-produk img.detail-image {
+        max-width: 100%; /* Gambar memenuhi lebar layar */
+        margin: 0 auto; /* Tengahkan gambar */
     }
-    #spesifikasi .produk-detail p {
-        font-size: 0.9rem;
+
+    #detail-produk img.detail-image.fullscreen {
+        max-width: 90vw;
+        max-height: 90vh;
     }
-    #spesifikasi .produk-detail .spec-btn {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.9rem;
+}
+
+
+/* Responsivitas untuk Layar Sangat Kecil */
+@media (max-width: 480px) {
+    #detail-produk {
+        gap: 10px; /* Kurangi jarak antar elemen */
+    }
+
+    #detail-produk img.detail-image.fullscreen {
+        max-width: 90%; /* Tidak lebih dari 90% lebar layar kecil */
+        max-height: 90%; /* Tidak lebih dari 90% tinggi layar kecil */
+    }
+
+    #detail-produk img.detail-image {
+        max-width: 100%; /* Gambar memenuhi layar kecil */
+    }
+
+    #detail-produk .detail-info h2 {
+        font-size: 1.5rem; /* Kurangi ukuran teks untuk layar kecil */
+    }
+
+    #detail-produk .detail-info p {
+        font-size: 0.9rem; /* Ukuran teks lebih kecil */
     }
 }
