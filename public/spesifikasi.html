@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Spesifikasi Produk - Toko AFANLY</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/toko.css" rel="stylesheet" />
+    <link href="css/spesifikasi.css" rel="stylesheet" />
+    <link href="img/Logo_AFANLY.png" rel="icon" type="image/png" />
+</head>
+
+<body>
+    <div class="floating-bar">
+        <button aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="sidebar-floating-logo" style="display: flex; align-items: center;">
+            <button aria-label="Toggle Notification" class="dev-notif-toggle" id="sidebar-notif-toggle">🔔</button>
+            <span>Toko AFANLY</span>
+            <img alt="Logo AFANLY" src="img/Logo_AFANLY.png" style="margin-right: 25px;" />
+        </div>
+    </div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div aria-checked="false" class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch">
+                <span class="slider">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </span>
+                <span class="mode-text">Mode Cerah</span>
+            </div>
+        </div>
+    </aside>
+    <div class="main-content">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img alt="Logo AFANLY" src="img/Logo_AFANLY.png"
+                        style="height:85px;width:85px;vertical-align:middle;margin-right:8px;" />
+                    Toko AFANLY
+                </div>
+            <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                <div aria-checked="false" class="dark-mode-toggle" id="darkModeToggle" role="switch">
+                    <span class="slider">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </span>
+                    <span class="mode-text">Mode Cerah</span>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section class="spesifikasi" id="spesifikasi">
+                <div class="produk-detail" id="detail-produk">
+                    <!-- Detail produk akan diisi oleh JavaScript -->
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>© <span id="year"></span> AFANLY. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal Kontak -->
+    <div id="modalKontak" class="modal-kontak" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalKontak">&times;</span>
+            <h3>Hubungi Kami</h3>
+            <p>
+                Anda ingin memesan: <b id="modalNamaProduk">[Nama Produk]</b>
+            </p>
+            <p>Pilih kontak untuk pemesanan:</p>
+            <div class="modal-actions">
+                <a href="#" target="_blank" class="modal-btn wa" id="modalWaBtn">WhatsApp</a>
+                <a href="#" target="_blank" class="modal-btn email" id="modalEmailBtn">Email</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi Pengembangan -->
+    <div id="dev-notif">
+        <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
+        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    
+    </div>
+    <script src="js/spesifikasi.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/toko.js"></script>
+</body>
+
+</html>
