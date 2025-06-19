@@ -1,4 +1,5 @@
 // Constants for product categories
+// nama:, jenis:, deskripsi:, harga:, gambar:
 const semuaProduk = [
   {
     nama: "Laptop ASUS VivoBook",
