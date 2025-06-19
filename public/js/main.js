@@ -269,7 +269,7 @@ function initServicesSection() {
 /* -------------------- Auto Swipe -------------------- */
 function startAutoScrollCardWrapper(
   selector = ".services .card-wrapper",
-  intervalMs = 5000
+  intervalMs = 3000
 ) {
   const cardWrapper = document.querySelector(selector);
 
@@ -324,12 +324,12 @@ function startAutoScrollCardWrapper(
     isUserInteracting = true;
     stop();
 
-    // Lanjutkan auto-scroll setelah 5 detik tidak ada interaksi
+    // Lanjutkan auto-scroll setelah 3 detik tidak ada interaksi
     if (userInteractedTimeout) clearTimeout(userInteractedTimeout);
     userInteractedTimeout = setTimeout(() => {
       isUserInteracting = false;
       start();
-    }, 5000);
+    }, 3000);
   }
 
   // Tangkap interaksi pengguna
