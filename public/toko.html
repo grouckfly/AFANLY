@@ -73,10 +73,9 @@
                 <p>Kami menjual barang-barang elektronik untuk kebutuhan anda.</p>
             </section>
 
-            <section id="produk" class="produk">
+            <section id="produk" class="produk-section">
                 <h2>Produk Kami</h2>
             
-                <!-- FILTER NAVBAR -->
                 <div class="produk-filter-bar">
                     <input type="text" id="searchInput" placeholder="Cari produk...">
                     <select id="kategoriSelect">
@@ -87,12 +86,12 @@
                     </select>
                 </div>
             
-                <!-- PRODUK GRID -->
-                <div class="produk-slider" id="produkList">
-                    <!-- Produk akan di-render oleh JS -->
+                <div class="product-slider-container">
+                    <button id="prevProductBtn" class="slider-arrow prev-arrow">❮</button>
+                    <div id="produkList" class="produk-list-track">
+                        </div>
+                    <button id="nextProductBtn" class="slider-arrow next-arrow">❯</button>
                 </div>
-
-                <!-- Produk Not Found -->
                 <div id="produk-notfound" class="produk-notfound" style="display: none;">
                     <div>Barang Tidak Tersedia.<br>Ingin request barang? Hubungi kami:</div>
                     <div class="notfound-actions">
@@ -132,14 +131,13 @@
             </section>
         </main>
         <footer>
-            <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
+            <p>© <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
     </div>
 
-    <!-- Modal Kritik & Saran -->
     <div id="kritik-saran-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
+            <span class="modal-close">×</span>
             <h2>Hubungi Kami untuk Kritik & Saran</h2>
             <div class="modal-buttons">
                 <a href="https://wa.me/628127659073?text=Kritik%20Dan%20Saran%20AFANLY%0A%0ANama%3A%0AKritik%3A%0ASaran%3A"
@@ -155,10 +153,9 @@
         </div>
     </div>
 
-    <!-- Modal Kontak -->
     <div id="modalKontak" class="modal-kontak" style="display:none;">
         <div class="modal-content">
-            <span class="close-modal" id="closeModalKontak">&times;</span>
+            <span class="close-modal" id="closeModalKontak">×</span>
             <h3>Hubungi Kami</h3>
             <p>
                 Anda ingin memesan: <b id="modalNamaProduk">[Nama Produk]</b>
@@ -171,7 +168,6 @@
         </div>
     </div>
 
-    <!-- Notifikasi Pengembangan -->
     <div id="dev-notif">
         <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
         <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    

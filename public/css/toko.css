@@ -1,5 +1,5 @@
 /* ===== SECTION PRODUK ===== */
-#produk {
+#produk.produk-section { /* Menggunakan kelas untuk menghindari konflik dengan .produk card */
     scroll-margin-top: 110px;
     padding-top: 1.5rem;
     display: flex;
@@ -7,14 +7,14 @@
     align-items: center;
 }
 
-#produk h2 {
+#produk.produk-section h2 { /* Memastikan h2 merujuk pada bagian produk */
     text-align: center;
     width: 100%;
     margin: 0 auto 2rem;
     position: relative;
 }
 
-#produk h2::after {
+#produk.produk-section h2::after {
     content: "";
     display: block;
     width: 80px;
@@ -50,17 +50,7 @@
     min-width: 180px;
 }
 
-/* Produk Wrapper */
-.produk-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-}
-
-/* Produk Card */
+/* Produk Card (Individual Product Item) */
 .produk {
     background-color: var(--card-bg);
     box-shadow: var(--shadow-sm);
@@ -69,7 +59,12 @@
     flex-direction: column;
     padding: 1rem;
     min-width: 220px;
-    flex: 1 1 calc(25% - 2rem);
+    /* Flex properties disesuaikan untuk slider */
+    flex: 0 0 auto; /* Mencegah item menyusut atau membesar */
+    scroll-snap-align: start; /* Menjepit ke awal setiap item produk saat digulir */
+    margin: 10px; /* Jarak antar produk */
+    width: 280px; /* Lebar tetap untuk setiap produk di desktop, akan diubah di media query */
+    box-sizing: border-box; /* Memastikan padding dan border termasuk dalam lebar */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -122,39 +117,55 @@
     filter: brightness(90%);
 }
 
-/* Produk Slider */
-.produk-slider {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 1.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-color) #f5f5f5;
-  width: 100%;
-  flex-wrap: nowrap;
-  scrollbar-width: none; /* Sembunyikan scrollbar default */
+/* ===== PRODUK SLIDER (New/Modified) ===== */
+.product-slider-container {
+    position: relative;
+    overflow: hidden; /* Menyembunyikan konten yang meluap (termasuk scrollbar) */
+    padding: 0 50px; /* Memberi ruang untuk tombol panah di samping */
+    width: 100%; /* Pastikan container slider mengambil lebar penuh */
+    max-width: 1200px; /* Batasi lebar maksimum seperti .produk-wrapper */
+    margin-bottom: 2rem; /* Jarak bawah agar tidak terlalu mepet */
 }
 
-/* Sembunyikan scrollbar untuk browser WebKit */
-.produk-slider::-webkit-scrollbar {
-  display: none;
+.produk-list-track { /* Nama baru untuk #produkList */
+    display: flex; /* Memastikan produk berjejer horizontal */
+    overflow-x: scroll; /* Mengaktifkan penggeseran horizontal */
+    scroll-snap-type: x mandatory; /* Membuat produk 'menjepret' ke posisi saat digeser */
+    -webkit-overflow-scrolling: touch; /* Meningkatkan pengalaman scrolling di iOS */
+    scroll-behavior: smooth; /* Membuat transisi geser lebih halus */
+    scrollbar-width: none; /* Menyembunyikan scrollbar di Firefox */
+    -ms-overflow-style: none;  /* Menyembunyikan scrollbar di IE dan Edge */
 }
 
-/* Container untuk item slider */
-.produk-slider-container {
-  display: flex;
-  gap: 1.5rem;
-  min-width: 100%;
+/* Menyembunyikan scrollbar di Chrome, Safari, Opera */
+.produk-list-track::-webkit-scrollbar {
+    display: none;
 }
 
-/* Item produk dalam slider */
-.produk-slider .produk {
-  flex: 0 0 calc(25% - 1.5rem * 3 / 4); /* 4 item per baris */
-  min-width: 250px;
-  scroll-snap-align: start;
-  box-sizing: border-box;
+/* Styling untuk tombol panah slider */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6); /* Warna latar belakang gelap transparan */
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    z-index: 10; /* Memastikan tombol di atas produk */
+    font-size: 28px;
+    border-radius: 50%; /* Membuat tombol bulat */
+    line-height: 1; /* Untuk penataan vertikal yang lebih baik */
+    transition: background-color 0.3s ease; /* Transisi saat hover */
 }
+
+.slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Warna latar belakang lebih gelap saat hover */
+}
+
+.prev-arrow { left: 10px; } /* Posisi tombol panah kiri */
+.next-arrow { right: 10px; } /* Posisi tombol panah kanan */
+
 
 /* Produk Not Found */
 .produk-notfound {
@@ -199,8 +210,8 @@
 
 /* Warna tombol email di notfound */
 .produk-notfound .notfound-btn.email {
-  background: #0099ff;
-  color: #ffffff;
+    background: #0099ff;
+    color: #ffffff;
 }
 
 .produk-notfound .notfound-btn:hover {
@@ -209,7 +220,7 @@
 
 /* ===== TOMBOL SPESIFIKASI ===== */
 .produk-actions {
-    display: grid;
+    display: grid; /* Menggunakan grid untuk layout tombol */
     gap: 0.5rem;
     margin-top: 0.5rem;
 }
@@ -246,7 +257,7 @@
     justify-content: center;
 }
 
-.modal-content-kontak {
+.modal-kontak .modal-content { /* Mengubah .modal-content-kontak menjadi .modal-kontak .modal-content */
     background: var(--modal-bg);
     color: var(--text-color);
     padding: 2rem 1.5rem;
@@ -292,8 +303,8 @@
 
 
 .modal-btn.email {
-  background: #0099ff;
-  color: #ffffff;
+    background: #0099ff;
+    color: #ffffff;
 }
 
 .modal-btn:hover {
@@ -303,17 +314,23 @@
 /* Hero Slider */
 .hero-heading {
     display: inline-block;
-    align-items: center;
+    align-items: center; /* Sesuaikan jika ingin vertical-align teks */
     font-size: 2rem;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 0.5rem; /* Gap antar elemen */
+    flex-wrap: wrap; /* Izinkan wrap jika teks terlalu panjang */
+}
+
+.hero-heading .static-text {
+  /* Style for "Ingin membeli" text */
+  margin-right: 0.5rem; /* Space before the sliding text */
 }
 
 #hero-slider-container {
-    display: inline-block;
+    display: inline-block; /* Pastikan ini inline-block agar menyatu dengan teks */
     position: relative;
-    width: auto;
-    height: 1.6em;
+    width: auto; /* Biarkan width menyesuaikan konten */
+    min-width: 150px; /* Beri min-width agar tidak menyusut terlalu kecil */
+    height: 1.6em; /* Sesuaikan tinggi dengan line-height teks */
     overflow: hidden;
     vertical-align: middle;
 }
@@ -326,15 +343,15 @@
     white-space: nowrap;
     color: rgb(42, 121, 185) !important;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    transform: translateY(100%);
-    line-height: 1.2em;
+    transform: translateY(100%); /* Mulai dari bawah */
+    line-height: 1.2em; /* Sesuaikan dengan line-height dari hero-heading */
     font-weight: 700;
 }
 
 .hero-slider-item.active {
     opacity: 1;
-    transform: translateY(0);
-    position: relative;
+    transform: translateY(0); /* Geser ke atas */
+    position: relative; /* Aktifkan di flow document untuk memakan ruang */
 }
 
 /* ===== DARK MODE ADJUSTMENTS ===== */
@@ -351,43 +368,47 @@
     .produk p {
         color: #bbb;
     }
-  
-    .dark-mode .spec-btn {
+  /* Ini redundant karena sudah diatur di luar dark-mode block */
+  /* .dark-mode .spec-btn {
         background-color: #5a6268;
-    }
+    } */
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
-    .produk-slider .produk {
-    flex: 0 0 calc(33.333% - 1.5rem * 2 / 3); /* 3 item per baris */
-  }
+    .produk {
+        width: calc(33.333% - 20px); /* 3 item per baris dengan 10px margin di setiap sisi (total 20px) */
+    }
+    .product-slider-container {
+        padding: 0 40px; /* Kurangi padding untuk panah */
+    }
+    .slider-arrow {
+        font-size: 24px;
+        padding: 10px 14px;
+    }
 }
 
 @media (max-width: 900px) {
-  .produk-slider .produk {
-    flex: 0 0 calc(50% - 1.5rem / 2); /* 2 item per baris */
-  }
+    .produk {
+        width: calc(50% - 20px); /* 2 item per baris */
+    }
 }
-
 
 @media (max-width: 768px) {
     .produk-actions {
         flex-direction: column;
     }
 
-    .produk-wrapper {
+    /* .produk-wrapper tidak lagi relevan dengan struktur slider */
+    /* .produk-wrapper {
         flex-direction: column;
         align-items: center;
-    }
-    
-    .produk-slider .produk {
-    flex: 0 0 100%; /* 1 item per baris */
-    }
+    } */
     
     .produk {
-        flex: 0 0 80%;
+        width: calc(80% - 20px); /* 1 item per baris, dengan margin */
         min-width: 250px;
+        margin: 10px auto; /* Pusatkan produk jika hanya satu */
     }
     
     .produk-notfound {
@@ -405,5 +426,12 @@
     .produk-notfound .notfound-btn {
         width: 100%;
         max-width: 220px;
+    }
+    .product-slider-container {
+        padding: 0 20px; /* Padding lebih kecil untuk mobile */
+    }
+    .slider-arrow {
+        font-size: 20px;
+        padding: 8px 12px;
     }
 }
