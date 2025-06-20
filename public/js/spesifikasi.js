@@ -330,3 +330,7 @@ function initDarkMode() {
     updateAriaAttributes();
     console.log('Dark mode event listeners attached.');
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    initDarkMode();
+});
