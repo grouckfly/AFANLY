@@ -376,13 +376,13 @@
     }
 
     .beli-btn{
-        background-color: #444;
-        color: #0099ff;
+        color: #000000;
+        background-color: #0099ff;
     }
 
     .spec-btn {
-        background-color: #444;
-        color: #ffd700;
+        color: #000000;
+        background-color: #ffd700;
     }
 }
 
