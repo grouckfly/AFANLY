@@ -1,49 +1,80 @@
 // Constants for product categories
-// nama:, jenis:, deskripsi:, harga:, gambar:
+// nama:, jenis:, deskripsi:, harga:, gambar:, gallery:
 const semuaProduk = [
   {
     nama: "Laptop ASUS VivoBook",
     jenis: "Komputer",
     deskripsi: "Laptop ringan, cocok untuk kerja dan kuliah. RAM 8GB, SSD 512GB.",
     harga: "Rp7.500.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg", // Gambar utama
+    gallery: [ // Array of image paths for the gallery
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   },
   {
     nama: "Smartphone Samsung A15",
     jenis: "Komputer",
     deskripsi: "Layar Super AMOLED, baterai tahan lama, kamera 50MP.",
     harga: "Rp2.800.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg",
+    gallery: [
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   },
   {
     nama: "Printer Canon PIXMA",
     jenis: "Alat Kantor",
     deskripsi: "Printer warna, cocok untuk kebutuhan kantor dan rumah.",
     harga: "Rp1.200.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg",
+    gallery: [
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   },
   {
     nama: "Router TP-Link Archer",
     jenis: "Alat Kantor",
     deskripsi: "Dual Band, kecepatan tinggi, jangkauan luas.",
     harga: "Rp650.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg",
+    gallery: [
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   },
   {
     nama: "Paket CCTV 4 Channel",
     jenis: "Security System",
     deskripsi: "Termasuk DVR dan pemasangan. Cocok untuk rumah & toko.",
     harga: "Rp2.500.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg",
+    gallery: [
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   },
   {
     nama: "Keyboard Mechanical RGB",
     jenis: "Komputer",
     deskripsi: "Nyaman untuk gaming dan mengetik, lampu warna-warni.",
     harga: "Rp350.000",
-    gambar: "img/nobarang.jpg"
+    gambar: "img/nobarang.jpg",
+    gallery: [
+      "img/nobarang.jpg",
+      "img/nobarang.jpg",
+      "img/nobarang.jpg"
+    ]
   }
 ];
+
 
 // --- Navigation and Menu Functions ---
 
@@ -134,10 +165,10 @@ function InitSliderHero() {
  * Renders the product list based on the provided data.
  * Displays a "not found" message if the data array is empty.
  * @param {Array<Object>} data - An array of product objects to render.
- */
+*/
 function renderProduk(data) {
   const list = document.getElementById("produkList");
-  list.innerHTML = "";
+  list.innerHTML = ""; // Clear existing products
 
   if (data.length === 0) {
     document.getElementById("produk-notfound").style.display = "block"; // Show "product not found" message
@@ -189,7 +220,7 @@ function filterProduk() {
   }
 }
 
-// --- Product Slider Controls Function (NEW) ---
+// --- Product Slider Controls Function ---
 
 /**
  * Initializes controls for the product slider, allowing users to scroll left/right.
@@ -209,20 +240,17 @@ function InitProductSliderControls() {
 
   // Function to scroll the product list horizontally
   const scrollProducts = (direction) => {
-    // Determine the amount to scroll. Here, we scroll by 80% of the visible width
-    // to ensure smooth transitions and expose parts of the next/previous items.
-    // You can adjust '0.8' (80%) as needed.
-    const scrollAmount = produkListElement.clientWidth * 0.8;
+    const scrollAmount = produkListElement.clientWidth * 0.8; // Scroll by 80% of visible width
 
     if (direction === 'prev') {
       produkListElement.scrollBy({
         left: -scrollAmount,
-        behavior: 'smooth' // Smooth scrolling effect
+        behavior: 'smooth'
       });
     } else { // 'next'
       produkListElement.scrollBy({
         left: scrollAmount,
-        behavior: 'smooth' // Smooth scrolling effect
+        behavior: 'smooth'
       });
     }
   };
@@ -253,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("kategoriSelect").addEventListener("change", filterProduk);
 
   // Initialize Product Slider Controls
-  // This must be called after the HTML elements for the slider buttons and track are available
   InitProductSliderControls();
 
   // Initial rendering of all products when the page loads

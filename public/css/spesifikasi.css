@@ -3,309 +3,380 @@
     --highlight-color: #007bff;
     --bg-detil-produk: #f8f9fa;
     --text-color-spesifikasi: #333;
+    --bg-color: #ffffff; /* Example fallback */
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example fallback */
 }
 
 .dark-mode {
-    --highlight-color: #007bff;
+    --highlight-color: #007bff; /* Consistent highlight color */
     --bg-detil-produk: #1e1e1e;
     --text-color-spesifikasi: #f8f9fa;
+    --bg-color: #2c2c2c; /* Dark mode background */
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
 }
 
+/* --- General Product Detail Styling --- */
 #spesifikasi {
     background-color: var(--bg-color);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: var(--shadow-md);
+    margin-top: 20px;
 }
 
-/* Tetap gunakan variabel di semua elemen */
 #spesifikasi .produk-detail {
     background-color: var(--bg-detil-produk);
     color: var(--text-color-spesifikasi);
-    /* ... kode lainnya tetap ... */
+    padding: 20px;
+    border-radius: 8px;
 }
 
 #spesifikasi .produk-detail h2 {
     color: var(--text-color-spesifikasi);
-    /* ... kode lainnya tetap ... */
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-align: left;
 }
 
-/* Pastikan semua teks menggunakan variabel warna */
 #spesifikasi .produk-detail p {
     color: var(--text-color-spesifikasi);
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    text-align: justify;
 }
 
-#spesifikasi .produk-detail .spec-btn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 0.8rem 2rem;
-    background-color: var(--highlight-color);
-    color: black;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+/* --- Product Actions Buttons (General Styles) --- */
+.produk-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
-#spesifikasi .produk-detail .spec-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Tombol Aksi Umum (Gaya Dasar untuk Semua Tombol) */
 .produk-actions .beli-btn,
 .produk-actions .spec-btn {
-    display: inline-block;
-    margin-top: 10px; /* Margin atas */
-    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 25px;
     text-align: center;
     font-size: 1rem;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-decoration: none; /* Hilangkan underline */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: auto; /* Tombol secara otomatis mengikuti konten */
-    min-width: 120px; /* Tentukan lebar minimum yang sama untuk semua tombol */
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    flex: 1;
+    max-width: 180px;
+    min-width: 120px;
+    box-sizing: border-box;
+    height: 45px;
 }
 
-/* Warna latar dan efek hover untuk tombol */
 .produk-actions .beli-btn {
-    background-color: #4CAF50; /* Warna hijau untuk beli-btn */
+    background-color: #4CAF50;
 }
 
 .produk-actions .beli-btn:hover {
-    background-color: #45a049; /* Warna lebih gelap saat hover */
-    transform: scale(1.05); /* Efek perbesar tombol */
+    background-color: #45a049;
+    transform: translateY(-2px) scale(1.02);
 }
 
 .produk-actions .spec-btn {
-    background-color: #007bff; /* Warna biru untuk spec-btn */
+    background-color: var(--highlight-color);
 }
 
 .produk-actions .spec-btn:hover {
-    background-color: #0056b3; /* Warna lebih gelap saat hover */
-    transform: scale(1.05); /* Sama seperti beli-btn */
+    background-color: #0056b3;
+    transform: translateY(-2px) scale(1.02);
 }
 
-
-  /* Gaya untuk tombol beli-btn agar serupa dengan spec-btn */
-.beli-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px; /* Sama seperti spec-btn */
-    text-decoration: none; /* Hilangkan garis bawah */
-    background-color: #4CAF50; /* Warna hijau (berbeda dengan spec-btn) */
-    color: #fff;
-    border: none; /* Hilangkan border default tombol */
-    border-radius: 5px; /* Bentuk melengkung */
-    text-align: center; /* Tengah teks */
-    font-size: 1rem; /* Ukuran font */
-    cursor: pointer; /* Tampilkan pointer saat di-hover */
-    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Efek transisi */
-}
-
-.beli-btn:hover {
-    background-color: #45a049; /* Warna hijau lebih gelap saat hover */
-    transform: scale(1.05); /* Perbesar sedikit saat hover */
-}
-
-  .beli-btn:hover,
-  .spec-btn:hover {
-      opacity: 0.9; /* Efek hover */
-  }
-
- 
-/* Detail Produk Container */
+/* --- Detail Product Container (spesifikasi.html) --- */
 #detail-produk {
     display: flex;
-    flex-direction: row; /* Tampilkan konten dalam bentuk baris */
+    flex-direction: row; /* TETAPKAN BARIS: Gambar kiri, detail kanan */
     align-items: flex-start; /* Rata atas konten */
-    gap: 20px; /* Beri jarak antara gambar dan spesifikasi */
-    max-width: 1200px; /* Batas maksimum lebar kontainer */
-    margin: 0 auto; /* Pusatkan kontainer */
-    padding: 1rem;
+    gap: 30px; /* Jarak antara gambar dan detail */
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 1.5rem;
     box-sizing: border-box;
-}
-
-/* Gambar Produk */
-#detail-produk img.detail-image {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
+    background-color: var(--bg-detil-produk);
     border-radius: 10px;
-    border: 1px solid #ddd;
-    cursor: pointer; /* Gambar interaktif */
-    transition: transform 0.3s ease-in-out;
+    box-shadow: var(--shadow-md);
 }
 
-/* Efek Pembesaran Gambar */
-#detail-produk img.detail-image.fullscreen {
+/* --- NEW: Product Image Gallery Styling --- */
+.product-image-gallery {
+    display: flex;
+    flex-direction: column; /* Main image on top, thumbnails below */
+    align-items: center; /* Center align images in the column */
+    width: 100%;
+    max-width: 450px; /* Max width for the entire gallery section */
+    position: relative; /* For positioning navigation buttons */
+}
+
+.main-image-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden; /* Ensure image corners are rounded */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for the main image */
+}
+
+.main-image-wrapper img.detail-image {
     width: 100%;
     height: auto;
-    max-width: 500px;
-    max-height: none;
+    display: block; /* Remove extra space below image */
+    border-radius: 10px; /* Apply border radius to the image */
+    border: 1px solid #ddd;
+    cursor: zoom-in;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    object-fit: contain; /* Ensure the image fits without cropping */
+}
+
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    z-index: 10; /* Ensure buttons are above the image */
+}
+
+.gallery-nav:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.gallery-nav.prev {
+    left: 10px;
+}
+
+.gallery-nav.next {
+    right: 10px;
+}
+
+.thumbnail-wrapper {
+    display: flex;
+    justify-content: center; /* Center thumbnails */
+    gap: 10px;
+    margin-top: 15px; /* Space between main image and thumbnails */
+    flex-wrap: wrap; /* Allow thumbnails to wrap */
+    max-width: 100%; /* Ensure thumbnails fit within the column */
+}
+
+.thumbnail-wrapper img.thumbnail {
+    width: 80px; /* Fixed width for thumbnails */
+    height: 80px; /* Fixed height for thumbnails */
+    object-fit: cover; /* Crop thumbnails to fit the size */
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7; /* Slightly dim inactive thumbnails */
+}
+
+.thumbnail-wrapper img.thumbnail:hover {
+    opacity: 1; /* Full opacity on hover */
+    transform: scale(1.05);
+}
+
+.thumbnail-wrapper img.thumbnail.active {
+    border-color: var(--highlight-color); /* Highlight active thumbnail */
+    opacity: 1; /* Full opacity for active thumbnail */
+    transform: scale(1.0);
+}
+
+
+/* Fullscreen Image Effect - Adjusted to apply to main image */
+#detail-produk img.detail-image.fullscreen {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1.5); /* Perbesar dengan rasio lebih besar */
+    transform: translate(-50%, -50%) scale(1.1);
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.8); /* Latar belakang lebih gelap */
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out; /* Efek transisi untuk pengalaman lebih halus */
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    cursor: zoom-out;
 }
 
-/* Informasi Spesifikasi */
+/* Product Information (Detail di kanan gambar) */
 #detail-produk .detail-info {
-    flex: 1; /* Isi ruang kosong yang tersisa */
-    text-align: left; /* Pastikan teks sejajar ke kiri */
-    padding-left: 20px; /* Jarak tambahan di sebelah kiri spesifikasi */
-    color: var(--text-color-spesifikasi, #333);
+    flex: 1;
+    text-align: left;
+    color: var(--text-color-spesifikasi);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-/* Heading Spesifikasi */
 #detail-produk .detail-info h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-align: left;
 }
 
-/* Deskripsi Produk */
 #detail-produk .detail-info p {
-    margin: 10px 0;
-    font-size: 1rem;
-    line-height: 1.5;
+    margin: 15px 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    flex-grow: 1;
 }
 
-/* Tombol Aksi */
-#detail-produk .spec-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    text-decoration: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-}
+/* --- Responsive Adjustments --- */
 
-/* Responsivitas untuk Layar Maksimum 900px */
-@media (max-width: 900px) {
+@media (max-width: 992px) {
     #detail-produk {
-        flex-direction: column; /* Tampilkan gambar di atas informasi */
-        gap: 15px; /* Kurangi jarak antar elemen */
-        padding: 1.5rem; /* Kurangi padding kontainer */
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+        padding: 1rem;
+        margin: 20px auto;
     }
 
-    #detail-produk img.detail-image {
-        width: 80%; /* Gambar sedikit lebih kecil */
-        max-width: 350px; /* Maksimum ukuran gambar pada resolusi ini */
-        margin: 0 auto; /* Tengahkan gambar */
-    }
-
-    #detail-produk img.detail-image.fullscreen {
-        width: auto;
-        height: auto;
-        max-width: 95vw; /* Tawarkan lebar maksimum 95% viewport */
-        max-height: 95vh; /* Tawarkan tinggi maksimum 95% viewport */
-        border-radius: 10px; /* Tetap menggunakan sudut bulat */
-        background: rgba(0, 0, 0, 0.8); /* Latar belakang semi-transparan */
+    .product-image-gallery {
+        max-width: 70%; /* Adjust max-width for gallery on smaller screens */
     }
 
     #detail-produk .detail-info {
-        text-align: center; /* Tengahkan teks detail produk */
+        padding-left: 0;
+        text-align: center;
+        align-items: center;
     }
 
     #detail-produk .detail-info h2 {
-        font-size: 1.6rem; /* Kurangi ukuran heading */
+        font-size: 2rem;
+        text-align: center;
     }
 
     #detail-produk .detail-info p {
-        font-size: 1rem; /* Ukuran teks lebih proporsional */
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .produk-actions {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .produk-actions .beli-btn,
+    .produk-actions .spec-btn {
+        flex-grow: 1;
+        max-width: 200px;
+        min-width: unset;
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    #spesifikasi {
+        padding: 1.5rem;
+    }
+
+    #spesifikasi .produk-detail h2 {
+        font-size: 1.8rem;
+    }
+
+    #detail-produk {
+        gap: 20px;
+    }
+
+    .product-image-gallery {
+        max-width: 85%;
+    }
+
+    .thumbnail-wrapper img.thumbnail {
+        width: 60px; /* Smaller thumbnails on mobile */
+        height: 60px;
+    }
+
+    #detail-produk .detail-info h2 {
+        font-size: 1.8rem;
+    }
+
+    #detail-produk .detail-info p {
+        font-size: 0.95rem;
+    }
+
+    .produk-actions {
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .produk-actions .beli-btn,
+    .produk-actions .spec-btn {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        height: unset;
+    }
+
+    #detail-produk img.detail-image.fullscreen {
+        max-width: 95vw;
+        max-height: 95vh;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #spesifikasi {
+        padding: 1rem;
+    }
+
+    #spesifikasi .produk-detail h2 {
+        font-size: 1.5rem;
+    }
+
+    #detail-produk {
+        padding: 0.5rem;
+        gap: 15px;
+    }
+
+    .product-image-gallery {
+        max-width: 95%;
+    }
+
+    .thumbnail-wrapper img.thumbnail {
+        width: 50px;
+        height: 50px;
+    }
+
+    #detail-produk .detail-info h2 {
+        font-size: 1.6rem;
+    }
+
+    #detail-produk .detail-info p {
+        font-size: 0.9rem;
         margin: 10px 0;
     }
 
-    #detail-produk .spec-btn {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
     .produk-actions {
-        flex-direction: column; /* Ubah menjadi kolom */
-        gap: 10px;
+        gap: 6px;
     }
 
-    .beli-btn,
-    .spec-btn {
-        display: block; /* Tampil dalam blok */
-        width: 100%; /* Tombol memenuhi ruang 100% dari kolom */
-        font-size: 1rem; /* Sesuaikan ukuran font */
-    }
-}
-
-
-/* Responsivitas untuk Layar Maksimum 768px */
-@media (max-width: 768px) {
-    #detail-produk {
-        flex-direction: column; /* Kembali ke susunan kolom pada layar kecil */
-    }
-
-    #detail-produk .detail-info {
-        padding-left: 0; /* Hilangkan padding kiri */
-        text-align: center; /* Tengahkan teks */
-    }
-
-    #detail-produk img.detail-image {
-        max-width: 100%; /* Gambar memenuhi lebar layar */
-        margin: 0 auto; /* Tengahkan gambar */
+    .produk-actions .beli-btn,
+    .produk-actions .spec-btn {
+        padding: 10px;
+        font-size: 0.85rem;
     }
 
     #detail-produk img.detail-image.fullscreen {
-        max-width: 90vw;
-        max-height: 90vh;
-    }
-    .produk-actions {
-        flex-direction: column; /* Tetap dalam kolom untuk layar ini */
-        margin-top: 10px;
-    }
-
-    .beli-btn,
-    .spec-btn {
-        width: 100%;  /* Lebar penuh untuk layar kecil */
-        padding: 8px 15px;
-        font-size: 0.9rem; /* Ukuran font lebih kecil */
-    }
-}
-
-
-/* Responsivitas untuk Layar Sangat Kecil */
-@media (max-width: 480px) {
-    #detail-produk {
-        gap: 10px; /* Kurangi jarak antar elemen */
-    }
-
-    #detail-produk img.detail-image.fullscreen {
-        max-width: 90%; /* Tidak lebih dari 90% lebar layar kecil */
-        max-height: 90%; /* Tidak lebih dari 90% tinggi layar kecil */
-    }
-
-    #detail-produk img.detail-image {
-        max-width: 100%; /* Gambar memenuhi layar kecil */
-    }
-
-    #detail-produk .detail-info h2 {
-        font-size: 1.5rem; /* Kurangi ukuran teks untuk layar kecil */
-    }
-
-    #detail-produk .detail-info p {
-        font-size: 0.9rem; /* Ukuran teks lebih kecil */
-    }
-    .produk-actions {
-        flex-direction: column; /* Susunan vertikal */
-        gap: 8px; /* Jarak antar tombol lebih kecil */
-    }
-
-    .beli-btn,
-    .spec-btn {
-        width: 100%; /* Lebar tombol penuh */
-        font-size: 0.85rem; /* Ukuran font lebih kecil untuk layar kecil */
-        padding: 8px; /* Padding disesuaikan */
+        padding: 10px;
     }
 }
