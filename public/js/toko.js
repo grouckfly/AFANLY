@@ -2,10 +2,10 @@
 // nama:, jenis:, deskripsi:, harga:, gambar:, gallery:
 const semuaProduk = [
   {
-    nama: "Laptop ASUS VivoBook",
-    jenis: "Komputer",
-    deskripsi: "Laptop ringan, cocok untuk kerja dan kuliah. RAM 8GB, SSD 512GB.",
-    harga: "Rp7.500.000",
+    nama: "N/A",
+    jenis: "komputer",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg", // Gambar utama
     gallery: [ // Array of image paths for the gallery
       "img/nobarang.jpg",
@@ -14,10 +14,10 @@ const semuaProduk = [
     ]
   },
   {
-    nama: "Smartphone Samsung A15",
+    nama: "N/A",
     jenis: "Komputer",
-    deskripsi: "Layar Super AMOLED, baterai tahan lama, kamera 50MP.",
-    harga: "Rp2.800.000",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg",
     gallery: [
       "img/nobarang.jpg",
@@ -26,10 +26,10 @@ const semuaProduk = [
     ]
   },
   {
-    nama: "Printer Canon PIXMA",
+    nama: "N/A",
     jenis: "Alat Kantor",
-    deskripsi: "Printer warna, cocok untuk kebutuhan kantor dan rumah.",
-    harga: "Rp1.200.000",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg",
     gallery: [
       "img/nobarang.jpg",
@@ -38,10 +38,10 @@ const semuaProduk = [
     ]
   },
   {
-    nama: "Router TP-Link Archer",
+    nama: "N/A",
     jenis: "Alat Kantor",
-    deskripsi: "Dual Band, kecepatan tinggi, jangkauan luas.",
-    harga: "Rp650.000",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg",
     gallery: [
       "img/nobarang.jpg",
@@ -50,10 +50,10 @@ const semuaProduk = [
     ]
   },
   {
-    nama: "Paket CCTV 4 Channel",
+    nama: "N/A",
     jenis: "Security System",
-    deskripsi: "Termasuk DVR dan pemasangan. Cocok untuk rumah & toko.",
-    harga: "Rp2.500.000",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg",
     gallery: [
       "img/nobarang.jpg",
@@ -62,10 +62,10 @@ const semuaProduk = [
     ]
   },
   {
-    nama: "Keyboard Mechanical RGB",
+    nama: "N/A",
     jenis: "Komputer",
-    deskripsi: "Nyaman untuk gaming dan mengetik, lampu warna-warni.",
-    harga: "Rp350.000",
+    deskripsi: "N/A",
+    harga: "Rp. N/A",
     gambar: "img/nobarang.jpg",
     gallery: [
       "img/nobarang.jpg",
