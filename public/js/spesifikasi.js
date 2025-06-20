@@ -171,6 +171,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set tahun footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Inisialisasi Dark Mode
+    initDarkMode();
+
+    // Inisialisasi Notifikasi Pengembangan
+    // Jika initDevNotif ada di main.js, pastikan main.js dimuat.
+    // Jika tidak, Anda perlu mendefinisikan initDevNotif di sini atau di file lain yang dimuat.
+    if (typeof initDevNotif === 'function') {
+        initDevNotif(); 
+    } else {
+        // Minimal implementasi untuk notifikasi pengembangan jika main.js tidak mendefinisikannya
+        const devNotif = document.getElementById('dev-notif');
+        const notifCloseBtn = document.getElementById('notif-close');
+        const toggleNotifBtn = document.getElementById('toggle-notif');
+        const sidebarNotifToggleBtn = document.getElementById('sidebar-notif-toggle');
+
+        function toggleDevNotif() {
+            if (devNotif) {
+                devNotif.style.display = devNotif.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+        if (notifCloseBtn) notifCloseBtn.addEventListener('click', () => { if (devNotif) devNotif.style.display = 'none'; });
+        if (toggleNotifBtn) toggleNotifBtn.addEventListener('click', toggleDevNotif);
+        if (sidebarNotifToggleBtn) sidebarNotifToggleBtn.addEventListener('click', toggleDevNotif);
+
+        // Tampilkan notifikasi secara otomatis saat load
+        if (devNotif) {
+            setTimeout(() => {
+                devNotif.style.display = 'block';
+            }, 1000); // Muncul setelah 1 detik
+            setTimeout(() => {
+                devNotif.style.display = 'none';
+            }, 5000); // Sembunyikan setelah 5 detik
+        }
+    }
 });
 
 /* -------------------- ZOOM PRODUK -------------------- */
@@ -207,105 +242,91 @@ function initializeZoom() {
     }
 }
 
-
 /* -------------------- DARK MODE -------------------- */
 function initDarkMode() {
-  const toggle = document.getElementById("darkModeToggle");
-  const sidebarDarkBtn = document.getElementById("sidebarDarkModeToggle");
-  const body = document.body;
+    console.log('initDarkMode() called.'); // Log ini akan muncul saat fungsi dipanggil
 
-  const sunIcon = toggle.querySelector(".sun-icon");
-  const moonIcon = toggle.querySelector(".moon-icon");
-  const modeText = toggle.querySelector(".mode-text");
+    const toggle = document.getElementById("darkModeToggle");
+    const sidebarDarkBtn = document.getElementById("sidebarDarkModeToggle");
+    const body = document.body;
 
-  const sidebarSunIcon = sidebarDarkBtn.querySelector(".sun-icon");
-  const sidebarMoonIcon = sidebarDarkBtn.querySelector(".moon-icon");
-  const sidebarModeText = sidebarDarkBtn.querySelector(".mode-text");
+    console.log('Element darkModeToggle:', toggle);        // Periksa ini!
+    console.log('Element sidebarDarkModeToggle:', sidebarDarkBtn); // Periksa ini!
 
-  function applyTheme(theme) {
-    const isDarkMode = theme === "dark";
-    if (isDarkMode) {
-      body.classList.add("dark-mode");
-      sunIcon.style.display = "none";
-      moonIcon.style.display = "inline-block";
-      modeText.textContent = "Mode Gelap";
-      sidebarSunIcon.style.display = "none";
-      sidebarMoonIcon.style.display = "inline-block";
-      sidebarModeText.textContent = "Mode Gelap";
-    } else {
-      body.classList.remove("dark-mode");
-      sunIcon.style.display = "inline-block";
-      moonIcon.style.display = "none";
-      modeText.textContent = "Mode Cerah";
-      sidebarSunIcon.style.display = "inline-block";
-      sidebarMoonIcon.style.display = "none";
-      sidebarModeText.textContent = "Mode Cerah";
+    if (!toggle || !sidebarDarkBtn) {
+        console.error('ERROR: Dark mode toggle buttons not found or not ready. Check HTML IDs and script loading order.');
+        // Jika masih null di sini, ada masalah besar dengan DOM
+        return; 
     }
-    localStorage.setItem("theme", theme);
-    updateAriaAttributes();
-  }
 
-  function updateAriaAttributes() {
-    const isDark = body.classList.contains("dark-mode");
-    [toggle, sidebarDarkBtn].forEach((btn) => {
-      if (btn) {
-        btn.setAttribute("aria-checked", isDark.toString());
-      }
-    });
-  }
+    const sunIcon = toggle.querySelector(".sun-icon");
+    const moonIcon = toggle.querySelector(".moon-icon");
+    const modeText = toggle.querySelector(".mode-text");
 
-  const storedTheme = localStorage.getItem("theme");
-  if (storedTheme) {
-    applyTheme(storedTheme);
-  } else {
-    const hour = new Date().getHours();
-    const autoTheme = hour >= 18 || hour < 6 ? "dark" : "light";
-    applyTheme(autoTheme);
-  }
+    const sidebarSunIcon = sidebarDarkBtn.querySelector(".sun-icon");
+    const sidebarMoonIcon = sidebarDarkBtn.querySelector(".moon-icon");
+    const sidebarModeText = sidebarDarkBtn.querySelector(".mode-text");
 
-  [toggle, sidebarDarkBtn].forEach((btn) => {
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const isCurrentlyDark = body.classList.contains("dark-mode");
-        const newTheme = isCurrentlyDark ? "light" : "dark";
-        applyTheme(newTheme);
-      });
+    // Pastikan ikon dan teks juga ditemukan
+    console.log('Main Toggle Icons/Text:', { sunIcon, moonIcon, modeText });
+    console.log('Sidebar Toggle Icons/Text:', { sidebarSunIcon, sidebarMoonIcon, sidebarModeText });
+
+
+    function applyTheme(theme) {
+        console.log('Applying theme:', theme); // Log untuk melihat tema yang diterapkan
+        const isDarkMode = theme === "dark";
+        if (isDarkMode) {
+            body.classList.add("dark-mode");
+            if (sunIcon) sunIcon.style.display = "none";
+            if (moonIcon) moonIcon.style.display = "inline-block";
+            if (modeText) modeText.textContent = "Mode Gelap";
+            if (sidebarSunIcon) sidebarSunIcon.style.display = "none";
+            if (sidebarMoonIcon) sidebarMoonIcon.style.display = "inline-block";
+            if (sidebarModeText) sidebarModeText.textContent = "Mode Gelap";
+        } else {
+            body.classList.remove("dark-mode");
+            if (sunIcon) sunIcon.style.display = "inline-block";
+            if (moonIcon) moonIcon.style.display = "none";
+            if (modeText) modeText.textContent = "Mode Cerah";
+            if (sidebarSunIcon) sidebarSunIcon.style.display = "inline-block";
+            if (sidebarMoonIcon) sidebarMoonIcon.style.display = "none";
+            if (sidebarModeText) sidebarModeText.textContent = "Mode Cerah";
+        }
+        localStorage.setItem("theme", theme);
+        updateAriaAttributes();
     }
-  });
-  updateAriaAttributes();
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    initDarkMode();
-    // Jika initDevNotif ada di main.js, pastikan main.js dimuat.
-    // Jika tidak, Anda perlu mendefinisikan initDevNotif di sini atau di file lain yang dimuat.
-    // Misalnya, jika Anda tidak punya main.js:
-    if (typeof initDevNotif === 'function') {
-        initDevNotif(); 
-    } else {
-        // Minimal implementasi untuk notifikasi pengembangan
-        const devNotif = document.getElementById('dev-notif');
-        const notifCloseBtn = document.getElementById('notif-close');
-        const toggleNotifBtn = document.getElementById('toggle-notif');
-        const sidebarNotifToggleBtn = document.getElementById('sidebar-notif-toggle');
-
-        function toggleDevNotif() {
-            if (devNotif) {
-                devNotif.style.display = devNotif.style.display === 'block' ? 'none' : 'block';
+    function updateAriaAttributes() {
+        const isDark = body.classList.contains("dark-mode");
+        [toggle, sidebarDarkBtn].forEach((btn) => {
+            if (btn) {
+                btn.setAttribute("aria-checked", isDark.toString());
             }
-        }
-        if (notifCloseBtn) notifCloseBtn.addEventListener('click', () => { if (devNotif) devNotif.style.display = 'none'; });
-        if (toggleNotifBtn) toggleNotifBtn.addEventListener('click', toggleDevNotif);
-        if (sidebarNotifToggleBtn) sidebarNotifToggleBtn.addEventListener('click', toggleDevNotif);
-
-        // Tampilkan notifikasi secara otomatis saat load
-        if (devNotif) {
-            setTimeout(() => {
-                devNotif.style.display = 'block';
-            }, 1000); // Muncul setelah 1 detik
-            setTimeout(() => {
-                devNotif.style.display = 'none';
-            }, 5000); // Sembunyikan setelah 5 detik
-        }
+        });
+        console.log('Aria attributes updated. Current mode:', isDark ? 'Dark' : 'Light');
     }
-});
+
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+        console.log('Stored theme found:', storedTheme);
+        applyTheme(storedTheme);
+    } else {
+        const hour = new Date().getHours();
+        const autoTheme = hour >= 18 || hour < 6 ? "dark" : "light";
+        console.log('No stored theme. Applying auto theme:', autoTheme);
+        applyTheme(autoTheme);
+    }
+
+    [toggle, sidebarDarkBtn].forEach((btn) => {
+        if (btn) {
+            btn.addEventListener("click", () => {
+                console.log('Dark mode toggle clicked!'); // Log ini harus muncul saat diklik
+                const isCurrentlyDark = body.classList.contains("dark-mode");
+                const newTheme = isCurrentlyDark ? "light" : "dark";
+                applyTheme(newTheme);
+            });
+        }
+    });
+    updateAriaAttributes();
+    console.log('Dark mode event listeners attached.');
+}
