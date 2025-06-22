@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AFANLY - Layanan Dukungan IT</title>
-  
-  <!-- SEO -->
-  <meta name="description" content="AFANLY menyediakan layanan teknis profesional untuk perangkat keras dan lunak. Service, perbaikan, dan solusi teknologi terbaik untuk Anda.">
-  <meta name="keywords" content="AFANLY, Service perangkat, teknisi komputer, perbaikan laptop, dukungan teknis, hardware, software">
-  <meta name="author" content="AFANLY">
-  <meta name="google-site-verification" content="gfUGvykhxmmZ0ShhFYpxsrCGoXHUCyqVlpmSqRRTxgs">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFANLY - Layanan Dukungan IT</title>
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://afanly.vercel.app">
+    <meta name="description" content="AFANLY menyediakan layanan teknis profesional untuk perangkat keras dan lunak. Service, perbaikan, dan solusi teknologi terbaik untuk Anda.">
+    <meta name="keywords" content="AFANLY, Service perangkat, teknisi komputer, perbaikan laptop, dukungan teknis, hardware, software">
+    <meta name="author" content="AFANLY">
+    <meta name="google-site-verification" content="gfUGvykhxmmZ0ShhFYpxsrCGoXHUCYqVlpmSqRRTxgs">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://afanly.vercel.app/img/Logo_AFANLY.png"> <!-- Ganti dengan nama file yang valid -->
+    <link rel="canonical" href="https://afanly.vercel.app">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="AFANLY - Layanan Dukungan IT">
-  <meta property="og:description" content="Solusi cepat dan andal untuk masalah perangkat keras dan lunak Anda.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://afanly.vercel.app">
-  <meta property="og:site_name" content="AFANLY">
-  <meta property="og:image" content="https://afanly.vercel.app/img/Logo_AFANLY.png">
+    <link rel="icon" type="image/png" href="https://afanly.vercel.app/img/Logo_AFANLY.png">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AFANLY - Layanan Dukungan IT">
-  <meta name="twitter:description" content="Service dan perbaikan perangkat keras dan lunak terpercaya.">
-  <meta name="twitter:image" content="https://afanly.vercel.app/img/Logo_AFANLY.png">
-  <meta name="twitter:site" content="@afanly"> <!-- jika punya akun Twitter -->
+    <meta property="og:title" content="AFANLY - Layanan Dukungan IT">
+    <meta property="og:description" content="Solusi cepat dan andal untuk masalah perangkat keras dan lunak Anda.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://afanly.vercel.app">
+    <meta property="og:site_name" content="AFANLY">
+    <meta property="og:image" content="https://afanly.vercel.app/img/Logo_AFANLY.png">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AFANLY - Layanan Dukungan IT">
+    <meta name="twitter:description" content="Service dan perbaikan perangkat keras dan lunak terpercaya.">
+    <meta name="twitter:image" content="https://afanly.vercel.app/img/Logo_AFANLY.png">
+    <meta name="twitter:site" content="@afanly">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 </head>
 
 <body>
+    <div id="loading-screen">
+        <img src="img/Logo_AFANLY.png" alt="Logo" style="max-width: 200px;">
+        <div class="spinner"></div>
+        <p id="loading-text">Memuat...</p>
+    </div>
+    
+    <div id="welcome-screen">
+        <img src="img/Logo_AFANLY.png" alt="Logo" style="max-width: 200px;">
+        <h1>Selamat Datang Di AFANLY</h1>
+    </div>
+
     <div class="floating-bar">
         <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
         <div class="sidebar-floating-logo">
@@ -50,8 +55,8 @@
         <div class="sidebar-header">
             <div class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch" aria-checked="false">
                 <span class="slider">
-                        <span class="sun-icon">☀️</span>
-                        <span class="moon-icon">🌙</span>
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
                 </span>
                 <span class="mode-text">Mode Cerah</span>
             </div>
@@ -72,7 +77,7 @@
                     <img src="img/Logo_AFANLY.png" alt="Logo AFANLY">
                     AFANLY
                 </div>
-            <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
                 <ul class="nav-links">
                     <li><a href="#">Home</a></li>
                     <li><a href="#about">Tentang Kami</a></li>
@@ -151,14 +156,14 @@
                 <h2>Kontak</h2>
                 <p>Hubungi kami untuk informasi lebih lanjut</p>
                 <div class="contact-cards">
-                    <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Layanan%20AFANLY&body=Nama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A" 
+                    <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Layanan%20AFANLY&body=Nama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
                     id="emailLink" class="contact-card" title="Kirim Email" target="_blank" rel="noopener">
                         <span class="contact-icon">📧</span>
                         <span class="contact-label">Email</span>
                         <span class="contact-value">defry.pku@gmail.com</span>
                     </a>
                     <a href="https://wa.me/628127659073?text=Permintaan%20Layanan%20AFANLY%0A%0ANama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
-                     id="phoneLink" class="contact-card" target="_blank" rel="noopener" title="Chat WhatsApp">
+                    id="phoneLink" class="contact-card" target="_blank" rel="noopener" title="Chat WhatsApp">
                         <span class="contact-icon">💬</span>
                         <span class="contact-label">WhatsApp</span>
                         <span class="contact-value">0812-7659-073</span>
@@ -173,20 +178,19 @@
             </section>
         </main>
         <footer>
-            <p>&copy; <span id="year"></span> AFANLY. All rights reserved.</p>
+            <p>© <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
     </div>
-    <!-- Modal Kritik & Saran -->
     <div id="kritik-saran-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
+            <span class="modal-close">×</span>
             <h2>Hubungi Kami untuk Kritik & Saran</h2>
             <div class="modal-buttons">
                 <a href="https://wa.me/628127659073?text=Kritik%20Dan%20Saran%20AFANLY%0A%0ANama%3A%0AKritik%3A%0ASaran%3A"
                 class="modal-button whatsapp-button" target="_blank" rel="noopener">
                     WhatsApp
                 </a>
-                <a href="mailto:defry.pku@gmail.com?subject=Kritik%20dan%20Saran%20AFANLY&body=Nama%3A%0AKritik%3A%0ASaran%3A" 
+                <a href="mailto:defry.pku@gmail.com?subject=Kritik%20dan%20Saran%20AFANLY&body=Nama%3A%0AKritik%3A%0ASaran%3A"
                 class="modal-button email-button"
                     target="_blank" rel="noopener">
                     Email
@@ -197,8 +201,9 @@
 
     <div id="dev-notif">
         <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
-        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    
+        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>
     </div>
+
     <script src="js/main.js"></script>
 </body>
 </html>
