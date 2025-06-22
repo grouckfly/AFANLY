@@ -370,21 +370,21 @@ function initLoadingAndWelcomeScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     const welcomeScreen = document.getElementById('welcome-screen');
     const loadingText = document.getElementById('loading-text');
-    const enterButton = document.getElementById('enter-button');
 
     let connectionCheckInterval;
     let offlineTimer = 0;
     let timerInterval;
-    let randomMessageInterval;
+    let randomMessageInterval; // Interval for rotating random sub-messages
     let isPageFullyLoaded = false;
     let isWelcomeScreenDisplayed = false;
-    let hasWelcomeScreenBeenShownOnce = false; // Flag untuk melacak kemunculan welcome screen
-
+    let hasWelcomeScreenBeenShownOnce = false; // Flag to track if welcome screen has ever been shown
 
     const randomMessages = [
         "Mengoptimalkan pengalaman Anda...",
         "Hampir selesai...",
-        "Mencoba menyambungkan kembali..."
+        "Mencoba menyambungkan kembali...",
+        "Menyiapkan data terbaru...",
+        "Jaringan lagi lambat nih, sabar ya..." 
     ];
 
     if (!loadingScreen || !welcomeScreen || !loadingText) {
@@ -392,99 +392,146 @@ function initLoadingAndWelcomeScreen() {
         return;
     }
 
-    function updateLoadingText(message, sub = "") {
+    /**
+     * Updates the text content of the loading screen.
+     * @param {string} mainMessage The main message to display.
+     * @param {string} [subMessage=""] An optional sub-message to display below the main message.
+     */
+    function updateLoadingText(mainMessage, subMessage = "") {
         if (loadingText) {
-            loadingText.innerHTML = `<span>${message}</span>${sub ? `<br><small>${sub}</small>` : ''}`;
+            loadingText.innerHTML = `<span>${mainMessage}</span>${subMessage ? `<br><small>${subMessage}</small>` : ''}`;
         }
     }
 
-    // Function to show loading screen with an initial message
+    /**
+     * Shows the loading screen and starts relevant timers/intervals.
+     * @param {string} [mainMessage="Memuat Website"] The main message for the loading screen.
+     * @param {string} [subMessage=""] An optional sub-message. If provided, random messages will be stopped.
+     * If subMessage is explicitly empty string, random messages start.
+     */
     function showLoadingScreen(mainMessage = "Memuat Website", subMessage = "") {
         loadingScreen.classList.remove('hidden');
         welcomeScreen.classList.add('hidden'); // Ensure welcome screen is hidden
         isWelcomeScreenDisplayed = false; // Reset welcome screen flag
+
         updateLoadingText(mainMessage, subMessage); // Set initial message
-        startRandomMessages(); // Start the random messages rotation
+
+        // Logic for random messages:
+        // - Start random messages if no specific subMessage is provided AND main message is default
+        // - Stop random messages if a specific subMessage is provided
+        // - Also, keep random messages running if main message is "Memuat Website"
+        //   even if subMessage might be temporarily set by updateLoadingMessages
+        if (mainMessage === "Memuat Website" && subMessage === "") {
+            startRandomMessages();
+        } else {
+            stopRandomMessages(); // Stop random messages if a specific subMessage is active
+        }
+        
         startOfflineTimer();
     }
 
+    /**
+     * Hides the loading screen and stops all related timers/intervals.
+     */
     function hideLoadingScreen() {
         loadingScreen.classList.add('hidden');
         stopOfflineTimer();
         stopRandomMessages();
     }
 
+    /**
+     * Starts the timer to track how long the user has been 'offline' or facing issues.
+     */
     function startOfflineTimer() {
         if (!timerInterval) {
             offlineTimer = 0;
             timerInterval = setInterval(() => {
                 offlineTimer++;
-                updateLoadingMessages();
+                // Update messages based on timer, this will control sub-message logic
+                updateLoadingMessages(); 
             }, 1000);
         }
     }
 
+    /**
+     * Stops the offline timer.
+     */
     function stopOfflineTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
-        offlineTimer = 0;
+        offlineTimer = 0; // Reset timer when connection is good
     }
 
+    /**
+     * Starts the rotation of random sub-messages on the loading screen.
+     */
     function startRandomMessages() {
-        // Clear any existing interval to prevent multiple intervals running
-        stopRandomMessages(); 
-        
+        // Only start if not already running
+        if (randomMessageInterval) return; 
+
         let i = 0;
-        // Display the first random message immediately
-        updateLoadingText("Memuat Website", randomMessages[i]);
-        i = (i + 1) % randomMessages.length; // Move to the next message
+        // Display the first random message immediately IF the main message is "Memuat Website"
+        // This ensures the sub-message starts from a random point if applicable.
+        if (loadingText.querySelector('span').textContent === "Memuat Website") {
+            updateLoadingText("Memuat Website", randomMessages[i]);
+            i = (i + 1) % randomMessages.length; 
+        }
 
         randomMessageInterval = setInterval(() => {
-            // Only update sub-message if loadingText current main message is "Memuat Website"
-            // This prevents overwriting specific messages like "Koneksi Bermasalah"
+            // Only update sub-message if the current main message is still "Memuat Website"
+            // This allows specific main messages (e.g., "Koneksi Bermasalah") to override.
             if (loadingText.querySelector('span').textContent === "Memuat Website") {
                 updateLoadingText("Memuat Website", randomMessages[i]);
+                i = (i + 1) % randomMessages.length;
+            } else {
+                // If main message changed, stop random messages as they are not relevant
+                stopRandomMessages();
             }
-            i = (i + 1) % randomMessages.length;
-        }, 3000);
+        }, 3000); // Change message every 3 seconds
     }
 
+    /**
+     * Stops the rotation of random sub-messages.
+     */
     function stopRandomMessages() {
         clearInterval(randomMessageInterval);
         randomMessageInterval = null;
-        // When stopping, clear the sub-message if it's a random one
-        if (loadingText.querySelector('small')) {
-            // Check if the current sub-message is one of the random ones
-            const currentSubMessage = loadingText.querySelector('small').textContent;
-            if (randomMessages.includes(currentSubMessage)) {
-                updateLoadingText(loadingText.querySelector('span').textContent, ""); // Clear sub-message
-            }
-        }
+        // Do NOT clear sub-message here, it might be a specific message from updateLoadingText
+        // Clearing it should be handled by updateLoadingText or showLoadingScreen when setting a new message.
     }
 
+    /**
+     * Updates loading messages based on offline timer status and network state.
+     * This function is crucial for dynamic message changes.
+     */
     function updateLoadingMessages() {
         if (!navigator.onLine) {
-            showLoadingScreen("Koneksi Internet Anda Bermasalah", "Periksa koneksi Anda.");
-            stopRandomMessages(); // Stop random messages if offline
-        } else if (offlineTimer >= 30 && offlineTimer < 60) {
-            showLoadingScreen("Memuat Website", "Sedang mencoba koneksi yang lebih stabil...");
-            startRandomMessages(); // Keep random messages if trying to connect
-        } else if (offlineTimer >= 60) {
-            showLoadingScreen("Koneksi Internet Lambat", "Harap Tunggu");
-            stopRandomMessages(); // Stop random messages if connection is slow
+            // If genuinely offline, always show this specific message
+            updateLoadingText("Koneksi Internet Anda Bermasalah", "Periksa koneksi Anda.");
+            stopRandomMessages(); // Stop random messages when offline
+        } else if (offlineTimer >= 60) { // After 60 seconds of online but slow
+            updateLoadingText("Koneksi Internet Lambat", "Harap Tunggu");
+            stopRandomMessages(); // Stop random messages if explicitly slow
+        } else if (offlineTimer >= 30) { // After 30 seconds of online but slow
+            updateLoadingText("Memuat Website", "Sedang mencoba koneksi yang lebih stabil...");
+            stopRandomMessages(); // Use specific sub-message, so stop randoms
         } else {
-            // Back to default random messages if connection is good and not in specific states
-            showLoadingScreen("Memuat Website"); 
+            // Default loading state: show "Memuat Website" with random messages
+            updateLoadingText("Memuat Website", loadingText.querySelector('small')?.textContent || ""); // Keep current sub-message if exists
+            startRandomMessages(); // Ensure random messages are running
         }
     }
 
+    /**
+     * Displays the welcome screen and handles its animation.
+     */
     function showWelcomeScreen() {
         // Only show welcome screen if:
-        // 1. It hasn't been shown before OR
-        // 2. It's coming back online after being offline (offlineTimer > 0)
+        // 1. It hasn't been shown before (first visit) OR
+        // 2. It's coming back online after being offline (offlineTimer was > 0)
         // AND it's not currently displayed
-        if (hasWelcomeScreenBeenShownOnce && offlineTimer === 0) {
-            console.log("Welcome screen already shown once, not re-displaying.");
+        if (hasWelcomeScreenBeenShownOnce && offlineTimer === 0 && !isWelcomeScreenDisplayed) {
+            console.log("Welcome screen already shown once and online, not re-displaying.");
             hideLoadingScreen(); // Ensure loading screen is gone
             return;
         }
@@ -500,18 +547,18 @@ function initLoadingAndWelcomeScreen() {
         isWelcomeScreenDisplayed = true;
         hasWelcomeScreenBeenShownOnce = true; // Mark as shown
 
-        // Set timeout to start the disappearing animation
+        // Set timeout to start the disappearing animation automatically
         setTimeout(() => {
             if (isWelcomeScreenDisplayed) {
                 welcomeScreen.classList.remove('swipe-up-animation-start');
                 welcomeScreen.classList.add('swipe-up-animation-end'); // Trigger the swipe-up animation to hide
             }
-        }, 2000); // Display for 2 seconds before swiping up
+        }, 2000); // Display for 2 seconds before swiping up automatically
 
         // Listen for the end of the hiding animation to fully hide the element
-        welcomeScreen.addEventListener('animationend', function handler() {
+        welcomeScreen.addEventListener('animationend', function handler(event) {
             // Ensure this listener only triggers for the 'swipeUpAndFade' animation
-            if (welcomeScreen.classList.contains('swipe-up-animation-end')) {
+            if (event.animationName === 'swipeUpAndFade' && welcomeScreen.classList.contains('swipe-up-animation-end')) {
                 hideWelcomeScreen();
                 welcomeScreen.classList.remove('swipe-up-animation-end'); // Clean up class
                 welcomeScreen.removeEventListener('animationend', handler); // Remove listener after execution
@@ -519,6 +566,9 @@ function initLoadingAndWelcomeScreen() {
         });
     }
 
+    /**
+     * Hides the welcome screen.
+     */
     function hideWelcomeScreen() {
         welcomeScreen.classList.add('hidden');
         isWelcomeScreenDisplayed = false;
@@ -526,24 +576,30 @@ function initLoadingAndWelcomeScreen() {
         welcomeScreen.classList.remove('swipe-up-animation-start', 'swipe-up-animation-end');
     }
 
+    /**
+     * Checks the current network connection and page loading status,
+     * then updates the UI accordingly.
+     */
     function checkConnectionAndPageStatus() {
         console.log("Checking connection and page status...");
+
         if (!navigator.onLine) {
             console.log("Navigator is offline.");
             showLoadingScreen("Koneksi Internet Anda Bermasalah", "Periksa koneksi Anda.");
             if (isWelcomeScreenDisplayed) hideWelcomeScreen(); // Hide welcome screen if offline
         } else {
-            fetch('[https://www.google.com/favicon.ico](https://www.google.com/favicon.ico)', { mode: 'no-cors', cache: 'no-store' })
+            // Attempt a fetch to a known good endpoint to test actual connectivity speed
+            fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store', signal: AbortSignal.timeout(5000) }) // 5-second timeout for fetch
                 .then(() => {
                     console.log("Fetch successful. Connection seems good.");
-                    stopOfflineTimer(); // Stop offline timer
+                    stopOfflineTimer(); // Stop offline timer as connection is good and not slow
 
                     if (isPageFullyLoaded) {
                         console.log("Page fully loaded. Checking welcome screen display condition.");
                         // Show welcome screen if:
                         // 1. Never shown before OR
-                        // 2. Just came back from being offline (offlineTimer was > 0)
-                        if (!hasWelcomeScreenBeenShownOnce || offlineTimer > 0) {
+                        // 2. Just came back from being offline (offlineTimer was > 0 before stopping)
+                        if (!hasWelcomeScreenBeenShownOnce || (offlineTimer > 0 && !isWelcomeScreenDisplayed)) {
                             showWelcomeScreen();
                         } else {
                             hideLoadingScreen(); // Just hide loading if welcome screen isn't needed
@@ -551,58 +607,57 @@ function initLoadingAndWelcomeScreen() {
                         }
                     } else {
                         console.log("Connection good, but page not fully loaded yet. Keeping loading screen.");
-                        showLoadingScreen("Memuat Website"); // Show loading with random messages
+                        // When connection is good and page not fully loaded, show default loading with random messages
+                        showLoadingScreen("Memuat Website"); 
                     }
                 })
                 .catch((error) => {
-                    console.error("Fetch failed, likely connection issue:", error);
-                    showLoadingScreen("Koneksi Internet Lambat", "Harap Tunggu"); // Specific message for slow connection
+                    // Check if the error is a timeout specifically
+                    if (error.name === 'TimeoutError' || error.name === 'AbortError') { 
+                        console.error("Fetch timed out, likely slow connection:", error);
+                        // When connection is slow, show "Koneksi Internet Lambat" and let updateLoadingMessages manage sub-message
+                        showLoadingScreen("Koneksi Internet Lambat", "Harap Tunggu"); // Explicitly set this message
+                    } else {
+                        console.error("Fetch failed, likely connection issue:", error);
+                        showLoadingScreen("Koneksi Internet Bermasalah", "Periksa koneksi Anda atau coba lagi."); 
+                    }
                     if (isWelcomeScreenDisplayed) hideWelcomeScreen(); // Hide welcome screen if connection issues persist
                 });
         }
     }
 
+    // --- Event Listeners and Initial Setup ---
+
     // Initial display of loading screen when DOM is ready
     console.log("DOM content loaded. Initializing loading screen.");
-    showLoadingScreen("Memuat Website"); // Show loading screen with initial random messages
+    // Show default loading screen with random messages
+    showLoadingScreen("Memuat Website"); 
 
     // Event listener for when all assets are loaded (images, CSS, etc.)
     window.addEventListener('load', function() {
         console.log('Window (including all assets) has fully loaded.');
         isPageFullyLoaded = true;
-        // Clear interval here as checkConnectionAndPageStatus will now be called directly
         clearInterval(connectionCheckInterval); 
-        checkConnectionAndPageStatus(); // Re-check status after full load
-        // Re-establish the interval after the initial check for fully loaded state
+        checkConnectionAndPageStatus(); 
         connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 5000); 
     });
-
-    // Event listener for the "Mulai" button on the welcome screen
-    if (enterButton) {
-        enterButton.addEventListener('click', () => {
-            if (isWelcomeScreenDisplayed) {
-                // Instantly trigger the hiding animation
-                welcomeScreen.classList.remove('swipe-up-animation-start');
-                welcomeScreen.classList.add('swipe-up-animation-end');
-            }
-        });
-    }
 
     // Monitor browser's online/offline status
     window.addEventListener('online', function() {
         console.log('Online event detected.');
-        clearInterval(connectionCheckInterval); // Stop current interval
-        checkConnectionAndPageStatus(); // Check status immediately
-        connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 5000); // Resume normal interval
+        clearInterval(connectionCheckInterval); 
+        checkConnectionAndPageStatus(); 
+        connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 5000); 
     });
 
     window.addEventListener('offline', function() {
         console.log('Offline event detected.');
-        clearInterval(connectionCheckInterval); // Stop current interval
-        showLoadingScreen("Koneksi Internet Anda Bermasalah", "Periksa koneksi Anda."); // Display offline message on loading screen
-        connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 3000); // Check more frequently when offline
+        clearInterval(connectionCheckInterval); 
+        // When going offline, set explicit message and stop randoms
+        showLoadingScreen("Koneksi Internet Anda Bermasalah", "Periksa koneksi Anda."); 
+        connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 3000); 
     });
 
-    // Initial connection check when DOM is ready. This interval will be cleared on window.load.
+    // Initial connection check when DOM is ready. 
     connectionCheckInterval = setInterval(checkConnectionAndPageStatus, 5000);
 }
