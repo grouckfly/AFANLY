@@ -167,45 +167,6 @@ function initYear() {
     }
 }
 
-/* -------------------- VALIDATION -------------------- */
-function initValidation() {
-    const emailLink = document.getElementById("emailLink");
-    const phoneLink = document.getElementById("phoneLink");
-    const addressLink = document.getElementById("addressLink");
-
-    if (emailLink) {
-        emailLink.addEventListener("click", function (e) {
-            const email = "defry.pku@gmail.com";
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert("Email tidak valid!");
-                e.preventDefault();
-            }
-        });
-    }
-
-    if (phoneLink) {
-        phoneLink.addEventListener("click", function (e) {
-            const phone = "081234567890";
-            const phonePattern = /^[0-9]{10,15}$/;
-            if (!phonePattern.test(phone.replace(/[^0-9]/g, ""))) {
-                alert("Nomor telepon tidak valid!");
-                e.preventDefault();
-            }
-        });
-    }
-
-    if (addressLink) {
-        addressLink.addEventListener("click", function (e) {
-            const address = "Jl. Teknologi No. 123, Jakarta";
-            if (!address || address.length < 5) {
-                alert("Alamat tidak valid!");
-                e.preventDefault();
-            }
-        });
-    }
-}
-
 /* -------------------- SECTION SERVICES -------------------- */
 function initServicesSection() {
     const cardWrapper = document.querySelector(".services .card-wrapper");
