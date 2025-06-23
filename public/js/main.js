@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     initSidebar();
     initDevNotif();
     initYear();
-    initValidation();
     initKritikSaranModal();
 
     // Hanya inisialisasi services jika ada elemen terkait
