@@ -169,43 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    // Set tahun footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-
     // Inisialisasi Dark Mode
     initDarkMode();
 
-    // Inisialisasi Notifikasi Pengembangan
-    // Jika initDevNotif ada di main.js, pastikan main.js dimuat.
-    // Jika tidak, Anda perlu mendefinisikan initDevNotif di sini atau di file lain yang dimuat.
-    if (typeof initDevNotif === 'function') {
-        initDevNotif(); 
-    } else {
-        // Minimal implementasi untuk notifikasi pengembangan jika main.js tidak mendefinisikannya
-        const devNotif = document.getElementById('dev-notif');
-        const notifCloseBtn = document.getElementById('notif-close');
-        const toggleNotifBtn = document.getElementById('toggle-notif');
-        const sidebarNotifToggleBtn = document.getElementById('sidebar-notif-toggle');
-
-        function toggleDevNotif() {
-            if (devNotif) {
-                devNotif.style.display = devNotif.style.display === 'block' ? 'none' : 'block';
-            }
-        }
-        if (notifCloseBtn) notifCloseBtn.addEventListener('click', () => { if (devNotif) devNotif.style.display = 'none'; });
-        if (toggleNotifBtn) toggleNotifBtn.addEventListener('click', toggleDevNotif);
-        if (sidebarNotifToggleBtn) sidebarNotifToggleBtn.addEventListener('click', toggleDevNotif);
-
-        // Tampilkan notifikasi secara otomatis saat load
-        if (devNotif) {
-            setTimeout(() => {
-                devNotif.style.display = 'block';
-            }, 1000); // Muncul setelah 1 detik
-            setTimeout(() => {
-                devNotif.style.display = 'none';
-            }, 5000); // Sembunyikan setelah 5 detik
-        }
-    }
 });
 
 /* -------------------- ZOOM PRODUK -------------------- */
