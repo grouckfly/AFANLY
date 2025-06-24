@@ -437,28 +437,41 @@ header {
 
 /* SECTION JUMBOTRON */
 
-/* Variabel CSS untuk Mode Gelap (Dark Mode) */
+/* --- Variabel CSS untuk Mode Gelap (Dark Mode) --- */
 body.dark-mode {
-  --jumbotron-bg-color: #1e1e1e; /* Warna latar belakang gelap */
-  --jumbotron-text-color: #f8f9fa; /* Warna teks terang */
-  --jumbotron-heading-color: #f8f9fa; /* Warna judul terang */
-  --btn-primary-bg: #0d6efd; /* Warna tombol utama dark mode */
+  --jumbotron-bg-color: #1e1e1e;
+  --jumbotron-text-color: #f8f9fa;
+  --jumbotron-heading-color: #f8f9fa;
+  --btn-primary-bg: #0d6efd;
   --btn-primary-border: #0d6efd;
   --btn-primary-hover-bg: #0a58ca;
   --btn-primary-hover-border: #0a53be;
 }
 
-/* Styling untuk Hero/Jumbotron Section */
+/* --- Styling untuk Hero/Jumbotron Section --- */
 .jumbotron {
   position: relative;
-  padding: 4rem 2rem;
-  margin-bottom: 2rem;
-  background-color: var(--jumbotron-bg-color); /* Menggunakan variabel */
-  border-radius: 0.3rem;
+  /* Hapus padding tetap karena kita akan memusatkan konten */
+  /* padding: 4rem 2rem; */
+  margin-bottom: 0; /* Biasanya Jumbotron tidak punya margin bawah jika mengisi layar penuh */
+
+  /* Properti untuk memusatkan konten secara vertikal */
+  min-height: calc(
+    100vh - var(--header-height) - var(--footer-height)
+  ); /* Minimal setinggi viewport dikurangi header/footer */
+  display: flex; /* Aktifkan Flexbox */
+  flex-direction: column; /* Susun item anak (hero-bg, container) secara vertikal */
+  justify-content: center; /* Pusatkan konten secara vertikal */
+  align-items: center; /* Pusatkan konten secara horizontal (jika lebar kontainer tidak 100%) */
+
+  background-color: var(--jumbotron-bg-color);
+  border-radius: 0; /* Biasanya jumbotron penuh layar tidak memiliki border-radius */
   text-align: center;
-  color: var(--jumbotron-text-color); /* Menggunakan variabel */
+  color: var(--jumbotron-text-color);
   overflow: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk perubahan mode */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box; /* Penting agar padding/border tidak menambah ukuran */
+  width: 100%; /* Pastikan jumbotron mengambil lebar penuh */
 }
 
 .jumbotron .hero-bg {
@@ -469,29 +482,29 @@ body.dark-mode {
   height: 100%;
   background-size: cover;
   background-position: center;
-  opacity: 0.3; /* Sesuaikan transparansi gambar latar belakang */
+  opacity: 0.3;
   z-index: 1;
 }
 
 .jumbotron .container {
   position: relative;
   z-index: 2;
+  /* Sesuaikan lebar maksimum kontainer agar teks tetap terbaca */
+  max-width: 960px; /* Contoh: lebar maksimum seperti container Bootstrap */
+  padding: 0 1rem; /* Padding horizontal untuk responsivitas */
 }
 
 .jumbotron-logo {
   max-width: 150px;
   height: auto;
-  margin-bottom: none;
-  /* Mungkin perlu filter untuk dark mode jika logo memiliki warna spesifik */
-  /* filter: invert(1) hue-rotate(180deg); */
 }
 
 .jumbotron h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 300;
   line-height: 1.2;
   margin-bottom: 1rem;
-  color: var(--jumbotron-heading-color); /* Menggunakan variabel */
+  color: var(--jumbotron-heading-color);
 }
 
 .jumbotron p {
@@ -500,47 +513,81 @@ body.dark-mode {
   margin-bottom: 1.5rem;
 }
 
-/* Untuk layar yang lebih kecil dari 992px (Desktop Kecil & Tablet Landscape) */
+.jumbotron .btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.jumbotron .btn-primary {
+  background-color: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
+}
+
+.jumbotron .btn-primary:hover {
+  background-color: var(--btn-primary-hover-bg);
+  border-color: var(--btn-primary-hover-border);
+}
+
+/* --- Responsivitas Jumbotron --- */
 @media (max-width: 991.98px) {
-  .jumbotron {
-    padding: 3.5rem 1.5rem;
-  }
   .jumbotron h1 {
     font-size: 3rem;
   }
   .jumbotron p {
     font-size: 1.15rem;
   }
+  .jumbotron .btn {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.1rem;
+  }
 }
 
-/* Untuk layar yang lebih kecil dari 768px (Tablet Portrait & Mobile Landscape) */
 @media (max-width: 767.98px) {
-  .jumbotron {
-    padding: 3rem 1rem;
-    margin-bottom: 1.5rem;
-  }
   .jumbotron h1 {
     font-size: 2.5rem;
   }
   .jumbotron p {
     font-size: 1rem;
   }
+  .jumbotron .btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
   .jumbotron-logo {
     max-width: 120px;
     margin-bottom: 1rem;
   }
+  .jumbotron .container {
+    padding: 0 0.8rem; /* Padding lebih kecil di mobile */
+  }
 }
 
-/* Untuk layar yang lebih kecil dari 576px (Mobile Portrait) */
 @media (max-width: 575.98px) {
-  .jumbotron {
-    padding: 2.5rem 0.8rem;
-  }
   .jumbotron h1 {
     font-size: 2rem;
   }
   .jumbotron p {
     font-size: 0.9rem;
+  }
+  .jumbotron .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
   }
   .jumbotron-logo {
     max-width: 100px;
@@ -560,7 +607,6 @@ body.dark-mode {
 /* --- Styling Dasar About Section (Tetap Sama) --- */
 .about {
   padding: 6rem 0;
-  background-color: var(--about-section-bg);
   transition: background-color 0.3s ease;
 }
 
