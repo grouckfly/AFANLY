@@ -180,7 +180,8 @@ function initServicesSection() {
     let isDown = false,
         startX,
         scrollLeft;
-
+    
+    // --- PENANGANAN EVENT MOUSE (SUDAH ADA) ---
     cardWrapper.addEventListener("mousedown", (e) => {
         isDown = true;
         cardWrapper.classList.add("dragging");
@@ -200,11 +201,36 @@ function initServicesSection() {
 
     cardWrapper.addEventListener("mousemove", (e) => {
         if (!isDown) return;
-        e.preventDefault();
+        e.preventDefault(); // Penting untuk mencegah seleksi teks saat dragging mouse
         const x = e.pageX - cardWrapper.offsetLeft;
         const walk = (x - startX) * 1.5;
         cardWrapper.scrollLeft = scrollLeft - walk;
     });
+
+    // --- PENAMBAHAN UNTUK TOUCH EVENTS ---
+
+    cardWrapper.addEventListener("touchstart", (e) => {
+        // e.preventDefault(); // HINDARI INI DI SINI, bisa mengganggu scroll vertikal jika touch-action tidak cukup
+        isDown = true;
+        cardWrapper.classList.add("dragging");
+        // Gunakan touches[0] untuk mendapatkan posisi jari pertama
+        startX = e.touches[0].pageX - cardWrapper.offsetLeft;
+        scrollLeft = cardWrapper.scrollLeft;
+    }, { passive: false }); // Penting: { passive: false } agar preventDefault() bisa bekerja
+
+    cardWrapper.addEventListener("touchend", () => {
+        isDown = false;
+        cardWrapper.classList.remove("dragging");
+    });
+
+    cardWrapper.addEventListener("touchmove", (e) => {
+        if (!isDown) return;
+        // e.preventDefault(); // PENTING: Mencegah scroll halaman saat swipe horizontal
+        // Gunakan touches[0] untuk mendapatkan posisi jari pertama
+        const x = e.touches[0].pageX - cardWrapper.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        cardWrapper.scrollLeft = scrollLeft - walk;
+    }, { passive: false }); // Penting: { passive: false }
 }
 
 /* -------------------- Auto Swipe -------------------- */
