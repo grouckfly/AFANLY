@@ -492,39 +492,6 @@ body.dark-mode {
   margin-bottom: 1.5rem;
 }
 
-/* Styling Button */
-.jumbotron .btn {
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 400;
-  color: #fff; /* Warna teks tombol tetap putih agar kontras */
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.75rem 1.25rem;
-  font-size: 1.25rem;
-  line-height: 1.5;
-  border-radius: 0.3rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.jumbotron .btn-primary {
-  background-color: var(--btn-primary-bg); /* Menggunakan variabel */
-  border-color: var(--btn-primary-border); /* Menggunakan variabel */
-}
-
-.jumbotron .btn-primary:hover {
-  background-color: var(--btn-primary-hover-bg); /* Menggunakan variabel */
-  border-color: var(--btn-primary-hover-border); /* Menggunakan variabel */
-}
-
 /* Untuk layar yang lebih kecil dari 992px (Desktop Kecil & Tablet Landscape) */
 @media (max-width: 991.98px) {
   .jumbotron {
@@ -535,10 +502,6 @@ body.dark-mode {
   }
   .jumbotron p {
     font-size: 1.15rem;
-  }
-  .jumbotron .btn {
-    font-size: 1.1rem;
-    padding: 0.7rem 1.1rem;
   }
 }
 
@@ -553,10 +516,6 @@ body.dark-mode {
   }
   .jumbotron p {
     font-size: 1rem;
-  }
-  .jumbotron .btn {
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
   }
   .jumbotron-logo {
     max-width: 120px;
@@ -575,15 +534,13 @@ body.dark-mode {
   .jumbotron p {
     font-size: 0.9rem;
   }
-  .jumbotron .btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.9rem;
-  }
   .jumbotron-logo {
     max-width: 100px;
   }
 }
 
+
+/* ===== SECTIONS STYLES ===== */
 #contact, #about, #services {
     scroll-margin-top: var(--section-scroll-margin);
     padding-top: var(--section-scroll-padding);
