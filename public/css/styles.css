@@ -605,12 +605,6 @@ body.dark-mode {
     --about-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Styling Dasar About Section (Tetap Sama) --- */
-.about {
-  padding: 6rem 0;
-  transition: background-color 0.3s ease;
-}
-
 /* --- Styling dasar section --- */
 .about {
     padding: 6rem 1rem;
@@ -635,17 +629,21 @@ body.dark-mode {
 .about-content-wrapper {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    /* gap: 3rem; */ /* HAPUS ATAU KOMENTARI BARIS INI */
+
+    /* TAMBAHKAN PROPERTI DI BAWAH INI */
+    background-color: var(--about-card-bg-color);
+    border-radius: var(--about-border-radius);
+    box-shadow: var(--about-card-shadow);
+    overflow: hidden; /* KUNCI UTAMA untuk sudut yang rapi */
 }
 
 /* --- Kartu Deskripsi (Sisi Kiri di Desktop) --- */
 .about-description-card {
     flex: 1;
-    order: 1; /* Muncul di urutan pertama (kiri) */
-    background-color: var(--about-card-bg-color);
+    order: 1;
     padding: 2.5rem;
-    border-radius: var(--about-border-radius);
-    box-shadow: var(--about-card-shadow);
+    /* background-color, border-radius, dan box-shadow dihapus */
 }
 
 .about-description-card h3 {
@@ -681,12 +679,10 @@ body.dark-mode {
 /* --- Carousel Gambar (Sisi Kanan di Desktop) --- */
 .about-image-carousel {
     flex: 1;
-    order: 2; /* Muncul di urutan kedua (kanan) */
+    order: 2;
     position: relative;
-    border-radius: var(--about-border-radius);
-    overflow: hidden;
-    box-shadow: var(--about-card-shadow);
-    aspect-ratio: 16 / 10; /* Menjaga rasio gambar tetap proporsional */
+    aspect-ratio: 16 / 10;
+    /* border-radius, overflow, dan box-shadow dihapus. Overflow sudah ada di parent. */
 }
 
 .carousel-inner {
