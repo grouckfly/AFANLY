@@ -643,6 +643,7 @@ body.dark-mode {
     flex: 1;
     order: 1;
     padding: 2.5rem;
+    text-align: center;
     /* background-color, border-radius, dan box-shadow dihapus */
 }
 
@@ -739,14 +740,6 @@ body.dark-mode {
     .about-description-card,
     .about-image-carousel {
         order: initial; /* Hapus urutan agar kembali ke urutan HTML asli */
-    }
-
-    .about-description-card {
-        text-align: center; /* Pusatkan teks di mobile */
-    }
-
-    .about-description-card p {
-        text-align: center; /* Pusatkan paragraf juga */
     }
 
     .about-image-carousel {
