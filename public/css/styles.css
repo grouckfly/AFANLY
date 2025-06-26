@@ -251,8 +251,12 @@ header {
     background: var(--header-bg);
     color: var(--text-color);
     width: 100%;
-    box-shadow: var(--shadow-md);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Tambahkan garis tipis */
     transition: var(--transition-color);
+}
+
+.dark-mode header {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 
 .navbar {
@@ -281,9 +285,9 @@ header {
 }
 
 .logo img {
-    height: 85px;
-    width: 85px;
-    margin-right: 8px;
+    height: 45px;
+    width: 45px;
+    margin-right: 10px;
 }
 
 .nav-links {
@@ -1040,22 +1044,9 @@ footer {
 
 /* ===== MODALS & NOTIFICATIONS ===== */
 /* Kritik Saran Button */
-.kritik-saran-btn {
-    display: inline-block;
-    background-color: var(--button-color);
-    color: var(--button-text);
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
+#navbar-kritik-saran,
+#sidebar-kritik-saran {
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.kritik-saran-btn:hover {
-    color: var(--accent-color);
 }
 
 /* Modal */
@@ -1428,8 +1419,8 @@ section,
     .navbar {
         display: flex;
         max-width: 1400px;
-        padding: 2rem 3rem;
-        font-size: 1.15rem;
+        padding: 0.8rem 3rem;
+        font-size: 1rem;
     }
     
     .main-content {
