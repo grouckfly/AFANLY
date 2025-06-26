@@ -19,12 +19,14 @@
   --btn-primary-hover-border: #004085;
 
   /* About */
-  --about-section-bg: #f0f2f5;
-  --about-card-bg: #ffffff;
-  --about-card-text-color: #343a40;
-  --about-accent-line-color: #007bff;
-  --carousel-indicator-color: rgba(0, 0, 0, 0.3); /* Warna indikator non-aktif */
-  --carousel-indicator-active-color: #007bff; /* Warna indikator aktif */
+  --about-bg-color: #f8f9fa; /* Warna latar section */
+    --about-card-bg-color: #ffffff; /* Warna kartu deskripsi */
+    --about-primary-text: #212529; /* Teks utama */
+    --about-secondary-text: #495057; /* Teks paragraf */
+    --about-accent-color: #007bff; /* Warna aksen/tombol */
+    --about-accent-hover: #0056b3; /* Warna hover tombol */
+    --about-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Bayangan kartu */
+    --about-border-radius: 0.75rem; /* Radius sudut */
 
     /* Colors - Light Mode */
     --bg-color: #f9f9f9;
@@ -596,12 +598,11 @@ body.dark-mode {
 
 /* ===== SECTION ABOUT ===== */
 body.dark-mode {
-  --about-section-bg: #1e1e1e;
-  --about-card-bg: #2b3035;
-  --about-card-text-color: #dee2e6;
-  --about-accent-line-color: #0d6efd;
-  --carousel-indicator-color: rgba(255, 255, 255, 0.3); /* Warna indikator non-aktif dark mode */
-  --carousel-indicator-active-color: #0d6efd; /* Warna indikator aktif dark mode */
+  --about-bg-color: #181818;
+    --about-card-bg-color: #232323;
+    --about-primary-text: #e0e0e0;
+    --about-secondary-text: #bdbdbd;
+    --about-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Styling Dasar About Section (Tetap Sama) --- */
@@ -610,165 +611,156 @@ body.dark-mode {
   transition: background-color 0.3s ease;
 }
 
-/* --- Judul Section (Tetap Sama) --- */
+/* --- Styling dasar section --- */
+.about {
+    padding: 6rem 1rem;
+    background-color: var(--about-bg-color);
+    transition: background-color 0.3s ease;
+}
+
+.about .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .about .section-title {
-  text-align: center;
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--jumbotron-heading-color);
-  position: relative;
-  display: inline-block;
-  width: auto;
-  left: 50%;
-  transform: translateX(-50%);
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--about-primary-text);
 }
 
-.about .section-title::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 4px;
-  background-color: var(--about-accent-line-color);
-  margin: 10px auto 0;
-  border-radius: 2px;
-  transition: background-color 0.3s ease;
-}
-
-/* --- Wrapper Konten Card (Diubah untuk Flex) --- */
+/* --- Wrapper Konten Utama (Menggunakan Flexbox) --- */
 .about-content-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Sejajarkan di atas */
-  gap: 2rem; /* Jarak antara card deskripsi dan carousel */
-  margin: 0 auto;
-  max-width: 1200px; /* Lebar maksimum wrapper yang lebih besar untuk dua kolom */
-  padding: 0 1rem; /* Padding horizontal */
+    display: flex;
+    align-items: center;
+    gap: 3rem;
 }
 
-/* --- Card Deskripsi (Diubah sedikit) --- */
+/* --- Kartu Deskripsi (Sisi Kiri di Desktop) --- */
 .about-description-card {
-  flex: 1; /* Mengambil ruang fleksibel */
-  background-color: var(--about-card-bg);
-  color: var(--about-card-text-color);
-  padding: 3rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
-  max-width: 600px; /* Batasi lebar untuk keterbacaan di desktop */
-  text-align: left; /* Teks deskripsi lebih cocok rata kiri */
-  line-height: 1.8;
-  font-size: 1.15rem;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    order: 1; /* Muncul di urutan pertama (kiri) */
+    background-color: var(--about-card-bg-color);
+    padding: 2.5rem;
+    border-radius: var(--about-border-radius);
+    box-shadow: var(--about-card-shadow);
+}
+
+.about-description-card h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--about-primary-text);
+    margin-bottom: 1rem;
 }
 
 .about-description-card p {
-  margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--about-secondary-text);
+    margin-bottom: 2rem;
+    text-align: left; /* Pastikan teks rata kiri */
 }
 
-/* --- Carousel Gambar --- */
+.about-description-card .btn {
+    display: inline-block;
+    background-color: var(--about-accent-color);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.about-description-card .btn:hover {
+    background-color: var(--about-accent-hover);
+}
+
+/* --- Carousel Gambar (Sisi Kanan di Desktop) --- */
 .about-image-carousel {
-  flex: 1;
-  position: relative;
-  width: 100%;
-  max-width: 600px; /* Batasi lebar maksimum carousel di desktop */
-  border-radius: 0.75rem;
-  overflow: hidden; /* Penting untuk gambar */
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
-  background-color: var(--about-card-bg); /* Latar belakang carousel */
-  /* Pastikan transisi untuk background-color saat dark mode */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Rasio Aspek 16:10 untuk Carousel di Desktop */
-.about-image-carousel::before {
-  content: '';
-  display: block;
-  padding-bottom: 62.5%; /* 10 / 16 = 0.625 = 62.5% */
-  /* Pastikan ini hanya aktif di desktop, akan dinonaktifkan di mobile */
+    flex: 1;
+    order: 2; /* Muncul di urutan kedua (kanan) */
+    position: relative;
+    border-radius: var(--about-border-radius);
+    overflow: hidden;
+    box-shadow: var(--about-card-shadow);
+    aspect-ratio: 16 / 10; /* Menjaga rasio gambar tetap proporsional */
 }
 
 .carousel-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; /* Ini penting: Pastikan inner mengambil 100% tinggi dari parent yang memiliki tinggi */
-  display: flex; /* Gunakan flexbox untuk menumpuk gambar */
-  /* flex-direction: row; */ /* Default flex-direction, opsional bisa diatur */
-  /* overflow: hidden; */ /* sudah ada di parent */
+    width: 100%;
+    height: 100%;
 }
 
 .carousel-img {
-  position: absolute; /* Tetap absolute untuk tumpang tindih dan transisi opacity */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Pastikan gambar mengisi area tanpa terdistorsi */
-  opacity: 0;
-  transition: opacity 1s ease-in-out; /* Transisi untuk perubahan gambar */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    visibility: hidden;
 }
 
 .carousel-img.active {
-  opacity: 1;
+    opacity: 1;
+    visibility: visible;
 }
 
-/* --- Indikator Carousel (Tidak Berubah) --- */
 .carousel-indicators {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 2; /* Di atas gambar */
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
 }
 
 .indicator {
-  display: block;
-  width: 10px;
-  height: 10px;
-  background-color: var(--carousel-indicator-color);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .indicator.active {
-  background-color: var(--carousel-indicator-active-color);
+    background-color: #ffffff;
 }
 
-/* --- Responsivitas Carousel --- */
-@media (max-width: 991.98px) {
-  .about-image-carousel {
-    max-width: 100%; /* Memastikan carousel mengambil lebar penuh saat satu kolom */
-  }
+/* --- Aturan Responsif untuk About Section --- */
+@media (max-width: 900px) {
+    .about-content-wrapper {
+        flex-direction: column; /* Mengubah layout menjadi vertikal (tumpukan) */
+    }
+
+    .about-description-card,
+    .about-image-carousel {
+        order: initial; /* Hapus urutan agar kembali ke urutan HTML asli */
+    }
+
+    .about-description-card {
+        text-align: center; /* Pusatkan teks di mobile */
+    }
+
+    .about-description-card p {
+        text-align: center; /* Pusatkan paragraf juga */
+    }
+
+    .about-image-carousel {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        aspect-ratio: 16 / 9; /* Rasio yang lebih umum untuk mobile */
+    }
 }
 
-@media (max-width: 767.98px) {
-  /* Hapus rasio aspek 16:10 di mobile agar tinggi gambar menyesuaikan konten */
-  .about-image-carousel::before {
-    padding-bottom: 0; /* Menonaktifkan trik rasio aspek */
-  }
-  .about-image-carousel {
-    height: 250px; /* Beri tinggi tetap untuk gambar di mobile */
-  }
-  /* Pastikan carousel-inner dan gambar mengisi tinggi ini */
-  .carousel-inner, .carousel-img {
-    height: 100%; /* Pastikan mengisi tinggi yang diberikan ke parent */
-    width: 100%;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .about-image-carousel {
-    height: 200px; /* Tinggi gambar lebih kecil di mobile sangat kecil */
-  }
-  .carousel-inner, .carousel-img {
-    height: 100%;
-    width: 100%;
-  }
-}
 
 /* ===== SECTIONS STYLES ===== */
 #contact, #about, #services {

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initLoadingAndWelcomeScreen(); // Panggil ini paling awal
     initDarkMode();
     initSidebar();
+    initAboutCarousel();
     initDevNotif();
     initYear();
     initKritikSaranModal();
@@ -234,49 +235,70 @@ function initServicesSection() {
 }
 
 /* -------------------- Auto About -------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  const carousel = document.querySelector('.about-image-carousel');
-  if (!carousel) return; // Keluar jika carousel tidak ditemukan
+function initAboutCarousel() {
+    const carousel = document.querySelector('.about-image-carousel');
+    if (!carousel) return;
 
-  const carouselInner = carousel.querySelector('.carousel-inner');
-  const images = carouselInner.querySelectorAll('.carousel-img');
-  const indicatorsContainer = carousel.querySelector('.carousel-indicators');
-  const indicators = indicatorsContainer.querySelectorAll('.indicator');
+    const images = carousel.querySelectorAll('.carousel-img');
+    const indicatorsContainer = carousel.querySelector('.carousel-indicators');
+    let currentIndex = 0;
+    let slideInterval;
 
-  let currentIndex = 0;
-  const slideInterval = 5000; // Ganti gambar setiap 5 detik (5000 ms)
+    if (images.length === 0) return;
 
-  function showSlide(index) {
-    // Sembunyikan semua gambar dan non-aktifkan semua indikator
-    images.forEach(img => img.classList.remove('active'));
-    indicators.forEach(indicator => indicator.classList.remove('active'));
+    // 1. Hapus indikator yang mungkin ada dari HTML
+    indicatorsContainer.innerHTML = '';
 
-    // Tampilkan gambar dan aktifkan indikator yang sesuai
-    images[index].classList.add('active');
-    indicators[index].classList.add('active');
-  }
-
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % images.length;
-    showSlide(currentIndex);
-  }
-
-  // Atur interval untuk pergantian slide otomatis
-  let autoSlide = setInterval(nextSlide, slideInterval);
-
-  // Tambahkan event listener untuk indikator agar bisa diklik manual
-  indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-      clearInterval(autoSlide); // Hentikan autoplay saat diklik manual
-      currentIndex = index;
-      showSlide(currentIndex);
-      autoSlide = setInterval(nextSlide, slideInterval); // Mulai lagi autoplay
+    // 2. Buat indikator (bulat-bulat) secara dinamis
+    images.forEach((_, index) => {
+        const indicator = document.createElement('span');
+        indicator.classList.add('indicator');
+        if (index === 0) {
+            indicator.classList.add('active');
+        }
+        indicator.dataset.slideTo = index;
+        indicatorsContainer.appendChild(indicator);
     });
-  });
 
-  // Inisialisasi: Tampilkan slide pertama
-  showSlide(currentIndex);
-});
+    const indicators = indicatorsContainer.querySelectorAll('.indicator');
+
+    function showSlide(index) {
+        images.forEach(img => img.classList.remove('active'));
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+
+        currentIndex = index;
+
+        images[currentIndex].classList.add('active');
+        indicators[currentIndex].classList.add('active');
+    }
+
+    function nextSlide() {
+        const newIndex = (currentIndex + 1) % images.length;
+        showSlide(newIndex);
+    }
+
+    function startSlideshow() {
+        stopSlideshow(); // Hentikan dulu jika ada
+        slideInterval = setInterval(nextSlide, 4000); // Ganti gambar setiap 4 detik
+    }
+
+    function stopSlideshow() {
+        clearInterval(slideInterval);
+    }
+
+    // 3. Fungsi saat indikator diklik
+    indicators.forEach(indicator => {
+        indicator.addEventListener('click', (e) => {
+            const newIndex = parseInt(e.target.dataset.slideTo);
+            stopSlideshow();
+            showSlide(newIndex);
+            startSlideshow();
+        });
+    });
+
+    // Mulai slideshow
+    startSlideshow();
+}
 
 /* -------------------- Auto Swipe -------------------- */
 function startAutoScrollCardWrapper(
