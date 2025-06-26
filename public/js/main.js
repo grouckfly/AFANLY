@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inisialisasi utama
     initLoadingAndWelcomeScreen(); // Panggil ini paling awal
     initDarkMode();
+    initSmartScrollToCenter();
     initSidebar();
     initAboutCarousel();
     initDevNotif();
@@ -14,6 +15,63 @@ document.addEventListener("DOMContentLoaded", function () {
         startAutoScrollCardWrapper();
     }
 });
+
+/* -------------------- SMOOTH CENTER SCROLL -------------------- */
+function initSmartScrollToCenter() {
+    // 1. Pilih semua link navigasi yang valid di navbar dan sidebar
+    const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
+
+    scrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Mencegah perilaku default dari link (lompat langsung)
+            e.preventDefault();
+
+            const href = this.getAttribute('href');
+            // Abaikan jika link hanya "#" (biasanya untuk tombol placeholder)
+            if (href === '#') {
+                // Jika link adalah #, scroll ke paling atas halaman
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                return;
+            }
+
+            const targetElement = document.querySelector(href);
+
+            // 2. Pastikan elemen tujuan benar-benar ada
+            if (targetElement) {
+                // 3. Deteksi header yang sedang aktif (navbar desktop atau floating bar mobile)
+                const headerDesktop = document.querySelector('header .navbar');
+                const headerMobile = document.querySelector('.floating-bar');
+                let headerOffset = 0;
+
+                // Cek mana header yang terlihat dan ambil tingginya
+                if (window.getComputedStyle(headerDesktop).display !== 'none') {
+                    headerOffset = headerDesktop.offsetHeight;
+                } else if (window.getComputedStyle(headerMobile).display !== 'none') {
+                    headerOffset = headerMobile.offsetHeight;
+                }
+
+                // 4. Hitung posisi scroll yang ideal
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - (window.innerHeight / 2) + (targetElement.offsetHeight / 2);
+
+                // 5. Lakukan scroll dengan mulus ke posisi yang telah dihitung
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Jika menggunakan sidebar, tutup sidebar setelah link diklik
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    });
+}
 
 /* -------------------- DARK MODE -------------------- */
 function initDarkMode() {
