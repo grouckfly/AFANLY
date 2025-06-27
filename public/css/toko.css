@@ -25,11 +25,12 @@
 }
 
 /* Filter Bar */
+/* Pastikan filter bar bisa menampung banyak item dan rapi */
 .produk-filter-bar {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Ini penting agar item turun ke bawah jika tidak muat */
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem; /* Sedikit lebih besar untuk memberi nafas */
     background-color: var(--card-bg);
     padding: 1rem;
     border-radius: 8px;
@@ -39,15 +40,51 @@
     max-width: 1200px;
 }
 
+/* Pastikan semua input dan select di filter bar seragam */
 .produk-filter-bar input,
 .produk-filter-bar select {
-    padding: 0.5rem;
+    padding: 0.6rem; /* Sedikit lebih besar paddingnya */
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: var(--card-bg);
     color: var(--text-color);
     min-width: 180px;
+    flex-grow: 1; /* Biarkan elemen bisa membesar jika ada ruang */
+    max-width: 250px; /* Batasi lebar maksimal agar tidak terlalu lebar di layar besar */
+}
+
+.produk-filter-bar input[type="number"]::-webkit-outer-spin-button,
+.produk-filter-bar input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Styling untuk wrapper input harga */
+.price-input-container {
+    position: relative;
+    display: flex; /* Tambahan untuk konsistensi layout */
+    flex-grow: 1; /* Biarkan elemen bisa membesar jika ada ruang */
+    max-width: 250px; /* Batasi lebar maksimal */
+}
+
+/* Menambahkan "Rp" secara visual di dalam input */
+.price-input-container::before {
+    content: 'Rp';
+    position: absolute;
+    left: 10px; /* Jarak dari kiri */
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color);
+    opacity: 0.6; /* Sedikit transparan agar tidak terlalu menonjol */
+    pointer-events: none; /* Agar tidak bisa diklik */
+}
+
+/* Beri ruang di kiri input agar teks tidak tumpang tindih dengan "Rp" */
+#minPriceInput,
+#maxPriceInput {
+    padding-left: 45px !important; /* Paksa padding kiri, !important jika perlu */
+    width: 100%; /* Pastikan input mengisi wrapper-nya */
 }
 
 /* Produk Card (Individual Product Item) */
