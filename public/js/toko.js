@@ -75,22 +75,64 @@ const semuaProduk = [
   }
 ];
 
+// --- Main Initializer and Event Listeners ---
 
-// --- Navigation and Menu Functions ---
+/**
+ * Initializes the application, sets up event listeners, and performs initial rendering.
+ */
+function initializeApp() {
+  // Event listener for "Beli" (Buy) buttons using event delegation
+  document.body.addEventListener('click', function(e) {
+    if (e.target.classList.contains('beli-btn')) {
+      e.preventDefault();
+      const namaProduk = e.target.getAttribute('data-produk');
+      validasiPembelian(namaProduk);
+    }
+  });
+
+  // Event listeners for product filtering
+  const searchInput = document.getElementById("searchInput");
+  const kategoriSelect = document.getElementById("kategoriSelect");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", filterProduk);
+  }
+  if (kategoriSelect) {
+    kategoriSelect.addEventListener("change", filterProduk);
+  }
+
+  // Initialize the hero slider
+  InitSliderHero();
+
+  // Initialize Product Slider Controls
+  InitProductSliderControls();
+
+  // Initial rendering of all products when the page loads
+  renderProduk(semuaProduk);
+
+  // Store all products in localStorage for use on other pages
+  localStorage.setItem('semuaProduk', JSON.stringify(semuaProduk));
+}
+
+// Execute the main initializer function once the DOM is fully loaded.
+document.addEventListener('DOMContentLoaded', initializeApp);
+
+
+// --- Function Definitions ---
 
 /**
  * Toggles the display of the navigation menu.
  */
 function toggleMenu() {
   const navMenu = document.getElementById("nav-menu");
-  if (navMenu.style.display === "flex") {
-    navMenu.style.display = "none";
-  } else {
-    navMenu.style.display = "flex";
+  if (navMenu) {
+    if (navMenu.style.display === "flex") {
+      navMenu.style.display = "none";
+    } else {
+      navMenu.style.display = "flex";
+    }
   }
 }
-
-// --- Modal and Purchase Validation Functions ---
 
 /**
  * Handles the display and functionality of the purchase contact modal.
@@ -103,6 +145,11 @@ function validasiPembelian(namaProduk) {
   const waBtn = document.getElementById('modalWaBtn');
   const emailBtn = document.getElementById('modalEmailBtn');
   const namaProdukSpan = document.getElementById('modalNamaProduk');
+
+  if (!modal || !closeBtn || !waBtn || !emailBtn) {
+    console.error("Modal elements not found. Purchase validation cannot proceed.");
+    return;
+  }
 
   // Display the product name in the modal
   if (namaProdukSpan) {
@@ -134,18 +181,15 @@ function validasiPembelian(namaProduk) {
   };
 }
 
-// --- Hero Slider Functions ---
-
 /**
  * Initializes the hero slider to automatically cycle through items.
  */
 function InitSliderHero() {
   const items = document.querySelectorAll('#hero-slider-container .hero-slider-item');
+  if (items.length === 0) return; // Exit if no slider items
+
   let current = 0;
 
-  /**
-   * Shows the next item in the slider.
-   */
   function showNext() {
     items[current].classList.remove('active');
     current = (current + 1) % items.length;
@@ -159,30 +203,30 @@ function InitSliderHero() {
   setInterval(showNext, 3000);
 }
 
-// --- Product Rendering and Filtering Functions ---
-
 /**
  * Renders the product list based on the provided data.
  * Displays a "not found" message if the data array is empty.
  * @param {Array<Object>} data - An array of product objects to render.
-*/
+ */
 function renderProduk(data) {
   const list = document.getElementById("produkList");
+  const notFoundMessage = document.getElementById("produk-notfound");
+
+  if (!list || !notFoundMessage) return; // Exit if essential elements are not found
+
   list.innerHTML = ""; // Clear existing products
 
   if (data.length === 0) {
-    document.getElementById("produk-notfound").style.display = "block"; // Show "product not found" message
-    list.style.display = "none"; // Hide product list
+    notFoundMessage.style.display = "block";
+    list.style.display = "none";
   } else {
-    document.getElementById("produk-notfound").style.display = "none"; // Hide "product not found" message
-    list.style.display = "flex"; // Ensure list is flex to allow horizontal layout for slider
+    notFoundMessage.style.display = "none";
+    list.style.display = "flex";
   }
 
   data.forEach(p => {
     const item = document.createElement("div");
     item.className = "produk";
-
-    // Encode product name for URL parameter
     const encodedNama = encodeURIComponent(p.nama);
 
     item.innerHTML = `
@@ -200,92 +244,58 @@ function renderProduk(data) {
 
 /**
  * Filters the product list based on search input and category selection.
+ * The search is now flexible, checking the name, description, and type of the product.
  */
 function filterProduk() {
   const search = document.getElementById("searchInput").value.toLowerCase();
   const kategori = document.getElementById("kategoriSelect").value;
 
   const hasil = semuaProduk.filter(p => {
-    const cocokNama = p.nama.toLowerCase().includes(search);
-    const cocokKategori = kategori === "all" || p.jenis === kategori;
-    return cocokNama && cocokKategori;
+    // Kondisi 1: Teks pencarian cocok dengan nama, deskripsi, ATAU jenis.
+    const cocokPencarian =
+      p.nama.toLowerCase().includes(search) ||
+      p.deskripsi.toLowerCase().includes(search) ||
+      p.jenis.toLowerCase().includes(search);
+
+    // Kondisi 2: Kategori yang dipilih di dropdown cocok (atau "semua" yang dipilih).
+    // Dibuat case-insensitive untuk lebih aman.
+    const cocokKategori = kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase();
+
+    // Produk akan ditampilkan jika kedua kondisi di atas terpenuhi.
+    return cocokPencarian && cocokKategori;
   });
 
   renderProduk(hasil);
 
-  // After filtering and re-rendering, reset scroll position of the product list to the beginning
+  // Setelah filtering, reset posisi scroll dari daftar produk
   const produkListElement = document.getElementById("produkList");
   if (produkListElement) {
     produkListElement.scrollLeft = 0;
   }
 }
 
-// --- Product Slider Controls Function ---
-
 /**
  * Initializes controls for the product slider, allowing users to scroll left/right.
- * Requires corresponding HTML buttons with IDs 'prevProductBtn' and 'nextProductBtn'
- * and the product list container with ID 'produkList' styled for horizontal scrolling.
  */
 function InitProductSliderControls() {
   const produkListElement = document.getElementById("produkList");
   const prevBtn = document.getElementById("prevProductBtn");
   const nextBtn = document.getElementById("nextProductBtn");
 
-  // Exit if essential slider elements are not found in the DOM
   if (!produkListElement || !prevBtn || !nextBtn) {
-    console.warn("Product slider control elements (produkList, prevProductBtn, or nextProductBtn) not found. Slider functionality will not be active.");
+    console.warn("Product slider control elements not found. Slider functionality will not be active.");
     return;
   }
 
-  // Function to scroll the product list horizontally
   const scrollProducts = (direction) => {
     const scrollAmount = produkListElement.clientWidth * 0.8; // Scroll by 80% of visible width
 
-    if (direction === 'prev') {
-      produkListElement.scrollBy({
-        left: -scrollAmount,
-        behavior: 'smooth'
-      });
-    } else { // 'next'
-      produkListElement.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
-    }
+    produkListElement.scrollBy({
+      left: direction === 'prev' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
   };
 
-  // Add event listeners to the slider navigation buttons
   prevBtn.addEventListener("click", () => scrollProducts('prev'));
   nextBtn.addEventListener("click", () => scrollProducts('next'));
 }
-
-
-// --- Event Listeners and Initializations ---
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Event listener for "Beli" (Buy) buttons using event delegation
-  document.body.addEventListener('click', function(e) {
-    if (e.target.classList.contains('beli-btn')) {
-      e.preventDefault();
-      const namaProduk = e.target.getAttribute('data-produk');
-      validasiPembelian(namaProduk);
-    }
-  });
-
-  // Initialize the hero slider
-  InitSliderHero();
-
-  // Event listeners for product filtering
-  document.getElementById("searchInput").addEventListener("input", filterProduk);
-  document.getElementById("kategoriSelect").addEventListener("change", filterProduk);
-
-  // Initialize Product Slider Controls
-  InitProductSliderControls();
-
-  // Initial rendering of all products when the page loads
-  renderProduk(semuaProduk);
-
-  // Store all products in localStorage so they can be accessed on other pages (e.g., product specification page)
-  localStorage.setItem('semuaProduk', JSON.stringify(semuaProduk));
-});
