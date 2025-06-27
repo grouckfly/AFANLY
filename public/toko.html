@@ -90,28 +90,13 @@
                 <h2>Produk Kami</h2>
 
                 <div class="produk-filter-bar">
-                    <input type="text" id="searchInput" placeholder="Cari produk...">
-
-                    <select id="kategoriSelect">
-                        <option value="all">Semua Kategori</option>
-                        <option value="Komputer">Komputer</option>
-                        <option value="Alat Kantor">Alat Kantor</option>
-                        <option value="Security System">Security System</option>
-                    </select>
-
-                    <select id="urutkanHargaSelect">
-                        <option value="default">Urutkan Harga</option>
-                        <option value="terendah">Terendah - Tertinggi</option>
-                        <option value="tertinggi">Tertinggi - Terendah</option>
-                    </select>
-
-                    <div class="price-input-container">
-                        <input type="text" id="minPriceInput" placeholder="Harga Minimum" inputmode="numeric">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" placeholder="Cari Produk...">
                     </div>
-
-                    <div class="price-input-container">
-                        <input type="text" id="maxPriceInput" placeholder="Harga Maksimum" inputmode="numeric">
-                    </div>
+                    <button id="openFilterBtn" class="filter-button">
+                        <span class="filter-icon">⚙️</span>
+                        Filter & Urutkan
+                    </button>
                 </div>
 
                 <div class="product-slider-container">
@@ -199,6 +184,51 @@
         <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
         <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>
     </div>
+
+    <div id="filter-modal" class="modal-filter" style="display: none;">
+        <div class="modal-filter-content">
+            <div class="modal-filter-header">
+                <h3>Filter & Urutkan</h3>
+                <button id="closeFilterModal" class="close-modal-btn">×</button>
+            </div>
+            <div class="modal-filter-body">
+                <div class="filter-group">
+                    <label for="kategoriSelect">Kategori</label>
+                    <select id="kategoriSelect">
+                        <option value="all">Semua Kategori</option>
+                        <option value="Komputer">Komputer</option>
+                        <option value="Alat Kantor">Alat Kantor</option>
+                        <option value="Security System">Security System</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="urutkanHargaSelect">Urutkan Harga</label>
+                    <select id="urutkanHargaSelect">
+                        <option value="default">Relevansi</option>
+                        <option value="terendah">Terendah - Tertinggi</option>
+                        <option value="tertinggi">Tertinggi - Terendah</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Rentang Harga</label>
+                    <div class="price-inputs">
+                        <div class="price-input-container">
+                            <input type="text" id="minPriceInput" placeholder="Minimum" inputmode="numeric">
+                        </div>
+                        <span>-</span>
+                        <div class="price-input-container">
+                            <input type="text" id="maxPriceInput" placeholder="Maksimum" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-filter-footer">
+                <button id="resetFilterBtn" class="btn-secondary">Reset Filter</button>
+                <button id="applyFilterBtn" class="btn-primary">Terapkan</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/data-produk.js" defer></script>
     <script src="js/toko.js" defer></script>

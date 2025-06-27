@@ -1,12 +1,6 @@
 // =================================================================================
-// HELPER FUNCTIONS (FUNGSI BANTU)
+// HELPER & PRE-PROCESSING (Tidak Berubah)
 // =================================================================================
-
-/**
- * Mengubah string/angka menjadi format Rupiah dengan titik.
- * @param {string|number} angka - Angka yang akan diformat.
- * @returns {string} - String yang sudah diformat (e.g., "1.500.000").
- */
 function formatRupiah(angka) {
   if (angka === null || angka === undefined) return '';
   let number_string = angka.toString().replace(/[^,\d]/g, '').toString();
@@ -19,31 +13,17 @@ function formatRupiah(angka) {
     let separator = sisa ? '.' : '';
     rupiah += separator + ribuan.join('.');
   }
-
   rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
   return rupiah;
 }
 
-/**
- * --- PERBAIKAN DI FUNGSI INI ---
- * Mengubah format Rupiah kembali menjadi angka murni.
- * @param {string} rupiah - String format rupiah (e.g., "Rp 1.500.000").
- * @returns {number} - Angka murni (e.g., 1500000).
- */
 function unformatRupiah(rupiah) {
     if (!rupiah || typeof rupiah !== 'string') return 0;
-    // PERBAIKAN: Menggunakan \D untuk menghapus SEMUA karakter non-digit.
     return parseInt(rupiah.replace(/\D/g, ''), 10) || 0;
 }
 
-
-// =================================================================================
-// PRE-PROCESSING DATA
-// =================================================================================
-
 function preprocessProdukData(produkData) {
   return produkData.map(p => {
-    // Sekarang fungsi ini akan bekerja dengan benar berkat perbaikan di atas.
     const hargaAngka = unformatRupiah(p.harga);
     return { ...p, hargaAngka };
   });
@@ -53,42 +33,71 @@ const semuaProdukProcessed = preprocessProdukData(semuaProduk);
 
 
 // =================================================================================
-// INISIALISASI APLIKASI
+// INISIALISASI APLIKASI & EVENT LISTENERS
 // =================================================================================
-
 function initializeApp() {
   // Event listener umum
-  document.body.addEventListener('click', function(e) {
+  document.body.addEventListener('click', (e) => {
     if (e.target.classList.contains('beli-btn')) {
       e.preventDefault();
       validasiPembelian(e.target.getAttribute('data-produk'));
     }
   });
 
-  // Event listener untuk filter
-  document.getElementById("searchInput").addEventListener("input", filterProduk);
-  document.getElementById("kategoriSelect").addEventListener("change", filterProduk);
-  document.getElementById("urutkanHargaSelect").addEventListener("change", filterProduk);
+  // --- LOGIKA FILTER BARU ---
+  const searchInput = document.getElementById("searchInput");
+  const openFilterBtn = document.getElementById("openFilterBtn");
+  const closeFilterModalBtn = document.getElementById("closeFilterModal");
+  const filterModal = document.getElementById("filter-modal");
+  const applyFilterBtn = document.getElementById("applyFilterBtn");
+  const resetFilterBtn = document.getElementById("resetFilterBtn");
 
-  // Event listener KHUSUS untuk input harga agar bisa auto-format
+  // Filter real-time hanya untuk search bar utama
+  searchInput.addEventListener("input", filterProduk);
+
+  // Buka & Tutup Modal
+  openFilterBtn.addEventListener("click", () => {
+    filterModal.style.display = "flex";
+  });
+  closeFilterModalBtn.addEventListener("click", () => {
+    filterModal.style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    if (e.target === filterModal) {
+        filterModal.style.display = "none";
+    }
+  });
+
+  // Tombol di dalam Modal
+  applyFilterBtn.addEventListener("click", () => {
+    filterProduk(); // Panggil filter utama
+    filterModal.style.display = "none"; // Tutup modal setelah menerapkan
+  });
+  
+  resetFilterBtn.addEventListener("click", () => {
+    // Reset semua input di dalam modal
+    document.getElementById("kategoriSelect").value = "all";
+    document.getElementById("urutkanHargaSelect").value = "default";
+    document.getElementById("minPriceInput").value = "";
+    document.getElementById("maxPriceInput").value = "";
+    updateFilterButtonState(); // Update tampilan tombol filter
+  });
+
+  // Event listener auto-format harga (tidak berubah)
   const minPriceInput = document.getElementById("minPriceInput");
   const maxPriceInput = document.getElementById("maxPriceInput");
-
   const handlePriceInput = (e) => {
     const nilaiMentah = e.target.value;
     const nilaiFormatted = formatRupiah(nilaiMentah);
     e.target.value = nilaiFormatted;
-    filterProduk();
   };
-
   minPriceInput.addEventListener("input", handlePriceInput);
   maxPriceInput.addEventListener("input", handlePriceInput);
 
-  // Inisialisasi slider dan render awal
+  // Inisialisasi lain
   InitSliderHero();
   InitProductSliderControls();
   renderProduk(semuaProdukProcessed);
-
   localStorage.setItem('semuaProduk', JSON.stringify(semuaProduk));
 }
 
@@ -103,27 +112,17 @@ function filterProduk() {
   const search = document.getElementById("searchInput").value.toLowerCase();
   const kategori = document.getElementById("kategoriSelect").value;
   const urutkan = document.getElementById("urutkanHargaSelect").value;
-  
   const minHarga = unformatRupiah(document.getElementById("minPriceInput").value);
   let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
-  
-  if (maxHarga === 0) {
-      maxHarga = Infinity;
-  }
+  if (maxHarga === 0) maxHarga = Infinity;
 
   let hasil = semuaProdukProcessed.filter(p => {
-    const cocokPencarian =
-      p.nama.toLowerCase().includes(search) ||
-      p.deskripsi.toLowerCase().includes(search) ||
-      p.jenis.toLowerCase().includes(search);
-
+    const cocokPencarian = p.nama.toLowerCase().includes(search) || p.deskripsi.toLowerCase().includes(search) || p.jenis.toLowerCase().includes(search);
     const cocokKategori = kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase();
     const cocokHarga = p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga;
-
     return cocokPencarian && cocokKategori && cocokHarga;
   });
 
-  // Bagian ini sekarang akan berfungsi karena 'hargaAngka' sudah benar.
   if (urutkan === 'terendah') {
     hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
   } else if (urutkan === 'tertinggi') {
@@ -131,13 +130,38 @@ function filterProduk() {
   }
 
   renderProduk(hasil);
+  updateFilterButtonState(); // Panggil fungsi untuk update tampilan tombol
 
   const produkListElement = document.getElementById("produkList");
-  if (produkListElement) {
-    produkListElement.scrollLeft = 0;
-  }
+  if (produkListElement) produkListElement.scrollLeft = 0;
 }
 
+/**
+ * Fungsi baru untuk menandai jika ada filter yang aktif.
+ */
+function updateFilterButtonState() {
+    const kategori = document.getElementById("kategoriSelect").value;
+    const urutkan = document.getElementById("urutkanHargaSelect").value;
+    const minHarga = document.getElementById("minPriceInput").value;
+    const maxHarga = document.getElementById("maxPriceInput").value;
+    const openFilterBtn = document.getElementById("openFilterBtn");
+
+    const isFilterActive = 
+        kategori !== 'all' || 
+        urutkan !== 'default' || 
+        minHarga !== '' || 
+        maxHarga !== '';
+
+    if (isFilterActive) {
+        openFilterBtn.classList.add('active');
+    } else {
+        openFilterBtn.classList.remove('active');
+    }
+}
+
+
+// ... (Sisa fungsi: renderProduk, validasiPembelian, InitSliderHero, InitProductSliderControls tetap sama persis) ...
+// ... Pastikan Anda masih memiliki fungsi-fungsi tersebut di sini ...
 function renderProduk(data) {
     const list = document.getElementById("produkList");
     const notFoundMessage = document.getElementById("produk-notfound");
