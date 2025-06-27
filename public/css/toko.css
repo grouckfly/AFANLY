@@ -304,6 +304,11 @@
 
     /* Default untuk Desktop: 4 produk per baris */
     width: calc(25% - 15px); /* Akan dijelaskan mengapa 15px */
+
+    justify-content: center;
+    align-items: center;
+
+    aspect-ratio: 16/10;
 }
 
 .produk:hover {
@@ -338,21 +343,6 @@
     font-weight: bold;
     margin: 0.5rem 0;
     color: var(--accent-color);
-}
-
-.beli-btn {
-    padding: 0.5rem;
-    background-color: var(--accent-color);
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: filter 0.3s ease;
-}
-
-.beli-btn:hover {
-    filter: brightness(90%);
 }
 
 /* ===== PRODUK SLIDER (MODIFIED) ===== */
@@ -464,14 +454,14 @@
 
 /* ===== TOMBOL SPESIFIKASI ===== */
 .produk-actions {
-    display: grid;
+    display: flexbox;
     gap: 0.5rem;
     margin-top: 0.5rem;
 }
 
+.beli-btn,
 .spec-btn {
     padding: 0.5rem;
-    background-color: #ffd700;
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 5px;
@@ -485,9 +475,19 @@
     font-size: 0.9rem;
 }
 
+.beli-btn{
+    background-color: var(--accent-color);
+}
+
+.spec-btn{
+    background-color: #ffd700;
+}
+
+.beli-btn:hover,
 .spec-btn:hover {
     filter: brightness(90%);
 }
+
 
 
 /* Modal Kontak */
