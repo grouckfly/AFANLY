@@ -38,6 +38,8 @@
     justify-content: center;
     width: 100%;
     max-width: 1200px;
+    align-items: center;
+    justify-content: space-between; /* Mendorong search ke kiri dan tombol ke kanan */
 }
 
 /* Pastikan semua input dan select di filter bar seragam */
@@ -85,13 +87,6 @@
 #maxPriceInput {
     padding-left: 45px !important; /* Paksa padding kiri, !important jika perlu */
     width: 100%; /* Pastikan input mengisi wrapper-nya */
-}
-
-/* ===== TAMPILAN BARU UNTUK FILTER BAR ===== */
-.produk-filter-bar {
-    gap: 1rem;
-    align-items: center;
-    justify-content: space-between; /* Mendorong search ke kiri dan tombol ke kanan */
 }
 
 .search-wrapper {
@@ -363,18 +358,11 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-    scrollbar-width: none;
     -ms-overflow-style: none;
-    /* Menggunakan gap untuk jarak antar item produk */
-    gap: 20px; /* Jarak antar setiap produk */
-    padding-bottom: 15px; /* Sedikit padding bawah untuk memastikan tidak ada pemotongan */
-    /* Tambahan: agar item pertama dan terakhir sejajar dengan panah */
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.produk-list-track::-webkit-scrollbar {
-    display: none;
+    padding: 0;
+    gap: 20px; /* Ruang antara produk */
+    width: 100%; /* Pastikan mengambil lebar penuh */
+    box-sizing: border-box;
 }
 
 /* Styling untuk tombol panah slider */
