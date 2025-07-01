@@ -425,9 +425,6 @@ header {
     text-align: center;
     padding: 3rem 1rem 2rem;
     overflow: hidden;
-    /* Basic section styles applied here for hero */
-    max-width: var(--section-max-width);
-    margin: var(--section-margin);
     background: var(--card-bg);
     border-radius: 8px;
     box-shadow: var(--shadow-md);
@@ -482,7 +479,6 @@ body.dark-mode {
   overflow: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   box-sizing: border-box; /* Penting agar padding/border tidak menambah ukuran */
-  width: 100%; /* Pastikan jumbotron mengambil lebar penuh */
 }
 
 .jumbotron .hero-bg {
@@ -621,14 +617,6 @@ body.dark-mode {
     transition: background-color 0.3s ease;
 }
 
-.about .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
-    color: var(--about-primary-text);
-}
-
 /* --- Wrapper Konten Utama (Menggunakan Flexbox) --- */
 .about-content-wrapper {
     display: flex;
@@ -761,7 +749,6 @@ body.dark-mode {
     padding-top: var(--section-scroll-padding);
 }
 
-.section-title,
 .services h2,
 .about h2,
 .contact h2 {
@@ -1564,11 +1551,32 @@ section,
         margin: 0 auto !important;
     }
     
-    .services, .about, .contact, .hero {
-        max-width: 1200px;
-        padding-left: 3rem;
-        padding-right: 3rem;
-    }
+    /* Di dalam @media (min-width: 901px) */
+.hero, .jumbotron, .about, .services, .contact {
+    /* Menetapkan lebar maksimum yang sama untuk semua */
+    max-width: 1200px;   
+
+    /* Kunci untuk centering horizontal */
+    margin-left: auto;   
+    margin-right: auto;  
+
+    /* Jarak vertikal yang konsisten antar seksi */
+    margin-top: 3rem;    
+    margin-bottom: 3rem; 
+    
+    /* Padding internal agar konten tidak menempel ke tepi */
+    padding: 2rem 3rem;  
+    
+    /* Penting agar padding tidak menambah lebar total elemen */
+    box-sizing: border-box; 
+    
+    /* Menambahkan kembali border-radius dan shadow untuk konsistensi tampilan */
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+
+    /* Mengatur agar tidak ada lebar 100% yang memaksa full-bleed */
+    width: auto; 
+}
     
     footer {
         font-size: 1.1rem;
