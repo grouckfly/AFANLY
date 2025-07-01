@@ -610,7 +610,6 @@ function initLoadingAndWelcomeScreen() {
 
     // Fungsi untuk cek koneksi (didefinisikan di sini agar bisa diakses semua kondisi)
     function checkConnection() {
-        // Pastikan elemen notifikasi koneksi ada sebelum berinteraksi
         if (connectionNotif) {
             if (!navigator.onLine) {
                 connectionNotif.classList.add('active');
@@ -622,36 +621,41 @@ function initLoadingAndWelcomeScreen() {
         }
     }
     
-    // ================== PERUBAHAN UTAMA DI SINI ==================
     // Cek apakah halaman ini MEMILIKI fitur loading & welcome screen.
     if (loadingScreen && welcomeScreen) {
         // JIKA ADA, jalankan semua logika terkait loading & welcome screen.
         
-        // --- Cek apakah sudah pernah dimuat dalam sesi ini ---
         if (sessionStorage.getItem('hasLoadedOnce')) {
+            // Logika untuk muatan berikutnya (bukan yang pertama)
             loadingScreen.classList.add('hidden');
             welcomeScreen.classList.add('hidden');
         } else {
             // Logika untuk muatan pertama kali
             const loadingText = document.getElementById('loading-text');
 
-            if (!loadingText) {
-                console.error("Loading text element not found.");
-            } else {
+            if (loadingText) {
                 loadingText.textContent = "Memuat...";
             }
             
             loadingScreen.classList.remove('hidden');
             welcomeScreen.classList.add('hidden');
 
+            // Tunggu hingga semua aset (gambar, css, dll) selesai dimuat
             window.addEventListener('load', function() {
+                // *** BARIS INI ADALAH PERBAIKANNYA ***
+                // Sembunyikan loading screen SEBELUM menampilkan welcome screen
+                loadingScreen.classList.add('hidden');
+                
+                // Tampilkan welcome screen
                 welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
                 sessionStorage.setItem('hasLoadedOnce', 'true');
 
+                // Atur waktu untuk animasi menghilang dari welcome screen
                 setTimeout(() => {
                     welcomeScreen.classList.add('swipe-up-animation-end');
                 }, 2000);
 
+                // Listener untuk menyembunyikan elemen setelah animasi selesai
                 welcomeScreen.addEventListener('animationend', function handler(event) {
                     if (event.animationName === 'swipeUpAndFade') {
                         welcomeScreen.classList.add('hidden');
@@ -663,23 +667,14 @@ function initLoadingAndWelcomeScreen() {
         }
     } else {
         // JIKA TIDAK ADA, beri pesan di konsol (untuk debugging) dan lanjutkan.
-        // Tidak ada error yang terjadi.
         console.log("Loading/Welcome screen elements not found on this page. Skipping their initialization.");
     }
-    // ================== AKHIR PERUBAHAN UTAMA ==================
 
-
-    // Logika ini akan selalu berjalan di SEMUA halaman, terlepas dari ada/tidaknya loading screen
-    // karena notifikasi koneksi adalah fitur global.
-    
-    // Mulai pengecekan koneksi secara berkala
+    // Logika ini akan selalu berjalan di SEMUA halaman
     setInterval(checkConnection, 5000);
-
-    // Monitor status online/offline browser
     window.addEventListener('online', checkConnection);
     window.addEventListener('offline', checkConnection);
 
-    // Tambahkan event listener untuk tombol tutup notifikasi koneksi
     if (connectionNotifClose) {
         connectionNotifClose.addEventListener('click', () => {
             if(connectionNotif) {
