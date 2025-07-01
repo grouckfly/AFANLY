@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFANLY - Layanan Dukungan IT</title>
 
-    <meta name="description" content="AFANLY menyediakan layanan teknis profesional untuk perangkat keras dan lunak. Service, perbaikan, dan solusi teknologi terbaik untuk Anda.">
-    <meta name="keywords" content="AFANLY, Service perangkat, teknisi komputer, perbaikan laptop, dukungan teknis, hardware, software">
+    <meta name="description"
+        content="AFANLY menyediakan layanan teknis profesional untuk perangkat keras dan lunak. Service, perbaikan, dan solusi teknologi terbaik untuk Anda.">
+    <meta name="keywords"
+        content="AFANLY, Service perangkat, teknisi komputer, perbaikan laptop, dukungan teknis, hardware, software">
     <meta name="author" content="AFANLY">
     <meta name="google-site-verification" content="gfUGvykhxmmZ0ShhFYpxsrCGoXHUCYqVlpmSqRRTxgs">
 
@@ -37,7 +40,7 @@
         <div class="spinner"></div>
         <p id="loading-text">Memuat...</p>
     </div>
-    
+
     <div id="welcome-screen">
         <img src="img/Logo_AFANLY.png" alt="Logo" style="max-width: 200px;">
         <h1>Selamat Datang Di AFANLY</h1>
@@ -46,7 +49,10 @@
     <div class="floating-bar">
         <button id="sidebarToggle" aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle">☰</button>
         <div class="sidebar-floating-logo">
-            <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
+            <div class="dev-notif-toggle-wrapper">
+                <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
+                <span id="sidebar-notif-counter" class="notification-counter"></span>
+            </div>
             <span>AFANLY</span>
             <img style="margin-right: 25px;" src="img/Logo_AFANLY.png" alt="Logo AFANLY">
         </div>
@@ -77,7 +83,10 @@
                     <img src="img/Logo_AFANLY.png" alt="Logo AFANLY">
                     AFANLY
                 </div>
-                <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                <div class="dev-notif-toggle-wrapper">
+                    <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                    <span id="navbar-notif-counter" class="notification-counter"></span>
+                </div>
                 <ul class="nav-links">
                     <li><a href="#">Home</a></li>
                     <li><a href="#about">Tentang Kami</a></li>
@@ -108,7 +117,7 @@
                 <div class="container">
                     <h2 class="section-title">Tentang Kami</h2>
                     <div class="about-content-wrapper">
-            
+
                         <div class="about-image-carousel">
                             <div class="carousel-inner">
                                 <img src="img/about_1.jpg" alt="Solusi Inovatif AFANLY" class="carousel-img active">
@@ -118,7 +127,7 @@
                             <div class="carousel-indicators">
                             </div>
                         </div>
-            
+
                         <div class="about-description-card">
                             <h3>Masih Dalam Proses Pengembangan.</h3>
                             <p>
@@ -126,7 +135,7 @@
                             </p>
                             <a href="#contact" class="btn">Hubungi Kami</a>
                         </div>
-            
+
                     </div>
                 </div>
             </section>
@@ -136,7 +145,8 @@
                     <div class="photocard">
                         <img src="img/konsultasi.jpg" alt="Konsultasi IT">
                         <p>Konsultasi IT</p>
-                        <span class="service-desc">Dapatkan konsultasi IT profesional untuk solusi terbaik sesuai kebutuhan Anda.</span>
+                        <span class="service-desc">Dapatkan konsultasi IT profesional untuk solusi terbaik sesuai
+                            kebutuhan Anda.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/Webdev.jpg" alt="Pengembangan Website">
@@ -146,32 +156,38 @@
                     <div class="photocard">
                         <img src="img/jaringan.jpg" alt="Manajemen Jaringan">
                         <p>Manajemen Jaringan</p>
-                        <span class="service-desc">Layanan pengelolaan dan pemeliharaan jaringan agar sistem Anda selalu terhubung dengan baik.</span>
+                        <span class="service-desc">Layanan pengelolaan dan pemeliharaan jaringan agar sistem Anda selalu
+                            terhubung dengan baik.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/Support.jpg" alt="Dukungan Teknis">
                         <p>Dukungan Teknis</p>
-                        <span class="service-desc">Layanan dukungan teknis profesional untuk membantu Anda mengatasi berbagai permasalahan perangkat keras maupun perangkat lunak.</span>
+                        <span class="service-desc">Layanan dukungan teknis profesional untuk membantu Anda mengatasi
+                            berbagai permasalahan perangkat keras maupun perangkat lunak.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/servis.jpg" alt="Service Perangkat">
                         <p>Service Perangkat</p>
-                        <span class="service-desc">Perbaikan dan perawatan perangkat IT Anda agar selalu dalam kondisi optimal.</span>
+                        <span class="service-desc">Perbaikan dan perawatan perangkat IT Anda agar selalu dalam kondisi
+                            optimal.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/PABX2.jpg" alt="PABX">
                         <p>PABX</p>
-                        <span class="service-desc">Instalasi dan konfigurasi sistem PABX untuk sistem komunikasi yang efisien.</span>
+                        <span class="service-desc">Instalasi dan konfigurasi sistem PABX untuk sistem komunikasi yang
+                            efisien.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/CCTV.jpg" alt="CCTV">
                         <p>CCTV</p>
-                        <span class="service-desc">Pemasangan dan pemeliharaan CCTV untuk keamanan lingkungan Anda.</span>
+                        <span class="service-desc">Pemasangan dan pemeliharaan CCTV untuk keamanan lingkungan
+                            Anda.</span>
                     </div>
                     <div class="photocard">
                         <img src="img/antar jemput.jpg" alt="Layanan Antar Jemput">
                         <p>Layanan Antar Jemput</p>
-                        <span class="service-desc">Layanan antar jemput gratis untuk kemudahan dan kenyamanan Anda.</span>
+                        <span class="service-desc">Layanan antar jemput gratis untuk kemudahan dan kenyamanan
+                            Anda.</span>
                     </div>
                 </div>
             </section>
@@ -180,19 +196,19 @@
                 <p>Hubungi kami untuk informasi lebih lanjut</p>
                 <div class="contact-cards">
                     <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Layanan%20AFANLY&body=Nama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
-                    id="emailLink" class="contact-card" title="Kirim Email" target="_blank" rel="noopener">
+                        id="emailLink" class="contact-card" title="Kirim Email" target="_blank" rel="noopener">
                         <span class="contact-icon">📧</span>
                         <span class="contact-label">Email</span>
                         <span class="contact-value">defry.pku@gmail.com</span>
                     </a>
                     <a href="https://wa.me/628127659073?text=Permintaan%20Layanan%20AFANLY%0A%0ANama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
-                    id="phoneLink" class="contact-card" target="_blank" rel="noopener" title="Chat WhatsApp">
+                        id="phoneLink" class="contact-card" target="_blank" rel="noopener" title="Chat WhatsApp">
                         <span class="contact-icon">💬</span>
                         <span class="contact-label">WhatsApp</span>
                         <span class="contact-value">0812-7659-073</span>
                     </a>
-                    <a href="https://g.co/kgs/rvNvAXf"
-                        target="_blank" rel="noopener" id="addressLink" class="contact-card" title="Lihat di Google Maps">
+                    <a href="https://g.co/kgs/rvNvAXf" target="_blank" rel="noopener" id="addressLink"
+                        class="contact-card" title="Lihat di Google Maps">
                         <span class="contact-icon">📍</span>
                         <span class="contact-label">Alamat</span>
                         <span class="contact-value">Jl. Hj. Syukur 7, Gg. Garuda, Sidoarjo</span>
@@ -210,12 +226,11 @@
             <h2>Hubungi Kami untuk Kritik & Saran</h2>
             <div class="modal-buttons">
                 <a href="https://wa.me/628127659073?text=Kritik%20Dan%20Saran%20AFANLY%0A%0ANama%3A%0AKritik%3A%0ASaran%3A"
-                class="modal-button whatsapp-button" target="_blank" rel="noopener">
+                    class="modal-button whatsapp-button" target="_blank" rel="noopener">
                     WhatsApp
                 </a>
                 <a href="mailto:defry.pku@gmail.com?subject=Kritik%20dan%20Saran%20AFANLY&body=Nama%3A%0AKritik%3A%0ASaran%3A"
-                class="modal-button email-button"
-                    target="_blank" rel="noopener">
+                    class="modal-button email-button" target="_blank" rel="noopener">
                     Email
                 </a>
             </div>
@@ -227,6 +242,21 @@
         <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>
     </div>
 
+    <div id="connection-status-notif">
+        <span id="connection-notif-text">Koneksi internet Anda tidak stabil atau terputus.</span>
+        <button id="connection-notif-close" aria-label="Tutup Notifikasi Koneksi">✖</button>
+    </div>
+
+    <div id="notification-center-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="notification-center-close">×</span>
+            <h2>Pusat Notifikasi</h2>
+            <ul id="notification-list">
+            </ul>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
 </body>
+
 </html>

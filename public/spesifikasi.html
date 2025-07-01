@@ -13,7 +13,10 @@
     <div class="floating-bar">
         <button aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle" id="sidebarToggle">☰</button>
         <div class="sidebar-floating-logo">
-            <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
+            <div class="dev-notif-toggle-wrapper">
+                <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
+                <span id="sidebar-notif-counter" class="notification-counter"></span>
+            </div>
             <span>Toko AFANLY</span>
             <img alt="Logo AFANLY" src="img/Logo_AFANLY.png" style="margin-right: 25px;" />
         </div>
@@ -36,7 +39,10 @@
                     <img alt="Logo AFANLY" src="img/Logo_AFANLY.png">
                     Toko AFANLY
                 </div>
-            <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                <div class="dev-notif-toggle-wrapper">
+                    <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
+                    <span id="navbar-notif-counter" class="notification-counter"></span>
+                </div>
                 <div aria-checked="false" class="dark-mode-toggle" id="darkModeToggle" role="switch">
                     <span class="slider">
                         <span class="sun-icon">☀️</span>
@@ -76,6 +82,21 @@
         <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
         <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    
     </div>
+
+    <div id="connection-status-notif">
+        <span id="connection-notif-text">Koneksi internet Anda tidak stabil atau terputus.</span>
+        <button id="connection-notif-close" aria-label="Tutup Notifikasi Koneksi">✖</button>
+    </div>
+
+    <div id="notification-center-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="notification-center-close">×</span>
+            <h2>Pusat Notifikasi</h2>
+            <ul id="notification-list">
+            </ul>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/toko.js"></script>
     <script src="js/spesifikasi.js"></script>

@@ -1191,6 +1191,95 @@ footer {
     flex: 1;
 }
 
+/* ===== NOTIFIKASI KONEKSI BARU ===== */
+#connection-status-notif {
+    position: fixed;
+    bottom: 24px;
+    left: 24px; /* Diposisikan di kiri agar tidak tumpang tindih dengan dev-notif */
+    background: #fff1f0; /* Warna latar yang lembut untuk peringatan */
+    color: #d93025; /* Warna teks merah */
+    border: 2px solid #d93025;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    z-index: 9998; /* Di bawah dev-notif tapi di atas konten lain */
+    display: flex;
+    align-items: center;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform: translateY(150px); /* Mulai dari bawah layar */
+    opacity: 0;
+    max-width: 400px;
+}
+
+#connection-status-notif.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#connection-notif-close {
+    background: none;
+    border: none;
+    color: #d93025;
+    font-size: 1.4em;
+    cursor: pointer;
+    margin-left: 1.5em;
+    padding: 0.3em;
+}
+
+.dark-mode #connection-status-notif {
+    background: #2d1c1a;
+    color: #ff8a80;
+    border-color: #ff8a80;
+}
+
+/* ===== PUSAT NOTIFIKASI (MODAL) ===== */
+#notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    text-align: left;
+}
+
+#notification-list li {
+    background: var(--bg-color);
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--error);
+    font-size: 0.95rem;
+}
+
+.dark-mode #notification-list li {
+    background: #424242;
+    border-left-color: #ff8a80;
+}
+
+/* ===== COUNTER PADA IKON LONCENG ===== */
+.dev-notif-toggle-wrapper {
+    position: relative;
+    display: inline-flex; /* Agar wrapper pas dengan ukuran tombol */
+}
+
+#notification-counter {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #d60000;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    display: none; /* Sembunyi secara default */
+    border: 1px solid white;
+}
+
+#notification-counter.visible {
+    display: block;
+}
+
 /* Tombol notifikasi di sidebar */
 .sidebar-floating-logo .dev-notif-toggle {
     background: var(--accent-color);
