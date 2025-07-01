@@ -169,9 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    // Inisialisasi Dark Mode
-    initDarkMode();
-
 });
 
 /* -------------------- ZOOM PRODUK -------------------- */

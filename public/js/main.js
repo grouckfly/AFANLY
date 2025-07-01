@@ -195,8 +195,19 @@ function initSmartScrollToCenter() {
 function initDarkMode() {
     const toggle = document.getElementById("darkModeToggle");
     const sidebarDarkBtn = document.getElementById("sidebarDarkModeToggle");
+    
+    // ================== PERUBAHAN UTAMA DI SINI ==================
+    // Jika tidak ada tombol dark mode sama sekali di halaman ini, hentikan fungsi.
+    if (!toggle && !sidebarDarkBtn) {
+        console.log("Dark mode toggles not found on this page. Skipping initialization.");
+        return;
+    }
+    // ================== AKHIR PERUBAHAN UTAMA ==================
+
     const body = document.body;
 
+    // Variabel di bawah ini aman karena menggunakan 'ternary operator'
+    // yang akan menghasilkan 'null' jika elemen induknya tidak ada, tanpa error.
     const sunIcon = toggle ? toggle.querySelector(".sun-icon") : null;
     const moonIcon = toggle ? toggle.querySelector(".moon-icon") : null;
     const modeText = toggle ? toggle.querySelector(".mode-text") : null;
@@ -226,6 +237,8 @@ function initDarkMode() {
             if (sidebarMoonIcon) sidebarMoonIcon.style.opacity = "0";
             if (sidebarModeText) sidebarModeText.textContent = "Mode Cerah";
         }
+        // Ganti dari localStorage ke sessionStorage agar tema tidak 'terbawa' selamanya
+        // Jika Anda ingin tema diingat selamanya, tetap gunakan localStorage
         localStorage.setItem("theme", theme);
         updateAriaAttributes();
     }
@@ -233,6 +246,7 @@ function initDarkMode() {
     function updateAriaAttributes() {
         const isDark = body.classList.contains("dark-mode");
         [toggle, sidebarDarkBtn].forEach((btn) => {
+            // Pengecekan 'if (btn)' memastikan tidak ada error jika salah satu tombol tidak ada
             if (btn) {
                 btn.setAttribute("aria-checked", isDark.toString());
             }
@@ -249,6 +263,7 @@ function initDarkMode() {
     }
 
     [toggle, sidebarDarkBtn].forEach((btn) => {
+        // Pengecekan 'if (btn)' memastikan tidak ada error saat menambahkan event listener
         if (btn) {
             btn.addEventListener("click", () => {
                 const isCurrentlyDark = body.classList.contains("dark-mode");
@@ -593,87 +608,72 @@ function initLoadingAndWelcomeScreen() {
     const connectionNotif = document.getElementById('connection-status-notif');
     const connectionNotifClose = document.getElementById('connection-notif-close');
 
-    // --- LOGIKA BARU: Cek apakah sudah pernah dimuat dalam sesi ini ---
-    if (sessionStorage.getItem('hasLoadedOnce')) {
-        // Jika sudah, sembunyikan semuanya dan jangan lanjutkan
-        loadingScreen.classList.add('hidden');
-        welcomeScreen.classList.add('hidden');
-        
-        // Tetap jalankan pengecekan koneksi secara berkala
-        setInterval(checkConnection, 5000);
-        
-        // Tambahkan event listener untuk tombol tutup notifikasi koneksi
-        if (connectionNotifClose) {
-            connectionNotifClose.addEventListener('click', () => {
+    // Fungsi untuk cek koneksi (didefinisikan di sini agar bisa diakses semua kondisi)
+    function checkConnection() {
+        // Pastikan elemen notifikasi koneksi ada sebelum berinteraksi
+        if (connectionNotif) {
+            if (!navigator.onLine) {
+                connectionNotif.classList.add('active');
+                addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
+            } else {
                 connectionNotif.classList.remove('active');
+                removeNotification('connection-issue');
+            }
+        }
+    }
+    
+    // ================== PERUBAHAN UTAMA DI SINI ==================
+    // Cek apakah halaman ini MEMILIKI fitur loading & welcome screen.
+    if (loadingScreen && welcomeScreen) {
+        // JIKA ADA, jalankan semua logika terkait loading & welcome screen.
+        
+        // --- Cek apakah sudah pernah dimuat dalam sesi ini ---
+        if (sessionStorage.getItem('hasLoadedOnce')) {
+            loadingScreen.classList.add('hidden');
+            welcomeScreen.classList.add('hidden');
+        } else {
+            // Logika untuk muatan pertama kali
+            const loadingText = document.getElementById('loading-text');
+
+            if (!loadingText) {
+                console.error("Loading text element not found.");
+            } else {
+                loadingText.textContent = "Memuat...";
+            }
+            
+            loadingScreen.classList.remove('hidden');
+            welcomeScreen.classList.add('hidden');
+
+            window.addEventListener('load', function() {
+                welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
+                sessionStorage.setItem('hasLoadedOnce', 'true');
+
+                setTimeout(() => {
+                    welcomeScreen.classList.add('swipe-up-animation-end');
+                }, 2000);
+
+                welcomeScreen.addEventListener('animationend', function handler(event) {
+                    if (event.animationName === 'swipeUpAndFade') {
+                        welcomeScreen.classList.add('hidden');
+                        welcomeScreen.classList.remove('swipe-up-animation-end');
+                        welcomeScreen.removeEventListener('animationend', handler);
+                    }
+                });
             });
         }
-        return; // Hentikan eksekusi fungsi
-    }
-
-    // Jika ini adalah muatan pertama, lanjutkan dengan logika asli...
-    // (Kode di bawah ini adalah versi modifikasi dari kode Anda)
-
-    const loadingText = document.getElementById('loading-text');
-
-    if (!loadingScreen || !welcomeScreen || !loadingText) {
-        console.error("Loading/Welcome screen elements not found. Skipping initialization.");
-        return;
-    }
-
-    function showLoadingScreen() {
-        loadingScreen.classList.remove('hidden');
-        welcomeScreen.classList.add('hidden');
-        loadingText.textContent = "Memuat...";
-    }
-    
-    function hideLoadingScreen() {
-        loadingScreen.classList.add('hidden');
-    }
-    
-    function showWelcomeScreen() {
-        hideLoadingScreen();
-        welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
-        
-        // Tandai bahwa loading/welcome sudah pernah tampil di sesi ini
-        sessionStorage.setItem('hasLoadedOnce', 'true');
-
-        setTimeout(() => {
-            welcomeScreen.classList.add('swipe-up-animation-end');
-        }, 2000);
-
-        welcomeScreen.addEventListener('animationend', function handler(event) {
-            if (event.animationName === 'swipeUpAndFade') {
-                welcomeScreen.classList.add('hidden');
-                welcomeScreen.classList.remove('swipe-up-animation-end');
-                welcomeScreen.removeEventListener('animationend', handler);
-            }
-        });
-    }
-
-    // Fungsi untuk cek koneksi
-    function checkConnection() {
-    if (!navigator.onLine) {
-        connectionNotif.classList.add('active');
-        // Tambahkan 'peringatan' sebagai tipe notifikasi
-        addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
     } else {
-        // Jika online, hapus notifikasi dan peringatan dari daftar
-        connectionNotif.classList.remove('active');
-        removeNotification('connection-issue');
+        // JIKA TIDAK ADA, beri pesan di konsol (untuk debugging) dan lanjutkan.
+        // Tidak ada error yang terjadi.
+        console.log("Loading/Welcome screen elements not found on this page. Skipping their initialization.");
     }
-}
+    // ================== AKHIR PERUBAHAN UTAMA ==================
 
-    // Tampilkan loading screen saat DOM siap
-    showLoadingScreen();
 
-    // Event listener saat semua aset (gambar, dll) selesai dimuat
-    window.addEventListener('load', function() {
-        // Setelah semua dimuat, tunjukkan welcome screen
-        showWelcomeScreen();
-        // Mulai pengecekan koneksi secara berkala
-        setInterval(checkConnection, 5000);
-    });
+    // Logika ini akan selalu berjalan di SEMUA halaman, terlepas dari ada/tidaknya loading screen
+    // karena notifikasi koneksi adalah fitur global.
+    
+    // Mulai pengecekan koneksi secara berkala
+    setInterval(checkConnection, 5000);
 
     // Monitor status online/offline browser
     window.addEventListener('online', checkConnection);
@@ -682,7 +682,9 @@ function initLoadingAndWelcomeScreen() {
     // Tambahkan event listener untuk tombol tutup notifikasi koneksi
     if (connectionNotifClose) {
         connectionNotifClose.addEventListener('click', () => {
-            connectionNotif.classList.remove('active');
+            if(connectionNotif) {
+                connectionNotif.classList.remove('active');
+            }
         });
     }
 }
