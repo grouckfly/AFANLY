@@ -250,7 +250,7 @@ body {
 
 /* ===== HEADER & NAVBAR ===== */
 header {
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 101;
     background: var(--header-bg);
