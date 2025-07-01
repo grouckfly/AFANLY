@@ -24,11 +24,12 @@ let activeNotifications = [];
  * Menambahkan notifikasi ke daftar dan memperbarui UI.
  * @param {string} id - ID unik untuk notifikasi (e.g., 'dev-warning', 'connection-issue').
  * @param {string} message - Pesan notifikasi yang akan ditampilkan.
+ * @param {string} type - Jenis notifikasi ('pemberitahuan' atau 'peringatan').
  */
-function addNotification(id, message) {
+function addNotification(id, message, type) {
     // Hindari duplikat
     if (!activeNotifications.find(n => n.id === id)) {
-        activeNotifications.push({ id, message });
+        activeNotifications.push({ id, message, type }); // Tambahkan 'type'
         updateNotificationUI();
     }
 }
@@ -44,38 +45,63 @@ function removeNotification(id) {
 
 /**
  * Memperbarui semua elemen UI yang terkait dengan notifikasi.
- * (Counter lonceng dan daftar di modal).
+ * (Counter lonceng dan daftar di modal yang sudah dikategorikan).
  */
 function updateNotificationUI() {
-    const list = document.getElementById('notification-list');
+    const pemberitahuanList = document.getElementById('pemberitahuan-list');
+    const peringatanList = document.getElementById('peringatan-list');
     const counters = document.querySelectorAll('.notification-counter');
 
-    // Perbarui daftar di modal
-    if (list) {
-        list.innerHTML = ''; // Kosongkan daftar
-        if (activeNotifications.length > 0) {
-            activeNotifications.forEach(notif => {
-                const item = document.createElement('li');
-                item.textContent = notif.message;
-                list.appendChild(item);
-            });
-        } else {
+    // Pastikan elemen list ada sebelum melanjutkan
+    if (!pemberitahuanList || !peringatanList) return;
+
+    // 1. Kosongkan kedua daftar
+    pemberitahuanList.innerHTML = '';
+    peringatanList.innerHTML = '';
+
+    // 2. Filter notifikasi berdasarkan tipenya
+    const pemberitahuan = activeNotifications.filter(n => n.type === 'pemberitahuan');
+    const peringatan = activeNotifications.filter(n => n.type === 'peringatan');
+
+    // 3. Isi daftar Pemberitahuan
+    if (pemberitahuan.length > 0) {
+        pemberitahuan.forEach(notif => {
             const item = document.createElement('li');
-            item.textContent = 'Tidak ada peringatan saat ini.';
-            item.style.borderLeftColor = '#25d366'; // Warna hijau untuk status "aman"
-            list.appendChild(item);
-        }
+            item.textContent = notif.message;
+            pemberitahuanList.appendChild(item);
+        });
+    } else {
+        const item = document.createElement('li');
+        item.textContent = 'Tidak ada pemberitahuan baru.';
+        item.classList.add('empty-notif');
+        pemberitahuanList.appendChild(item);
     }
 
-    // Perbarui counter
-    counters.forEach(counter => {
-        if (activeNotifications.length > 0) {
+    // 4. Isi daftar Peringatan
+    if (peringatan.length > 0) {
+        peringatan.forEach(notif => {
+            const item = document.createElement('li');
+            item.textContent = notif.message;
+            peringatanList.appendChild(item);
+        });
+    } else {
+        const item = document.createElement('li');
+        item.textContent = 'Tidak ada peringatan aktif.';
+        item.classList.add('empty-notif');
+        peringatanList.appendChild(item);
+    }
+
+    // 5. Perbarui counter total
+    if (activeNotifications.length > 0) {
+        counters.forEach(counter => {
             counter.textContent = activeNotifications.length;
             counter.classList.add('visible');
-        } else {
+        });
+    } else {
+        counters.forEach(counter => {
             counter.classList.remove('visible');
-        }
-    });
+        });
+    }
 }
 
 /* -------------------- PUSAT NOTIFIKASI MODAL -------------------- */
@@ -276,28 +302,29 @@ function initDevNotif() {
         return;
     }
 
-    function showDevNotif() {
+    // --- PERUBAHAN LOGIKA ---
+    // Tambahkan notifikasi ini ke daftar secara permanen saat inisialisasi
+    addNotification('dev-warning', notifMessage, 'pemberitahuan');
+
+    function showDevPopup() {
         notif.classList.add('active');
-        addNotification('dev-warning', notifMessage);
     }
 
-    function hideDevNotif() {
+    function hideDevPopup() {
         notif.classList.remove('active');
-        removeNotification('dev-warning');
+        // JANGAN hapus notifikasi dari daftar, hanya sembunyikan pop-upnya
+        // removeNotification('dev-warning'); <-- BARIS INI DIHAPUS/DIKOMENTARI
     }
 
-    // Tampilkan notifikasi setelah beberapa saat
-    setTimeout(showDevNotif, 1000);
+    // Tampilkan pop-up setelah beberapa saat
+    setTimeout(showDevPopup, 1000);
 
-    // Otomatis sembunyikan setelah beberapa detik
-    setTimeout(hideDevNotif, 7000);
+    // Otomatis sembunyikan pop-up setelah beberapa detik
+    setTimeout(hideDevPopup, 7000);
 
     if (closeBtn) {
-        closeBtn.addEventListener('click', hideDevNotif);
+        closeBtn.addEventListener('click', hideDevPopup);
     }
-    
-    // Hapus logika event listener untuk toggle lonceng dari sini
-    // karena sudah ditangani oleh initNotificationCenter()
 }
 
 /* -------------------- FOOTER YEAR -------------------- */
@@ -626,15 +653,16 @@ function initLoadingAndWelcomeScreen() {
 
     // Fungsi untuk cek koneksi
     function checkConnection() {
-        if (!navigator.onLine) {
-            connectionNotif.classList.add('active');
-            addNotification('connection-issue', 'Koneksi internet terputus.');
-        } else {
-            // Jika online, kita bisa hapus notifikasi koneksi
-            connectionNotif.classList.remove('active');
-            removeNotification('connection-issue');
-        }
+    if (!navigator.onLine) {
+        connectionNotif.classList.add('active');
+        // Tambahkan 'peringatan' sebagai tipe notifikasi
+        addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
+    } else {
+        // Jika online, hapus notifikasi dan peringatan dari daftar
+        connectionNotif.classList.remove('active');
+        removeNotification('connection-issue');
     }
+}
 
     // Tampilkan loading screen saat DOM siap
     showLoadingScreen();

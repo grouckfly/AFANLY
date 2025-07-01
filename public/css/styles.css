@@ -1235,23 +1235,64 @@ footer {
 }
 
 /* ===== PUSAT NOTIFIKASI (MODAL) ===== */
-#notification-list {
+
+
+/* Ganti #notification-list dengan gaya untuk kategori */
+.notification-category {
+    margin-top: 20px;
+}
+
+.notification-category h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 8px;
+}
+
+.dark-mode .notification-category h3 {
+    border-bottom-color: rgba(255,255,255,0.1);
+}
+
+#pemberitahuan-list, #peringatan-list {
     list-style: none;
     padding: 0;
-    margin: 20px 0 0;
+    margin: 0;
     text-align: left;
 }
 
-#notification-list li {
+#pemberitahuan-list li, #peringatan-list li {
     background: var(--bg-color);
     padding: 12px 15px;
     border-radius: 6px;
     margin-bottom: 10px;
-    border-left: 4px solid var(--error);
     font-size: 0.95rem;
 }
 
-.dark-mode #notification-list li {
+/* Gaya default untuk pemberitahuan (biru/info) */
+#pemberitahuan-list li {
+    border-left: 4px solid var(--email); 
+}
+
+/* Gaya default untuk peringatan (merah/error) */
+#peringatan-list li {
+    border-left: 4px solid var(--error);
+}
+
+/* Gaya untuk pesan 'kosong' */
+.empty-notif {
+    color: #888;
+    font-style: italic;
+    border-left-color: #888 !important;
+}
+
+.dark-mode #pemberitahuan-list li {
+    background: #424242;
+    border-left-color: #64b5f6;
+}
+
+.dark-mode #peringatan-list li {
     background: #424242;
     border-left-color: #ff8a80;
 }
