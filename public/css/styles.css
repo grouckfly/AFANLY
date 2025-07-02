@@ -1411,6 +1411,10 @@ section,
     transition: var(--transition-color);
 }
 
+.main-content{
+    padding-top: 80px;
+}
+
 .photocard,
 .contact-card {
     transition: var(--transition-card);
