@@ -310,38 +310,48 @@ function initSidebar() {
 
 /* -------------------- DEV NOTIF -------------------- */
 function initDevNotif() {
-    const notif = document.getElementById('dev-notif');
+    // 1. Ambil semua elemen yang diperlukan
+    const notifContainer = document.getElementById('dev-notif');
+    const notifTextElement = document.getElementById('notif-text');
     const closeBtn = document.getElementById('notif-close');
-    const notifMessage = "Website Masih Dalam Proses Pengembangan!!!";
 
-    if (!notif) {
-        console.warn("Dev notification element not found.");
+    // Pastikan elemen utama ada sebelum melanjutkan
+    if (!notifContainer || !notifTextElement) {
+        console.warn("Elemen notifikasi pengembangan (#dev-notif atau #notif-text) tidak ditemukan.");
         return;
     }
 
-    // --- PERUBAHAN LOGIKA ---
-    // Tambahkan notifikasi ini ke daftar secara permanen saat inisialisasi
-    addNotification('dev-warning', notifMessage, 'pemberitahuan');
+    // 2. Baca pesan langsung dari HTML dan bersihkan spasi (trim)
+    const actualMessage = notifTextElement.textContent.trim();
 
-    function showDevPopup() {
-        notif.classList.add('active');
+    // 3. INTI LOGIKA: Hanya jalankan jika ada pesan teks
+    if (actualMessage) {
+        // Jika ada pesan, tambahkan ke pusat notifikasi
+        addNotification('dev-warning', actualMessage, 'pemberitahuan');
+
+        // Fungsi untuk menampilkan pop-up
+        function showDevPopup() {
+            notifContainer.classList.add('active');
+        }
+
+        // Fungsi untuk menyembunyikan pop-up
+        function hideDevPopup() {
+            notifContainer.classList.remove('active');
+        }
+
+        // Tampilkan pop-up setelah beberapa saat
+        setTimeout(showDevPopup, 1000);
+
+        // Otomatis sembunyikan pop-up setelah beberapa detik
+        setTimeout(hideDevPopup, 7000);
+
+        // Tambahkan event listener untuk tombol tutup jika ada
+        if (closeBtn) {
+            closeBtn.addEventListener('click', hideDevPopup);
+        }
     }
-
-    function hideDevPopup() {
-        notif.classList.remove('active');
-        // JANGAN hapus notifikasi dari daftar, hanya sembunyikan pop-upnya
-        // removeNotification('dev-warning'); <-- BARIS INI DIHAPUS/DIKOMENTARI
-    }
-
-    // Tampilkan pop-up setelah beberapa saat
-    setTimeout(showDevPopup, 1000);
-
-    // Otomatis sembunyikan pop-up setelah beberapa detik
-    setTimeout(hideDevPopup, 7000);
-
-    if (closeBtn) {
-        closeBtn.addEventListener('click', hideDevPopup);
-    }
+    // Jika 'actualMessage' kosong, maka seluruh blok 'if' ini akan dilewati,
+    // dan tidak ada notifikasi atau pop-up yang akan muncul.
 }
 
 /* -------------------- FOOTER YEAR -------------------- */
