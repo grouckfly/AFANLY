@@ -136,55 +136,57 @@ function initNotificationCenter() {
 
 /* -------------------- SMOOTH CENTER SCROLL -------------------- */
 function initSmartScrollToCenter() {
-    // 1. Pilih semua link navigasi yang valid di navbar dan sidebar
     const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
 
     scrollLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Mencegah perilaku default dari link (lompat langsung)
+        link.addEventListener('click', function (e) {
+            // 1. Mencegah perilaku default browser agar kita bisa mengontrol scroll sepenuhnya.
             e.preventDefault();
 
             const href = this.getAttribute('href');
-            // Abaikan jika link hanya "#" (biasanya untuk tombol placeholder)
+            // Jika link hanya '#', scroll ke paling atas halaman.
             if (href === '#') {
-                // Jika link adalah #, scroll ke paling atas halaman
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
 
             const targetElement = document.querySelector(href);
+            const header = document.querySelector('header'); // Ambil elemen header
 
-            // 2. Pastikan elemen tujuan benar-benar ada
-            if (targetElement) {
-                // 3. Deteksi header yang sedang aktif (navbar desktop atau floating bar mobile)
-                const headerDesktop = document.querySelector('header .navbar');
-                const headerMobile = document.querySelector('.floating-bar');
-                let headerOffset = 0;
+            if (targetElement && header) {
+                // 2. Mengukur semua komponen yang diperlukan secara dinamis.
+                const headerHeight = header.offsetHeight;
+                const targetHeight = targetElement.offsetHeight;
+                const viewportHeight = window.innerHeight;
+                let targetTop;
 
-                // Cek mana header yang terlihat dan ambil tingginya
-                if (window.getComputedStyle(headerDesktop).display !== 'none') {
-                    headerOffset = headerDesktop.offsetHeight;
-                } else if (window.getComputedStyle(headerMobile).display !== 'none') {
-                    headerOffset = headerMobile.offsetHeight;
+
+                // 3. Logika "Pintar": Cek apakah seksi lebih tinggi dari ruang yang terlihat.
+                if (targetHeight > viewportHeight - headerHeight) {
+                    // KASUS 1: Seksi lebih tinggi dari layar.
+                    // Scroll agar bagian atas seksi berada tepat di bawah header.
+                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
+                } else {
+                    // KASUS 2: Seksi lebih pendek dari layar.
+                    // Kalkulasi untuk menempatkan seksi di tengah ruang vertikal yang tersedia.
+                    const availableSpace = viewportHeight - headerHeight;
+                    const verticalOffset = (availableSpace - targetHeight) / 2;
+                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - verticalOffset;
                 }
 
-                // 4. Hitung posisi scroll yang ideal
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - (window.innerHeight / 2) + (targetElement.offsetHeight / 2);
-
-                // 5. Lakukan scroll dengan mulus ke posisi yang telah dihitung
+                // 4. Lakukan scroll ke posisi yang sudah dihitung.
                 window.scrollTo({
-                    top: offsetPosition,
+                    top: targetTop,
                     behavior: 'smooth'
                 });
 
-                // Jika menggunakan sidebar, tutup sidebar setelah link diklik
+                // 5. Logika untuk menutup sidebar di mobile (tetap dipertahankan).
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar && sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
+                    setTimeout(() => {
+                        sidebar.classList.remove('active');
+                        document.body.classList.remove("sidebar-open");
+                    }, 300);
                 }
             }
         });
