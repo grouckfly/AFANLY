@@ -233,9 +233,16 @@ function setupBeliButton(container) {
     const tombolBeli = container.querySelector('.beli-btn');
     if (tombolBeli && !tombolBeli.dataset.listenerAttached) {
         tombolBeli.addEventListener('click', function() {
+            // Ambil nama produk yang sudah mencakup varian dari atribut data
             const namaProdukUntukModal = this.getAttribute('data-produk');
+            
+            // Ambil harga terbaru langsung dari tampilan .harga-display
+            const hargaProdukElement = document.querySelector('.harga-display');
+            const hargaProdukUntukModal = hargaProdukElement ? hargaProdukElement.textContent : 'Harga tidak tersedia';
+
+            // Panggil validasiPembelian dengan DUA parameter
             if (typeof validasiPembelian === 'function') {
-                validasiPembelian(namaProdukUntukModal);
+                validasiPembelian(namaProdukUntukModal, hargaProdukUntukModal);
             } else {
                 console.error("Fungsi 'validasiPembelian' dari toko.js tidak ditemukan.");
             }

@@ -36,13 +36,18 @@ const semuaProdukProcessed = preprocessProdukData(semuaProduk);
 // INISIALISASI APLIKASI & EVENT LISTENERS
 // =================================================================================
 function initializeApp() {
-  // Event listener umum
-  document.body.addEventListener('click', (e) => {
-    if (e.target.classList.contains('beli-btn')) {
-      e.preventDefault();
-      validasiPembelian(e.target.getAttribute('data-produk'));
-    }
-  });
+  // Event listener umum untuk tombol beli di seluruh halaman toko
+    document.body.addEventListener('click', (e) => {
+        if (e.target.classList.contains('beli-btn')) {
+            e.preventDefault();
+            // Ambil nama dan harga dari atribut data
+            const nama = e.target.getAttribute('data-produk');
+            const harga = e.target.getAttribute('data-harga');
+            if (nama && harga) {
+                validasiPembelian(nama, harga);
+            }
+        }
+    });
 
   // --- LOGIKA FILTER BARU ---
   const searchInput = document.getElementById("searchInput");
@@ -161,15 +166,14 @@ function updateFilterButtonState() {
 
 
 // ... (Sisa fungsi: renderProduk, validasiPembelian, InitSliderHero, InitProductSliderControls tetap sama persis) ...
-// GANTI FUNGSI LAMA ANDA DENGAN VERSI BARU INI
 function renderProduk(data) {
     const list = document.getElementById("produkList");
     const notFoundMessage = document.getElementById("produk-notfound");
-
+ 
     if (!list || !notFoundMessage) return;
-
+ 
     list.innerHTML = "";
-
+ 
     if (data.length === 0) {
         notFoundMessage.style.display = "flex";
         list.style.display = "none";
@@ -177,31 +181,28 @@ function renderProduk(data) {
         notFoundMessage.style.display = "none";
         list.style.display = "flex";
     }
-
+ 
     data.forEach(p => {
         const item = document.createElement("div");
         item.className = "produk";
         const encodedNama = encodeURIComponent(p.nama);
-
-        // =======================================================
-        // *** LOGIKA BARU UNTUK MENAMPILKAN HARGA DENGAN BENAR ***
-        // =======================================================
+ 
         let hargaTampil = '';
         if (p.hargaDasar !== undefined) {
-            // Jika produk punya varian, tampilkan harga dasarnya dengan teks "Mulai dari"
             hargaTampil = `Mulai dari Rp ${formatRupiah(p.hargaDasar.toString())}`;
         } else {
-            // Jika produk biasa, tampilkan harga normal
             hargaTampil = p.harga;
         }
 
-        // Gunakan variabel hargaTampil di dalam template
+        // Simpan harga asli (tanpa "Mulai dari") untuk tombol beli
+        const hargaUntukTombol = p.hargaDasar !== undefined ? `Rp ${formatRupiah(p.hargaDasar.toString())}` : p.harga;
+ 
         item.innerHTML = `
             <img src="${p.gambar}" alt="${p.nama}">
             <h3>${p.nama}</h3>
             <span class="harga">${hargaTampil}</span>
             <div class="produk-actions">
-                <button class="beli-btn" data-produk="${p.nama}">Beli</button>
+                <button class="beli-btn" data-produk="${p.nama}" data-harga="${hargaUntukTombol}">Beli</button>
                 <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
             </div>
         `;
@@ -209,35 +210,52 @@ function renderProduk(data) {
     });
 }
 
-function validasiPembelian(namaProduk) {
-  const modal = document.getElementById('modalKontak');
-  const closeBtn = document.getElementById('closeModalKontak');
-  const waBtn = document.getElementById('modalWaBtn');
-  const emailBtn = document.getElementById('modalEmailBtn');
-  const namaProdukSpan = document.getElementById('modalNamaProduk');
+function validasiPembelian(namaProduk, hargaProduk) {
+    const modal = document.getElementById('modalKontak');
+    const closeBtn = document.getElementById('closeModalKontak');
+    const waBtn = document.getElementById('modalWaBtn');
+    const emailBtn = document.getElementById('modalEmailBtn');
+    const namaProdukSpan = document.getElementById('modalNamaProduk');
+    const hargaProdukSpan = document.getElementById('modalHargaProduk'); // Elemen harga yang baru
 
-  if (!modal || !closeBtn || !waBtn || !emailBtn) return;
-  
-  if (namaProdukSpan) namaProdukSpan.textContent = namaProduk;
+    if (!modal || !closeBtn || !waBtn || !emailBtn || !namaProdukSpan || !hargaProdukSpan) return;
+    
+    // Tampilkan nama dan harga di modal
+    namaProdukSpan.textContent = namaProduk;
+    hargaProdukSpan.textContent = hargaProduk;
 
-  const pesanWA = `Pembelian Barang AFANLY%0A%0ANama:%0AAlamat:%0ABarang yang diinginkan: ${encodeURIComponent(namaProduk)}%0ADeskripsi:`;
-  const subjectEmail = `Pembelian Barang AFANLY`;
-  const bodyEmail = `Nama:%0AAlamat:%0ABarang yang diinginkan: ${encodeURIComponent(namaProduk)}%0ADeskripsi:`;
+    // Buat template pesan yang lebih informatif
+    const templatePesan = `
+Pemesanan Produk AFANLY
+------------------------
+Produk: ${namaProduk}
+Harga: ${hargaProduk}
+------------------------
+Mohon lengkapi data berikut:
+Nama Pemesan:
+Alamat Pengiriman:
+    `.trim();
 
-  waBtn.href = `https://wa.me/628127659073?text=${pesanWA}`;
-  emailBtn.href = `mailto:defry.pku@gmail.com?subject=${subjectEmail}&body=${bodyEmail}`;
+    // Siapkan untuk URL
+    const pesanWA = encodeURIComponent(templatePesan);
+    const subjectEmail = encodeURIComponent(`Pemesanan Produk - ${namaProduk}`);
+    const bodyEmail = encodeURIComponent(templatePesan);
 
-  modal.style.display = 'flex';
+    // Set link WhatsApp dan Email
+    waBtn.href = `https://wa.me/628127659073?text=${pesanWA}`;
+    emailBtn.href = `mailto:defry.pku@gmail.com?subject=${subjectEmail}&body=${bodyEmail}`;
 
-  closeBtn.onclick = function() {
-    modal.style.display = 'none';
-  };
+    modal.style.display = 'flex';
 
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  };
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
 }
 
 function InitSliderHero() {
