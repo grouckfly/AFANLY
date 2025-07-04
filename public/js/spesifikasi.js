@@ -120,11 +120,15 @@ function renderSimpleInfo(produk, container) {
     setupBeliButton(container, produk.nama);
 }
 
+/**
+ * Merender info untuk produk dengan opsi varian via modal di halaman Spesifikasi.
+ */
 function renderInfoWithOptions(produk, container) {
-    container.innerHTML += `
+    // 1. Siapkan kerangka HTML di halaman utama
+    container.innerHTML = `
         <h2>${produk.nama}</h2>
         <button class="options-trigger-btn">⚙️ Ubah Spesifikasi</button>
-        <div class="options-summary"></div>
+        <div class="options-summary">Memuat pilihan...</div>
         <div class="harga-display"></div>
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
@@ -133,48 +137,69 @@ function renderInfoWithOptions(produk, container) {
         </div>
     `;
 
+    // 2. Ambil semua elemen yang relevan
     const optionsModal = document.getElementById('options-modal');
     const optionsBody = document.getElementById('options-modal-body');
     const openOptionsModalBtn = container.querySelector('.options-trigger-btn');
     const closeOptionsModalBtn = document.getElementById('closeOptionsModal');
     const applyBtn = document.getElementById('applyOptionsBtn');
-    const resetBtn = document.getElementById('resetOptionsBtn');
-    
+    const priceDisplayModal = document.getElementById('options-modal-price');
+
+    // 3. Mengatur konten & tombol sesuai konteks Halaman Spesifikasi
+    document.getElementById('options-modal-title').textContent = `Ubah Opsi untuk ${produk.nama}`;
+    applyBtn.textContent = 'Terapkan Pilihan'; // Ubah teks tombol
+
+    // 4. Isi modal dengan opsi
     populateOptionsModal(produk, optionsBody);
     
+    // 5. Fungsi untuk update harga (di halaman utama & di dalam modal) dan ringkasan
     const updatePriceAndSummary = () => {
         let totalHarga = produk.hargaDasar;
-        const selectedOptions = {};
+        const selectedOptionsText = [];
+        const selectedOptionsData = {};
         const allSelects = optionsBody.querySelectorAll('select');
 
         allSelects.forEach(select => {
             totalHarga += parseInt(select.value, 10);
             const groupName = select.dataset.group;
             const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
-            selectedOptions[groupName] = selectedText;
+            selectedOptionsText.push(`<strong>${groupName}:</strong> ${selectedText}`);
+            selectedOptionsData[groupName] = selectedText;
         });
 
         const hargaFinalFormatted = formatRupiah(totalHarga.toString());
+        
+        // Update di halaman utama
         container.querySelector('.harga-display').textContent = hargaFinalFormatted;
+        container.querySelector('.options-summary').innerHTML = selectedOptionsText.join(' &bull; ');
         
-        const summaryText = Object.entries(selectedOptions).map(([key, value]) => `<strong>${key}:</strong> ${value}`).join(' &bull; ');
-        container.querySelector('.options-summary').innerHTML = summaryText;
-        
-        setupBeliButton(container, produk, selectedOptions, hargaFinalFormatted);
+        // Update juga harga di dalam modal
+        priceDisplayModal.textContent = hargaFinalFormatted;
+
+        // Siapkan detail untuk tombol Beli
+        setupBeliButton(container, produk, selectedOptionsData, hargaFinalFormatted);
     };
 
-    openOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'flex');
+    // 6. Atur Event Listeners
+    openOptionsModalBtn.addEventListener('click', () => {
+        // Update harga di modal setiap kali dibuka
+        updatePriceAndSummary(); 
+        optionsModal.style.display = 'flex';
+    });
+    
     closeOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'none');
     
-    applyBtn.addEventListener('click', () => {
-        updatePriceAndSummary();
+    // Listener untuk update harga live di dalam modal
+    optionsBody.addEventListener('change', updatePriceAndSummary);
+
+    const newApplyBtn = applyBtn.cloneNode(true);
+    applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
+    newApplyBtn.addEventListener('click', () => {
+        // Cukup tutup modal, karena harga sudah diupdate secara live
         optionsModal.style.display = 'none';
     });
 
-    resetBtn.addEventListener('click', () => {
-        populateOptionsModal(produk, optionsBody);
-    });
-
+    // Tampilkan harga dan ringkasan default saat halaman dimuat
     updatePriceAndSummary();
 }
 

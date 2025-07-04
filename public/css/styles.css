@@ -1726,3 +1726,158 @@ section,
     border: 2px solid var(--accent-color);
     box-shadow: 0 4px 16px rgba(0,0,0,0.25);
 }
+
+/* ========================================================== */
+/* SISTEM OPSI PRODUK & MODAL (GLOBAL TERPADU)                */
+/* ========================================================== */
+
+/* 1. Tombol Pemicu & Ringkasan Opsi (di Halaman Utama) */
+/* ---------------------------------------------------------- */
+.options-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    margin: 20px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--card-bg); /* Menggunakan warna latar kartu agar lebih menyatu */
+    color: var(--text-color); /* Menggunakan variabel global */
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.options-trigger-btn:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+.dark-mode .options-trigger-btn:hover {
+    color: #000;
+}
+
+.options-summary {
+    font-size: 0.9rem;
+    color: var(--text-color); /* Menggunakan variabel global */
+    opacity: 0.8;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 5px;
+}
+
+.dark-mode .options-summary {
+    background-color: rgba(255,255,255,0.04);
+}
+
+
+/* 2. Tampilan Harga (Berlaku di Halaman & Modal) */
+/* ---------------------------------------------------------- */
+.harga-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--highlight-color, #007bff); /* Fallback color */
+    margin: 20px 0;
+    padding: 10px;
+    background: linear-gradient(45deg, rgba(0,123,255,0.05), rgba(0,123,255,0.15));
+    border-left: 5px solid var(--highlight-color, #007bff);
+    border-radius: 0 8px 8px 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .harga-display {
+    background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(0,123,255,0.2));
+}
+
+
+/* 3. Gaya di Dalam Modal Opsi */
+/* ---------------------------------------------------------- */
+
+/* Aturan untuk body modal opsi, tempat dropdown berada */
+#options-modal .modal-filter-body {
+    display: flex;
+    flex-wrap: wrap; /* Agar rapi di layar kecil */
+    gap: 20px; /* Jarak antar setiap pilihan dropdown */
+}
+
+/* Grup Opsi (Label + Dropdown) */
+#options-modal .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1; /* Biarkan setiap grup mengambil ruang yang sama */
+    min-width: 150px; /* Lebar minimum untuk setiap pilihan */
+}
+
+#options-modal .option-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color); /* Menggunakan variabel global */
+    opacity: 0.8;
+}
+
+#options-modal .option-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#options-modal .dark-mode .option-group select {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+#options-modal .option-group select:focus {
+    outline: none;
+    border-color: var(--highlight-color, #007bff);
+    box-shadow: 0 0 0 2px var(--highlight-color-translucent, rgba(0, 123, 255, 0.25));
+}
+
+/* Footer Modal Opsi */
+#options-modal .options-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#options-modal .options-modal-price-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+#options-modal .options-modal-price-wrapper span {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Ini adalah tampilan harga KHUSUS di dalam modal */
+#options-modal .harga-display-modal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--highlight-color, #007bff);
+}
+
+#options-modal .btn-primary {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* --- Styling untuk Deskripsi --- */
+.deskripsi-produk {
+    margin: 20px 0;
+}

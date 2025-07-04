@@ -145,6 +145,9 @@ function handleBeliClick(produk) {
 /**
  * Fungsi baru untuk membuka dan mengatur modal pemilihan opsi.
  */
+/**
+ * Fungsi baru untuk membuka dan mengatur modal pemilihan opsi di halaman Toko.
+ */
 function openOptionsModal(produk) {
     const optionsModal = document.getElementById('options-modal');
     const title = document.getElementById('options-modal-title');
@@ -154,14 +157,16 @@ function openOptionsModal(produk) {
     const closeBtn = document.getElementById('closeOptionsModal');
 
     if (!optionsModal || !title || !body || !priceDisplay || !applyBtn || !closeBtn) {
-        console.error("Elemen modal opsi tidak ditemukan!");
+        console.error("Elemen modal opsi tidak lengkap!");
         return;
     }
 
+    // Mengatur konten & tombol sesuai konteks Halaman Toko
     title.textContent = `Pilih Opsi untuk ${produk.nama}`;
-    body.innerHTML = ''; // Selalu kosongkan isi modal sebelum diisi ulang
+    applyBtn.textContent = 'Terapkan'; // Ubah teks tombol
+    body.innerHTML = ''; 
 
-    // Buat elemen dropdown di dalam modal
+    // Buat dropdown di dalam modal
     produk.options.forEach(optionGroup => {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'option-group';
@@ -181,7 +186,6 @@ function openOptionsModal(produk) {
         body.appendChild(groupDiv);
     });
 
-    // Fungsi untuk kalkulasi harga dinamis di dalam modal
     const calculatePriceInModal = () => {
         let totalHarga = produk.hargaDasar;
         const selectedOptions = {};
@@ -192,19 +196,16 @@ function openOptionsModal(produk) {
             selectedOptions[groupName] = selectedText;
         });
         priceDisplay.textContent = formatRupiah(totalHarga);
-        return { totalHarga, selectedOptions }; // Kembalikan data untuk tombol apply
+        return { totalHarga, selectedOptions };
     };
 
-    // Tampilkan harga awal saat modal dibuka
-    calculatePriceInModal();
+    calculatePriceInModal(); // Panggil untuk harga awal
 
-    // Tambahkan event listener agar harga berubah dinamis saat opsi diubah
     body.querySelectorAll('select').forEach(select => {
         select.addEventListener('change', calculatePriceInModal);
     });
 
-    // Atur event listener untuk tombol "Lanjut ke Pembelian"
-    // Trik cloneNode untuk menghapus listener lama dan mencegah penumpukan event
+    // Hapus listener lama untuk mencegah penumpukan, lalu tambahkan yang baru
     const newApplyBtn = applyBtn.cloneNode(true);
     applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
     newApplyBtn.addEventListener('click', () => {
@@ -214,8 +215,8 @@ function openOptionsModal(produk) {
             pilihan: selectedOptions,
             hargaFinal: formatRupiah(totalHarga)
         };
-        validasiPembelian(detailPesanan);
-        optionsModal.style.display = 'none';
+        validasiPembelian(detailPesanan); // Panggil modal kontak
+        optionsModal.style.display = 'none'; // Tutup modal opsi
     });
     
     closeBtn.onclick = () => optionsModal.style.display = 'none';
@@ -313,6 +314,7 @@ Harga Total: ${detailPesanan.hargaFinal}
 
 Mohon lengkapi data berikut:
 Nama Pemesan:
+No. Telpon:
 Alamat Pengiriman:`.trim();
 
     const pesanWA = encodeURIComponent(templatePesan);
