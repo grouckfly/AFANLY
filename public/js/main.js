@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Hanya inisialisasi services jika ada elemen terkait
     if (document.querySelector(".services .card-wrapper")) {
-        initServicesSection();
+        renderServices();
         startAutoScrollCardWrapper();
     }
 });
@@ -357,48 +357,64 @@ function initYear() {
     }
 }
 
-/* -------------------- SECTION SERVICES -------------------- */
-function initServicesSection() {
-    const cardWrapper = document.querySelector(".services .card-wrapper");
-
-    if (!cardWrapper) {
-        console.warn("Services section tidak ditemukan, melewati initServicesSection.");
+/* -------------------- SECTION SERVICES (VERSI DINAMIS) -------------------- */
+function renderServices() {
+    const wrapper = document.getElementById('layanan-wrapper');
+    // Pastikan fungsi ini hanya berjalan jika elemen dan datanya ada
+    if (!wrapper || typeof semuaLayanan === 'undefined') {
+        // Jika di halaman lain tidak ada section#services, ini akan dilewati tanpa error
         return;
     }
 
-    console.log("Inisialisasi initServicesSection berhasil.");
+    // Ambil beberapa layanan untuk ditampilkan di halaman utama (misalnya 4 pertama)
+    const layananTampil = semuaLayanan.slice(0, 4);
 
-    let isDown = false,
-        startX,
-        scrollLeft;
+    wrapper.innerHTML = ''; // Kosongkan wrapper
+
+    layananTampil.forEach(layanan => {
+        const photocard = document.createElement('div');
+        photocard.className = 'photocard';
+        
+        photocard.innerHTML = `
+            <img src="${layanan.gambar}" alt="${layanan.nama}">
+            <p>${layanan.nama}</p>
+            <span class="service-desc">${layanan.deskripsi}</span>
+        `;
+        wrapper.appendChild(photocard);
+    });
     
-    // --- PENANGANAN EVENT MOUSE (SUDAH ADA) ---
+    // Inisialisasi ulang fungsionalitas swipe/drag setelah card dirender
+    initCardSwipe('layanan-wrapper');
+}
+
+// Fungsi swipe yang dibuat lebih umum
+function initCardSwipe(wrapperId) {
+    const cardWrapper = document.getElementById(wrapperId);
+    if (!cardWrapper) return;
+
+    let isDown = false, startX, scrollLeft;
+
     cardWrapper.addEventListener("mousedown", (e) => {
         isDown = true;
         cardWrapper.classList.add("dragging");
         startX = e.pageX - cardWrapper.offsetLeft;
         scrollLeft = cardWrapper.scrollLeft;
     });
-
     cardWrapper.addEventListener("mouseleave", () => {
         isDown = false;
         cardWrapper.classList.remove("dragging");
     });
-
     cardWrapper.addEventListener("mouseup", () => {
         isDown = false;
         cardWrapper.classList.remove("dragging");
     });
-
     cardWrapper.addEventListener("mousemove", (e) => {
         if (!isDown) return;
-        e.preventDefault(); // Penting untuk mencegah seleksi teks saat dragging mouse
+        e.preventDefault();
         const x = e.pageX - cardWrapper.offsetLeft;
         const walk = (x - startX) * 1.5;
         cardWrapper.scrollLeft = scrollLeft - walk;
     });
-
-    // --- PENAMBAHAN UNTUK TOUCH EVENTS ---
 
     cardWrapper.addEventListener("touchstart", (e) => {
         // e.preventDefault(); // HINDARI INI DI SINI, bisa mengganggu scroll vertikal jika touch-action tidak cukup

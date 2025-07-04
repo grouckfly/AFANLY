@@ -769,6 +769,28 @@ body.dark-mode {
     margin-bottom: 1rem;
 }
 
+.section-action {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-cta {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--highlight-color, #007bff);
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
 /* ===== CARDS ===== */
 .card-wrapper {
     display: flex;
