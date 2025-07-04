@@ -161,38 +161,51 @@ function updateFilterButtonState() {
 
 
 // ... (Sisa fungsi: renderProduk, validasiPembelian, InitSliderHero, InitProductSliderControls tetap sama persis) ...
-// ... Pastikan Anda masih memiliki fungsi-fungsi tersebut di sini ...
+// GANTI FUNGSI LAMA ANDA DENGAN VERSI BARU INI
 function renderProduk(data) {
     const list = document.getElementById("produkList");
     const notFoundMessage = document.getElementById("produk-notfound");
-  
+
     if (!list || !notFoundMessage) return;
-  
+
     list.innerHTML = "";
-  
+
     if (data.length === 0) {
-      notFoundMessage.style.display = "flex";
-      list.style.display = "none";
+        notFoundMessage.style.display = "flex";
+        list.style.display = "none";
     } else {
-      notFoundMessage.style.display = "none";
-      list.style.display = "flex";
+        notFoundMessage.style.display = "none";
+        list.style.display = "flex";
     }
-  
+
     data.forEach(p => {
-      const item = document.createElement("div");
-      item.className = "produk";
-      const encodedNama = encodeURIComponent(p.nama);
-  
-      item.innerHTML = `
-        <img src="${p.gambar}" alt="${p.nama}">
-        <h3>${p.nama}</h3>
-        <span class="harga">${p.harga}</span>
-        <div class="produk-actions">
-          <button class="beli-btn" data-produk="${p.nama}">Beli</button>
-          <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
-        </div>
-      `;
-      list.appendChild(item);
+        const item = document.createElement("div");
+        item.className = "produk";
+        const encodedNama = encodeURIComponent(p.nama);
+
+        // =======================================================
+        // *** LOGIKA BARU UNTUK MENAMPILKAN HARGA DENGAN BENAR ***
+        // =======================================================
+        let hargaTampil = '';
+        if (p.hargaDasar !== undefined) {
+            // Jika produk punya varian, tampilkan harga dasarnya dengan teks "Mulai dari"
+            hargaTampil = `Mulai dari Rp ${formatRupiah(p.hargaDasar.toString())}`;
+        } else {
+            // Jika produk biasa, tampilkan harga normal
+            hargaTampil = p.harga;
+        }
+
+        // Gunakan variabel hargaTampil di dalam template
+        item.innerHTML = `
+            <img src="${p.gambar}" alt="${p.nama}">
+            <h3>${p.nama}</h3>
+            <span class="harga">${hargaTampil}</span>
+            <div class="produk-actions">
+                <button class="beli-btn" data-produk="${p.nama}">Beli</button>
+                <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
+            </div>
+        `;
+        list.appendChild(item);
     });
 }
 

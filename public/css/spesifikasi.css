@@ -380,3 +380,132 @@
         padding: 10px;
     }
 }
+
+/* --- Styling untuk Opsi Produk --- */
+.produk-options {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.03);
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap; /* Agar rapi di layar kecil */
+    gap: 20px; /* Jarak antar setiap pilihan dropdown */
+}
+
+.dark-mode .produk-options {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1; /* Biarkan setiap grup mengambil ruang yang sama */
+    min-width: 150px; /* Lebar minimum untuk setiap pilihan */
+}
+
+.option-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color-spesifikasi);
+    opacity: 0.8;
+}
+
+.option-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.option-group select:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 0 2px var(--highlight-color-translucent, rgba(0, 123, 255, 0.25));
+}
+
+.dark-mode .option-group select {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+/* --- Styling untuk Tampilan Harga --- */
+.harga-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--highlight-color);
+    margin: 20px 0;
+    padding: 10px;
+    background: linear-gradient(45deg, rgba(0,123,255,0.05), rgba(0,123,255,0.15));
+    border-left: 5px solid var(--highlight-color);
+    border-radius: 0 8px 8px 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .harga-display {
+    background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(0,123,255,0.2));
+}
+
+/* --- Styling untuk Deskripsi --- */
+.deskripsi-produk {
+    margin: 20px 0;
+}
+
+/* ========================================================== */
+/* GAYA UNTUK PEMILIHAN OPSI SPESIFIKASI VIA MODAL            */
+/* ========================================================== */
+
+/* Tombol Pemicu untuk membuka modal opsi */
+.options-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    margin: 20px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--bg-detil-produk); /* Warna yang lebih kalem */
+    color: var(--text-color-spesifikasi);
+    border: 1px solid var(--highlight-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.options-trigger-btn:hover {
+    background-color: var(--highlight-color);
+    color: #fff;
+}
+
+.dark-mode .options-trigger-btn {
+    background-color: #333;
+    border-color: #555;
+}
+
+.dark-mode .options-trigger-btn:hover {
+    background-color: var(--highlight-color);
+    color: #000;
+}
+
+/* Area untuk menampilkan ringkasan opsi yang dipilih */
+.options-summary {
+    font-size: 0.9rem;
+    color: var(--text-color-spesifikasi);
+    opacity: 0.8;
+    margin-top: -10px; /* Tarik sedikit ke atas agar lebih dekat dengan tombol */
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 5px;
+}
+
+.dark-mode .options-summary {
+    background-color: rgba(255,255,255,0.04);
+}
