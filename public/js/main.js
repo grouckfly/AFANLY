@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initYear();
     initKritikSaranModal();
     initNotificationCenter(); // <-- PANGGIL FUNGSI BARU DI SINI
+    initGlobalModalClosers(); // Panggil fungsi untuk menutup modal global
 
     // Hanya inisialisasi services jika ada elemen terkait
     if (document.querySelector(".services .card-wrapper")) {
@@ -126,12 +127,6 @@ function initNotificationCenter() {
             modal.style.display = "none";
         });
     }
-
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
 }
 
 /* -------------------- SMOOTH CENTER SCROLL -------------------- */
@@ -606,11 +601,6 @@ function initKritikSaranModal() {
         });
     }
 
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
 }
 
 /* -------------------- LOADING AND WELCOME SCREEN -------------------- */
@@ -694,4 +684,24 @@ function initLoadingAndWelcomeScreen() {
             }
         });
     }
+}
+
+/* -------------------- PENUTUP MODAL GLOBAL -------------------- */
+/**
+ * Fungsi ini menambahkan satu event listener ke window untuk menangani
+ * penutupan semua jenis modal saat area luarnya di-klik.
+ */
+function initGlobalModalClosers() {
+    window.addEventListener('click', (e) => {
+        // Cari semua modal yang mungkin ada di halaman
+        const allModals = document.querySelectorAll('.modal, .modal-kontak, .modal-filter');
+        
+        allModals.forEach(modal => {
+            // Cek apakah modal sedang ditampilkan dan apakah yang di-klik adalah
+            // elemen latar belakang modal itu sendiri (bukan konten di dalamnya).
+            if (modal.style.display === 'flex' && e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
 }

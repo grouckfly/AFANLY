@@ -170,9 +170,6 @@ function renderInfoWithOptions(produk, container) {
 
     openOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'flex');
     closeOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === optionsModal) optionsModal.style.display = 'none';
-    });
 
     applyBtn.addEventListener('click', () => {
         updatePriceAndSummary();
@@ -184,7 +181,7 @@ function renderInfoWithOptions(produk, container) {
     });
 
     updatePriceAndSummary();
-    setupBeliButton(container);
+    setupBeliButton(container, produk.nama);
 }
 
 
@@ -229,20 +226,35 @@ function populateOptionsModal(produk, modalBody) {
  * Mengatur event listener untuk tombol "Beli".
  * Fungsi ini tidak diubah dari versi sebelumnya.
  */
-function setupBeliButton(container) {
+function setupBeliButton(container, namaProdukDasar) {
     const tombolBeli = container.querySelector('.beli-btn');
     if (tombolBeli && !tombolBeli.dataset.listenerAttached) {
         tombolBeli.addEventListener('click', function() {
-            // Ambil nama produk yang sudah mencakup varian dari atribut data
-            const namaProdukUntukModal = this.getAttribute('data-produk');
             
-            // Ambil harga terbaru langsung dari tampilan .harga-display
+            // Ambil elemen yang relevan
             const hargaProdukElement = document.querySelector('.harga-display');
-            const hargaProdukUntukModal = hargaProdukElement ? hargaProdukElement.textContent : 'Harga tidak tersedia';
+            const optionsContainer = document.querySelector('.produk-options');
 
-            // Panggil validasiPembelian dengan DUA parameter
+            // Siapkan objek detail pesanan
+            const detailPesanan = {
+                namaDasar: namaProdukDasar, // Gunakan nama dasar dari parameter
+                pilihan: {},
+                hargaFinal: hargaProdukElement ? hargaProdukElement.textContent : 'Harga tidak tersedia'
+            };
+
+            // Jika ada opsi, kumpulkan datanya
+            if (optionsContainer) {
+                const allSelects = optionsContainer.querySelectorAll('select');
+                allSelects.forEach(select => {
+                    const groupName = select.dataset.group;
+                    const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
+                    detailPesanan.pilihan[groupName] = selectedText;
+                });
+            }
+            
+            // Panggil validasiPembelian dengan satu objek "paket data"
             if (typeof validasiPembelian === 'function') {
-                validasiPembelian(namaProdukUntukModal, hargaProdukUntukModal);
+                validasiPembelian(detailPesanan);
             } else {
                 console.error("Fungsi 'validasiPembelian' dari toko.js tidak ditemukan.");
             }
