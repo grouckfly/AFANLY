@@ -1,17 +1,16 @@
 /**
  * File: spesifikasi.js
- * Deskripsi: Skrip untuk menangani halaman detail produk, termasuk logika
- * untuk menampilkan produk dengan opsi varian yang dipilih melalui modal.
+ * Versi Final & Lengkap
+ * Deskripsi: Skrip untuk menangani halaman detail produk, termasuk:
+ * - Galeri gambar interaktif (main image, thumbnail, next/prev).
+ * - Sistem opsi produk independen via modal dengan kalkulasi harga dinamis.
+ * - Fungsionalitas zoom gambar.
  */
 
-// Event listener utama yang akan berjalan setelah struktur HTML halaman siap.
 document.addEventListener('DOMContentLoaded', function() {
     renderProductPage();
 });
 
-/**
- * Fungsi utama untuk merender seluruh konten halaman spesifikasi produk.
- */
 function renderProductPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const namaProduk = decodeURIComponent(urlParams.get('produk'));
@@ -19,45 +18,42 @@ function renderProductPage() {
     const detailProdukContainer = document.getElementById('detail-produk');
 
     if (!semuaProduk || !detailProdukContainer) {
-        return handleError("Data produk tidak dapat dimuat. Silakan kembali ke halaman toko.");
-    }
-    const produk = semuaProduk.find(p => p.nama === namaProduk);
-    if (!produk) {
-        return handleError(`Produk dengan nama "${namaProduk}" tidak ditemukan.`);
+        return handleError("Data produk tidak dapat dimuat.");
     }
 
+    const produk = semuaProduk.find(p => p.nama === namaProduk);
+
+    if (!produk) {
+        return handleError(`Produk "${namaProduk}" tidak ditemukan.`);
+    }
+
+    // Render layout dasar (gambar, galeri) dan dapatkan div info
     const detailInfoDiv = renderBaseLayout(produk, detailProdukContainer);
 
+    // Render detail info berdasarkan tipe produk (dengan atau tanpa opsi)
     if (produk.options && produk.hargaDasar !== undefined) {
         renderInfoWithOptions(produk, detailInfoDiv);
     } else {
         renderSimpleInfo(produk, detailInfoDiv);
     }
     
-    // Memanggil fungsi zoom yang sudah ada setelah elemen gambar dirender
-    if (typeof initializeZoom === 'function') {
-        initializeZoom();
-    }
+    // Inisialisasi fungsionalitas JS setelah semua elemen HTML dibuat
+    initializeZoom();
 }
 
-
 // ================================================================
-// FUNGSI INTI UNTUK MERENDER KONTEN
+// FUNGSI-FUNGSI UNTUK MERENDER TAMPILAN
 // ================================================================
 
-/**
- * Merender layout dasar (gambar, galeri) yang sama untuk semua produk.
- * @param {object} produk - Objek produk.
- * @param {HTMLElement} container - Elemen kontainer utama.
- * @returns {HTMLElement} - Elemen div untuk diisi detail info.
- */
 function renderBaseLayout(produk, container) {
-    container.innerHTML = ''; // Kosongkan
+    container.innerHTML = '';
     
     const imageGalleryDiv = document.createElement('div');
     imageGalleryDiv.className = 'product-image-gallery';
+
     const mainImageWrapper = document.createElement('div');
     mainImageWrapper.className = 'main-image-wrapper';
+
     const mainImage = document.createElement('img');
     const imagesToDisplay = (produk.gallery && produk.gallery.length > 0) ? produk.gallery : [produk.gambar];
     mainImage.src = imagesToDisplay[0];
@@ -66,26 +62,32 @@ function renderBaseLayout(produk, container) {
     mainImage.id = 'mainProductImage';
     mainImageWrapper.appendChild(mainImage);
     
+    // --- LOGIKA GALERI YANG DIPERBAIKI ---
+    // Tambahkan tombol navigasi hanya jika ada lebih dari 1 gambar
     if (imagesToDisplay.length > 1) {
         const prevBtn = document.createElement('button');
         prevBtn.className = 'gallery-nav prev';
         prevBtn.id = 'prevImageBtn';
         prevBtn.textContent = '❮';
+        
         const nextBtn = document.createElement('button');
         nextBtn.className = 'gallery-nav next';
         nextBtn.id = 'nextImageBtn';
         nextBtn.textContent = '❯';
+
         mainImageWrapper.appendChild(prevBtn);
         mainImageWrapper.appendChild(nextBtn);
     }
     imageGalleryDiv.appendChild(mainImageWrapper);
 
+    // Tambahkan thumbnail hanya jika ada lebih dari 1 gambar
     if (imagesToDisplay.length > 1) {
         const thumbnailWrapper = document.createElement('div');
         thumbnailWrapper.className = 'thumbnail-wrapper';
         imagesToDisplay.forEach((imgSrc, index) => {
             const thumb = document.createElement('img');
             thumb.src = imgSrc;
+            thumb.alt = `Thumbnail ${index + 1}`;
             thumb.className = 'thumbnail';
             thumb.dataset.index = index;
             if (index === 0) thumb.classList.add('active');
@@ -100,34 +102,24 @@ function renderBaseLayout(produk, container) {
     container.appendChild(imageGalleryDiv);
     container.appendChild(detailInfoDiv);
     
-    // Memanggil fungsi setup galeri yang sudah ada
+    // Panggil setup untuk fungsionalitas galeri setelah elemennya dibuat
     setupGallery(imagesToDisplay);
     return detailInfoDiv;
 }
 
-/**
- * Merender info untuk produk sederhana (tanpa opsi).
- * @param {object} produk - Objek produk.
- * @param {HTMLElement} container - Elemen untuk diisi info.
- */
 function renderSimpleInfo(produk, container) {
     container.innerHTML += `
         <h2>${produk.nama}</h2>
         <div class="harga-display">${produk.harga}</div>
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
-            <button class="beli-btn" data-produk="${produk.nama}">Beli</button>
+            <button class="beli-btn" data-produk="${produk.nama}" data-harga="${produk.harga}">Beli</button>
             <a href="toko.html#produk" class="spec-btn">Kembali ke Produk</a>
         </div>
     `;
     setupBeliButton(container, produk.nama);
 }
 
-/**
- * Merender info untuk produk dengan opsi varian via modal.
- * @param {object} produk - Objek produk.
- * @param {HTMLElement} container - Elemen untuk diisi info.
- */
 function renderInfoWithOptions(produk, container) {
     container.innerHTML += `
         <h2>${produk.nama}</h2>
@@ -152,25 +144,28 @@ function renderInfoWithOptions(produk, container) {
     
     const updatePriceAndSummary = () => {
         let totalHarga = produk.hargaDasar;
-        const selectedOptionsText = [];
+        const selectedOptions = {};
         const allSelects = optionsBody.querySelectorAll('select');
 
         allSelects.forEach(select => {
             totalHarga += parseInt(select.value, 10);
+            const groupName = select.dataset.group;
             const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
-            selectedOptionsText.push(`<strong>${select.dataset.group}:</strong> ${selectedText}`);
+            selectedOptions[groupName] = selectedText;
         });
 
-        container.querySelector('.harga-display').textContent = `Rp ${formatRupiah(totalHarga.toString())}`;
-        container.querySelector('.options-summary').innerHTML = selectedOptionsText.join(' &bull; ');
+        const hargaFinalFormatted = formatRupiah(totalHarga.toString());
+        container.querySelector('.harga-display').textContent = hargaFinalFormatted;
         
-        const finalProductName = `${produk.nama} (${selectedOptionsText.map(s => s.split(': ')[1]).join(', ')})`;
-        container.querySelector('.beli-btn').setAttribute('data-produk', finalProductName);
+        const summaryText = Object.entries(selectedOptions).map(([key, value]) => `<strong>${key}:</strong> ${value}`).join(' &bull; ');
+        container.querySelector('.options-summary').innerHTML = summaryText;
+        
+        setupBeliButton(container, produk, selectedOptions, hargaFinalFormatted);
     };
 
     openOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'flex');
     closeOptionsModalBtn.addEventListener('click', () => optionsModal.style.display = 'none');
-
+    
     applyBtn.addEventListener('click', () => {
         updatePriceAndSummary();
         optionsModal.style.display = 'none';
@@ -181,78 +176,58 @@ function renderInfoWithOptions(produk, container) {
     });
 
     updatePriceAndSummary();
-    setupBeliButton(container, produk.nama);
 }
 
-
-/**
- * Fungsi baru yang spesifik untuk mengisi dropdown di dalam modal.
- * @param {object} produk - Objek produk.
- * @param {HTMLElement} modalBody - Elemen body dari modal.
- */
 function populateOptionsModal(produk, modalBody) {
     modalBody.innerHTML = '';
     produk.options.forEach(optionGroup => {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'option-group';
-        
         const label = document.createElement('label');
         label.textContent = optionGroup.nama;
-        
         const select = document.createElement('select');
         select.dataset.group = optionGroup.nama;
-
         optionGroup.choices.forEach(choice => {
             const optionEl = document.createElement('option');
             optionEl.value = choice.modifier;
             optionEl.textContent = choice.text;
-            if (choice.default) {
-                optionEl.selected = true;
-            }
+            if (choice.default) optionEl.selected = true;
             select.appendChild(optionEl);
         });
-        
         groupDiv.appendChild(label);
         groupDiv.appendChild(select);
         modalBody.appendChild(groupDiv);
     });
 }
 
+
 // =================================================================================
 // FUNGSI UTILITAS & FUNGSI LAMA YANG DIPERTAHANKAN
 // =================================================================================
 
-/**
- * Mengatur event listener untuk tombol "Beli".
- * Fungsi ini tidak diubah dari versi sebelumnya.
- */
-function setupBeliButton(container, namaProdukDasar) {
+function setupBeliButton(container, produk, pilihan = {}, hargaFinal = null) {
     const tombolBeli = container.querySelector('.beli-btn');
     if (tombolBeli && !tombolBeli.dataset.listenerAttached) {
         tombolBeli.addEventListener('click', function() {
-            
-            // Ambil elemen yang relevan
-            const hargaProdukElement = document.querySelector('.harga-display');
-            const optionsContainer = document.querySelector('.produk-options');
-
-            // Siapkan objek detail pesanan
+            // Siapkan paket data pesanan setiap kali di-klik untuk data terbaru
             const detailPesanan = {
-                namaDasar: namaProdukDasar, // Gunakan nama dasar dari parameter
-                pilihan: {},
-                hargaFinal: hargaProdukElement ? hargaProdukElement.textContent : 'Harga tidak tersedia'
+                namaDasar: produk.nama,
+                pilihan: pilihan,
+                hargaFinal: hargaFinal || produk.harga
             };
 
-            // Jika ada opsi, kumpulkan datanya
-            if (optionsContainer) {
-                const allSelects = optionsContainer.querySelectorAll('select');
-                allSelects.forEach(select => {
+            if (produk.options) {
+                const updatedOptions = {};
+                const optionsBody = document.getElementById('options-modal-body');
+                optionsBody.querySelectorAll('select').forEach(select => {
                     const groupName = select.dataset.group;
                     const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
-                    detailPesanan.pilihan[groupName] = selectedText;
+                    updatedOptions[groupName] = selectedText;
                 });
+                detailPesanan.pilihan = updatedOptions;
+                detailPesanan.hargaFinal = container.querySelector('.harga-display').textContent;
             }
             
-            // Panggil validasiPembelian dengan satu objek "paket data"
             if (typeof validasiPembelian === 'function') {
                 validasiPembelian(detailPesanan);
             } else {
@@ -263,10 +238,6 @@ function setupBeliButton(container, namaProdukDasar) {
     }
 }
 
-/**
- * Mengatur fungsionalitas galeri gambar.
- * Fungsi ini tidak diubah dari versi sebelumnya.
- */
 function setupGallery(images) {
     const mainImage = document.getElementById('mainProductImage');
     const thumbnails = document.querySelectorAll('.thumbnail-wrapper .thumbnail');
@@ -274,7 +245,11 @@ function setupGallery(images) {
     const nextBtn = document.getElementById('nextImageBtn');
     let currentIndex = 0;
 
-    if (!mainImage || images.length <= 1) return;
+    if (!mainImage || images.length <= 1) {
+        if(prevBtn) prevBtn.style.display = 'none';
+        if(nextBtn) nextBtn.style.display = 'none';
+        return;
+    };
 
     function updateDisplay(index) {
         mainImage.src = images[index];
@@ -306,37 +281,19 @@ function setupGallery(images) {
     }
 }
 
-/**
- * Menangani error jika produk/data tidak ditemukan.
- * Fungsi ini tidak diubah dari versi sebelumnya.
- */
 function handleError(message) {
     const container = document.getElementById('detail-produk');
     if (container) {
-        container.innerHTML = `
-            <div class="detail-info" style="text-align: center; width: 100%;">
-                <h2>Terjadi Kesalahan</h2>
-                <p>${message}</p>
-                <div class="produk-actions" style="justify-content: center;">
-                    <a href="toko.html" class="spec-btn">Kembali ke Toko</a>
-                </div>
-            </div>
-        `;
+        container.innerHTML = `<div class="detail-info" style="text-align: center; width: 100%;"><h2>Terjadi Kesalahan</h2><p>${message}</p><div class="produk-actions" style="justify-content: center;"><a href="toko.html" class="spec-btn">Kembali ke Toko</a></div></div>`;
     }
 }
 
-/**
- * Helper untuk format Rupiah.
- * Fungsi ini tidak diubah dari versi sebelumnya.
- */
 function formatRupiah(angka) {
-    if (!angka) return "0";
-    let number_string = angka.replace(/[^,\d]/g, '').toString(),
-        split = number_string.split(','),
-        sisa = split[0].length % 3,
-        rupiah = split[0].substr(0, sisa),
-        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
+    if (angka === null || angka === undefined) return "0";
+    let number_string = angka.toString().replace(/[^,\d]/g, ''),
+        sisa = number_string.length % 3,
+        rupiah = number_string.substr(0, sisa),
+        ribuan = number_string.substr(sisa).match(/\d{3}/gi);
     if (ribuan) {
         let separator = sisa ? '.' : '';
         rupiah += separator + ribuan.join('.');
@@ -344,29 +301,18 @@ function formatRupiah(angka) {
     return rupiah;
 }
 
-/**
- * Mengatur fungsionalitas zoom pada gambar.
- * Fungsi ini tidak diubah dari versi Anda sebelumnya.
- */
 function initializeZoom() {
     const mainProductImage = document.getElementById('mainProductImage');
-
     if (mainProductImage) {
         mainProductImage.addEventListener('click', function () {
             const isFullscreen = this.classList.toggle('fullscreen');
             let overlay = document.getElementById('fullscreen-overlay');
-
             if (isFullscreen) {
                 if (!overlay) {
                     overlay = document.createElement('div');
                     overlay.id = 'fullscreen-overlay';
-                    // Gaya overlay bisa dipindahkan ke CSS untuk kebersihan
-                    overlay.style.position = 'fixed';
-                    overlay.style.inset = '0';
-                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-                    overlay.style.zIndex = '9999';
+                    overlay.style.cssText = 'position:fixed; inset:0; background-color:rgba(0,0,0,0.85); z-index:9999;';
                     document.body.appendChild(overlay);
-                    
                     overlay.addEventListener('click', () => {
                         this.classList.remove('fullscreen');
                         overlay.remove();
