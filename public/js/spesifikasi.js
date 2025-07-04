@@ -326,26 +326,48 @@ function formatRupiah(angka) {
     return rupiah;
 }
 
+/**
+ * Mengatur fungsionalitas Lightbox untuk gambar produk.
+ * Versi baru yang lebih bersih dan modern.
+ */
 function initializeZoom() {
+    // Ambil elemen-elemen yang diperlukan
     const mainProductImage = document.getElementById('mainProductImage');
-    if (mainProductImage) {
-        mainProductImage.addEventListener('click', function () {
-            const isFullscreen = this.classList.toggle('fullscreen');
-            let overlay = document.getElementById('fullscreen-overlay');
-            if (isFullscreen) {
-                if (!overlay) {
-                    overlay = document.createElement('div');
-                    overlay.id = 'fullscreen-overlay';
-                    overlay.style.cssText = 'position:fixed; inset:0; background-color:rgba(0,0,0,0.85); z-index:9999;';
-                    document.body.appendChild(overlay);
-                    overlay.addEventListener('click', () => {
-                        this.classList.remove('fullscreen');
-                        overlay.remove();
-                    });
-                }
-            } else {
-                if (overlay) overlay.remove();
-            }
-        });
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const closeBtn = document.getElementById('close-lightbox');
+
+    // Pastikan semua elemen ada sebelum melanjutkan
+    if (!mainProductImage || !lightbox || !lightboxImage || !closeBtn) {
+        console.warn('Elemen untuk fungsionalitas lightbox tidak lengkap.');
+        return;
     }
+
+    // Event listener untuk MEMBUKA lightbox
+    mainProductImage.addEventListener('click', function () {
+        // Set sumber gambar di lightbox sesuai gambar yang di-klik
+        lightboxImage.src = this.src;
+        // Tampilkan lightbox
+        lightbox.style.display = 'flex';
+        // Kunci body agar tidak bisa di-scroll
+        document.body.classList.add('lightbox-active');
+    });
+
+    // Fungsi untuk MENUTUP lightbox
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        lightboxImage.src = ''; // Kosongkan src untuk menghemat memori
+        document.body.classList.remove('lightbox-active');
+    }
+
+    // Tambahkan event listener untuk tombol tutup (X)
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // Tambahkan event listener untuk menutup saat mengklik area gelap (latar belakang)
+    lightbox.addEventListener('click', function(e) {
+        // Hanya tutup jika yang di-klik adalah latar belakangnya, bukan gambarnya
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
 }

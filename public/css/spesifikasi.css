@@ -108,7 +108,7 @@
     box-shadow: var(--shadow-md);
 }
 
-/* --- NEW: Product Image Gallery Styling --- */
+/* --- Product Image Gallery Styling --- */
 .product-image-gallery {
     display: flex;
     flex-direction: column; /* Main image on top, thumbnails below */
@@ -195,22 +195,66 @@
     transform: scale(1.0);
 }
 
+/* ========================================================== */
+/* GAYA BARU UNTUK LIGHTBOX GAMBAR (MENGGANTIKAN .fullscreen) */
+/* ========================================================== */
 
-/* Fullscreen Image Effect - Adjusted to apply to main image */
-#detail-produk img.detail-image.fullscreen {
+/* Lapisan latar belakang gelap */
+#image-lightbox {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.1);
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.85);
-    padding: 20px;
-    border-radius: 12px;
+    inset: 0; /* Shorthand untuk top:0, right:0, bottom:0, left:0 */
+    background-color: rgba(0, 0, 0, 0.85); /* Latar gelap transparan */
+    z-index: 10000; /* Pastikan di atas segalanya */
+    
+    /* Gunakan flexbox untuk menengahkan gambar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Padding untuk memberi jarak dari tepi layar */
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Gambar di dalam lightbox */
+#lightbox-image {
+    /* Batasi ukuran agar tidak memenuhi layar */
     max-width: 90vw;
     max-height: 90vh;
+    
+    /* Kunci agar gambar terlihat jelas: beri bingkai putih */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    
+    /* Cegah gambar menjadi gepeng */
     object-fit: contain;
-    cursor: zoom-out;
 }
+
+/* Tombol tutup (X) untuk lightbox */
+#close-lightbox {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 2.5rem;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    z-index: 10001; /* Di atas latar lightbox */
+}
+
+#close-lightbox:hover {
+    transform: scale(1.2);
+}
+
+/* Kelas tambahan untuk body saat lightbox aktif */
+/* Ini akan mencegah halaman di belakang ikut ter-scroll */
+body.lightbox-active {
+    overflow: hidden;
+}
+
 
 /* Product Information (Detail di kanan gambar) */
 #detail-produk .detail-info {
@@ -326,12 +370,6 @@
         font-size: 0.9rem;
         height: unset;
     }
-
-    #detail-produk img.detail-image.fullscreen {
-        max-width: 95vw;
-        max-height: 95vh;
-        padding: 15px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -374,9 +412,5 @@
     .produk-actions .spec-btn {
         padding: 10px;
         font-size: 0.85rem;
-    }
-
-    #detail-produk img.detail-image.fullscreen {
-        padding: 10px;
     }
 }
