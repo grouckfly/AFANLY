@@ -4,99 +4,7 @@
  * modal kontak khusus untuk halaman layanan jasa.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Pastikan data layanan sudah tersedia dari data-layanan.js
-    if (typeof semuaLayanan === 'undefined') {
-        console.error("Data layanan (semuaLayanan) tidak ditemukan.");
-        return;
-    }
-    
-    // Ambil elemen-elemen penting dari DOM
-    const searchInput = document.getElementById('searchLayananInput');
-    const container = document.getElementById('layanan-grid-container');
-    const notFoundMessage = document.getElementById('layanan-notfound');
-
-    if (!container || !searchInput || !notFoundMessage) {
-        console.error("Elemen UI penting di halaman layanan tidak ditemukan.");
-        return;
-    }
-
-    // --- FUNGSI UNTUK MERENDER KARTU LAYANAN KE DALAM GRID ---
-const renderLayananGrid = (layananArray) => {
-    container.innerHTML = ''; // Kosongkan grid sebelum diisi ulang
-
-    if (layananArray.length === 0) {
-        notFoundMessage.style.display = 'block';
-    } else {
-        notFoundMessage.style.display = 'none';
-    }
-
-    layananArray.forEach(layanan => {
-        const card = document.createElement('div');
-        card.className = 'layanan-card';
-        
-        // --- LOGIKA KONDISIONAL BARU UNTUK TOMBOL ---
-        let tombolHTML;
-        if (layanan.isBonus) {
-            // Jika ini layanan bonus, buat tombol non-interaktif
-            tombolHTML = `
-                <span class="btn-cta btn-bonus">
-                    ✓ Layanan Gratis
-                </span>
-            `;
-        } else {
-            // Jika layanan biasa, buat tombol yang bisa diklik
-            tombolHTML = `
-                <button class="btn-cta hubungi-layanan-btn" 
-                        data-layanan-nama="${layanan.nama}" 
-                        data-layanan-detail="${layanan.deskripsi}">
-                    Ambil Jasa Ini
-                </button>
-            `;
-        }
-        
-        // Masukkan HTML tombol yang sudah ditentukan ke dalam kartu
-        card.innerHTML = `
-            <img src="${layanan.gambar}" alt="${layanan.nama}">
-            <div class="layanan-card-content">
-                <h3>${layanan.nama}</h3>
-                <p>${layanan.detail}</p>
-                ${tombolHTML} 
-            </div>
-        `;
-        container.appendChild(card);
-    });
-};
-
-    // --- FUNGSI UNTUK MELAKUKAN FILTER ---
-    const filterLayanan = () => {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const hasilFilter = semuaLayanan.filter(layanan => (
-            layanan.nama.toLowerCase().includes(searchTerm) ||
-            layanan.deskripsi.toLowerCase().includes(searchTerm) ||
-            layanan.detail.toLowerCase().includes(searchTerm)
-        ));
-        renderLayananGrid(hasilFilter);
-    };
-
-    // --- EVENT LISTENER UNTUK SEMUA TOMBOL "AMBIL JASA INI" ---
-    container.addEventListener('click', (e) => {
-        // Menggunakan event delegation untuk menangani semua tombol secara efisien
-        if (e.target.classList.contains('hubungi-layanan-btn')) {
-            const tombol = e.target;
-            const namaLayanan = tombol.dataset.layananNama;
-            const detailLayanan = tombol.dataset.layananDetail;
-
-            // Memanggil fungsi untuk membuka modal dengan data yang sesuai
-            bukaModalLayanan(namaLayanan, detailLayanan);
-        }
-    });
-
-    // --- INISIALISASI HALAMAN ---
-    searchInput.addEventListener('input', filterLayanan);
-    renderLayananGrid(semuaLayanan);
-});
-
+// js/pelayanan-jasa.js
 
 /**
  * FUNGSI BARU KHUSUS UNTUK MODAL LAYANAN
@@ -104,7 +12,10 @@ const renderLayananGrid = (layananArray) => {
  * @param {string} namaLayanan - Nama layanan yang dipilih.
  * @param {string} detailLayanan - Deskripsi singkat layanan.
  */
-function bukaModalLayanan(namaLayanan, detailLayanan) {
+
+// --- Fungsi-fungsi spesifik halaman layanan ---
+function bukaModalLayanan(namaLayanan, detailLayanan) { 
+    
     const modal = document.getElementById('modalLayanan');
     const namaSpan = document.getElementById('modalLayananNama');
     const detailDiv = document.getElementById('modalLayananDetail');
@@ -149,4 +60,126 @@ Deskripsi Permintaan Layanan:
     // Atur event listener untuk menutup modal
     closeBtn.onclick = () => { modal.style.display = 'none'; };
     // Event listener untuk klik di luar modal sudah diatur secara global di main.js
+ }
+
+function renderLayananGrid(layananArray) { 
+    container.innerHTML = ''; // Kosongkan grid sebelum diisi ulang
+
+    if (layananArray.length === 0) {
+        notFoundMessage.style.display = 'block';
+    } else {
+        notFoundMessage.style.display = 'none';
+    }
+
+    layananArray.forEach(layanan => {
+        const card = document.createElement('div');
+        card.className = 'layanan-card';
+        
+        // --- LOGIKA KONDISIONAL BARU UNTUK TOMBOL ---
+        let tombolHTML;
+        if (layanan.isBonus) {
+            // Jika ini layanan bonus, buat tombol non-interaktif
+            tombolHTML = `
+                <span class="btn-cta btn-bonus">
+                    ✓ Layanan Gratis
+                </span>
+            `;
+        } else {
+            // Jika layanan biasa, buat tombol yang bisa diklik
+            tombolHTML = `
+                <button class="btn-cta hubungi-layanan-btn" 
+                        data-layanan-nama="${layanan.nama}" 
+                        data-layanan-detail="${layanan.deskripsi}">
+                    Ambil Jasa Ini
+                </button>
+            `;
+        }
+        
+        // Masukkan HTML tombol yang sudah ditentukan ke dalam kartu
+        card.innerHTML = `
+            <img src="${layanan.gambar}" alt="${layanan.nama}">
+            <div class="layanan-card-content">
+                <h3>${layanan.nama}</h3>
+                <p>${layanan.detail}</p>
+                ${tombolHTML} 
+            </div>
+        `;
+        container.appendChild(card);
+    });
+ }
+
+export function initLayananPage() {
+    console.log("Inisialisasi Halaman Layanan...");
+    
+    const searchInput = document.getElementById('searchLayananInput');
+    const container = document.getElementById('layanan-grid-container');
+    const notFoundMessage = document.getElementById('layanan-notfound');
+
+    if (!container || !searchInput || !notFoundMessage) return;
+
+    const filterLayanan = () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const hasilFilter = semuaLayanan.filter(l => 
+            l.nama.toLowerCase().includes(searchTerm) ||
+            l.deskripsi.toLowerCase().includes(searchTerm) ||
+            l.detail.toLowerCase().includes(searchTerm)
+        );
+        renderLayananGrid(hasilFilter);
+    };
+
+    container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('hubungi-layanan-btn')) {
+            bukaModalLayanan(e.target.dataset.layananNama, e.target.dataset.layananDetail);
+        }
+    });
+
+    searchInput.addEventListener('input', filterLayanan);
+    renderLayananGrid(semuaLayanan);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Pastikan data layanan sudah tersedia dari data-layanan.js
+    if (typeof semuaLayanan === 'undefined') {
+        console.error("Data layanan (semuaLayanan) tidak ditemukan.");
+        return;
+    }
+    
+    // Ambil elemen-elemen penting dari DOM
+    const searchInput = document.getElementById('searchLayananInput');
+    const container = document.getElementById('layanan-grid-container');
+    const notFoundMessage = document.getElementById('layanan-notfound');
+
+    if (!container || !searchInput || !notFoundMessage) {
+        console.error("Elemen UI penting di halaman layanan tidak ditemukan.");
+        return;
+    }
+
+
+    // --- FUNGSI UNTUK MELAKUKAN FILTER ---
+    const filterLayanan = () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const hasilFilter = semuaLayanan.filter(layanan => (
+            layanan.nama.toLowerCase().includes(searchTerm) ||
+            layanan.deskripsi.toLowerCase().includes(searchTerm) ||
+            layanan.detail.toLowerCase().includes(searchTerm)
+        ));
+        renderLayananGrid(hasilFilter);
+    };
+
+    // --- EVENT LISTENER UNTUK SEMUA TOMBOL "AMBIL JASA INI" ---
+    container.addEventListener('click', (e) => {
+        // Menggunakan event delegation untuk menangani semua tombol secara efisien
+        if (e.target.classList.contains('hubungi-layanan-btn')) {
+            const tombol = e.target;
+            const namaLayanan = tombol.dataset.layananNama;
+            const detailLayanan = tombol.dataset.layananDetail;
+
+            // Memanggil fungsi untuk membuka modal dengan data yang sesuai
+            bukaModalLayanan(namaLayanan, detailLayanan);
+        }
+    });
+
+    // --- INISIALISASI HALAMAN ---
+    searchInput.addEventListener('input', filterLayanan);
+    renderLayananGrid(semuaLayanan);
+});

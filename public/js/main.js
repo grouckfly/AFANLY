@@ -1,75 +1,37 @@
-// main.js - sekarang sebagai modul utama
+// js/main.js (Versi Orkestrator Final)
 
-// 1. Impor pemuat komponen
 import { loadAllComponents } from './components/component-loader.js';
+import { initTokoPage } from './toko.js';
+import { initLayananPage } from './pelayanan-jasa.js';
+import { initSpesifikasiPage } from './spesifikasi.js';
 
-// 2. Definisikan semua fungsi inisialisasi Anda di sini
-// (initDarkMode, initSidebar, initContactReasonModal, dll. - salin dari file lama Anda)
-// function initDarkMode() { ... }
-// function initSidebar() { ... }
-// ... dan seterusnya
-
-// Fungsi utama yang berjalan setelah DOM siap
-async function main() {
-    // Langkah A: Muat dan suntikkan semua komponen HTML terlebih dahulu
-    await loadAllComponents();
-
-    // Langkah B: Setelah HTML komponen ada di halaman, BARU jalankan semua skrip inisialisasi
-    // Ini memastikan elemen seperti #sidebar, #navbar, #darkModeToggle sudah ada sebelum
-    // JavaScript mencoba mencarinya.
-    
-    initLoadingAndWelcomeScreen();
-    initDarkMode();
-    initSmartScrollToCenter();
-    initSidebar();
-    initAboutCarousel();
-    initDevNotif();
-    initYear();
-    initKritikSaranModal();
-    initNotificationCenter();
-    initGlobalModalClosers();
-    initContactReasonModal();
-
-    if (document.querySelector(".services .card-wrapper")) {
-        renderServices();
-        startAutoScrollCardWrapper();
-    }
-}
-
-// Jalankan fungsi utama
-document.addEventListener("DOMContentLoaded", main);
-
-// === VARIABEL GLOBAL BARU UNTUK MANAJEMEN NOTIFIKASI ===
+// --- Fungsi Inisialisasi GLOBAL ---
+// (Anda harus menyalin-tempel isi lengkap dari setiap fungsi ini dari file main.js lama Anda)
 let activeNotifications = [];
-
-/**
+function addNotification(id, message, type) { 
+    /**
  * Menambahkan notifikasi ke daftar dan memperbarui UI.
  * @param {string} id - ID unik untuk notifikasi (e.g., 'dev-warning', 'connection-issue').
  * @param {string} message - Pesan notifikasi yang akan ditampilkan.
  * @param {string} type - Jenis notifikasi ('pemberitahuan' atau 'peringatan').
  */
-function addNotification(id, message, type) {
-    // Hindari duplikat
     if (!activeNotifications.find(n => n.id === id)) {
         activeNotifications.push({ id, message, type }); // Tambahkan 'type'
         updateNotificationUI();
     }
 }
-
-/**
+ 
+function removeNotification(id) {
+    /**
  * Menghapus notifikasi dari daftar dan memperbarui UI.
  * @param {string} id - ID notifikasi yang akan dihapus.
  */
-function removeNotification(id) {
     activeNotifications = activeNotifications.filter(n => n.id !== id);
     updateNotificationUI();
 }
-
-/**
- * Memperbarui semua elemen UI yang terkait dengan notifikasi.
- * (Counter lonceng dan daftar di modal yang sudah dikategorikan).
- */
-function updateNotificationUI() {
+ 
+function updateNotificationUI() { 
+    
     const pemberitahuanList = document.getElementById('pemberitahuan-list');
     const peringatanList = document.getElementById('peringatan-list');
     const counters = document.querySelectorAll('.notification-counter');
@@ -124,93 +86,93 @@ function updateNotificationUI() {
             counter.classList.remove('visible');
         });
     }
-}
+ }
 
-/* -------------------- PUSAT NOTIFIKASI MODAL -------------------- */
-function initNotificationCenter() {
-    const modal = document.getElementById("notification-center-modal");
-    const closeModalBtn = document.getElementById("notification-center-close");
-    const openModalBtns = document.querySelectorAll(".dev-notif-toggle");
+function initLoadingAndWelcomeScreen() { 
+    
+    const loadingScreen = document.getElementById('loading-screen');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const connectionNotif = document.getElementById('connection-status-notif');
+    const connectionNotifClose = document.getElementById('connection-notif-close');
 
-    if (!modal) {
-        console.warn("Notification Center modal not found.");
-        return;
-    }
-
-    openModalBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            modal.style.display = "flex";
-        });
-    });
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-}
-
-/* -------------------- SMOOTH CENTER SCROLL -------------------- */
-function initSmartScrollToCenter() {
-    const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
-
-    scrollLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            // 1. Mencegah perilaku default browser agar kita bisa mengontrol scroll sepenuhnya.
-            e.preventDefault();
-
-            const href = this.getAttribute('href');
-            // Jika link hanya '#', scroll ke paling atas halaman.
-            if (href === '#') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
+    // Fungsi untuk cek koneksi (didefinisikan di sini agar bisa diakses semua kondisi)
+    function checkConnection() {
+        if (connectionNotif) {
+            if (!navigator.onLine) {
+                connectionNotif.classList.add('active');
+                addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
+            } else {
+                connectionNotif.classList.remove('active');
+                removeNotification('connection-issue');
             }
+        }
+    }
+    
+    // Cek apakah halaman ini MEMILIKI fitur loading & welcome screen.
+    if (loadingScreen && welcomeScreen) {
+        // JIKA ADA, jalankan semua logika terkait loading & welcome screen.
+        
+        if (sessionStorage.getItem('hasLoadedOnce')) {
+            // Logika untuk muatan berikutnya (bukan yang pertama)
+            loadingScreen.classList.add('hidden');
+            welcomeScreen.classList.add('hidden');
+        } else {
+            // Logika untuk muatan pertama kali
+            const loadingText = document.getElementById('loading-text');
 
-            const targetElement = document.querySelector(href);
-            const header = document.querySelector('header'); // Ambil elemen header
+            if (loadingText) {
+                loadingText.textContent = "Memuat...";
+            }
+            
+            loadingScreen.classList.remove('hidden');
+            welcomeScreen.classList.add('hidden');
 
-            if (targetElement && header) {
-                // 2. Mengukur semua komponen yang diperlukan secara dinamis.
-                const headerHeight = header.offsetHeight;
-                const targetHeight = targetElement.offsetHeight;
-                const viewportHeight = window.innerHeight;
-                let targetTop;
+            // Tunggu hingga semua aset (gambar, css, dll) selesai dimuat
+            window.addEventListener('load', function() {
+                // *** BARIS INI ADALAH PERBAIKANNYA ***
+                // Sembunyikan loading screen SEBELUM menampilkan welcome screen
+                loadingScreen.classList.add('hidden');
+                
+                // Tampilkan welcome screen
+                welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
+                sessionStorage.setItem('hasLoadedOnce', 'true');
 
+                // Atur waktu untuk animasi menghilang dari welcome screen
+                setTimeout(() => {
+                    welcomeScreen.classList.add('swipe-up-animation-end');
+                }, 2000);
 
-                // 3. Logika "Pintar": Cek apakah seksi lebih tinggi dari ruang yang terlihat.
-                if (targetHeight > viewportHeight - headerHeight) {
-                    // KASUS 1: Seksi lebih tinggi dari layar.
-                    // Scroll agar bagian atas seksi berada tepat di bawah header.
-                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
-                } else {
-                    // KASUS 2: Seksi lebih pendek dari layar.
-                    // Kalkulasi untuk menempatkan seksi di tengah ruang vertikal yang tersedia.
-                    const availableSpace = viewportHeight - headerHeight;
-                    const verticalOffset = (availableSpace - targetHeight) / 2;
-                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - verticalOffset;
-                }
-
-                // 4. Lakukan scroll ke posisi yang sudah dihitung.
-                window.scrollTo({
-                    top: targetTop,
-                    behavior: 'smooth'
+                // Listener untuk menyembunyikan elemen setelah animasi selesai
+                welcomeScreen.addEventListener('animationend', function handler(event) {
+                    if (event.animationName === 'swipeUpAndFade') {
+                        welcomeScreen.classList.add('hidden');
+                        welcomeScreen.classList.remove('swipe-up-animation-end');
+                        welcomeScreen.removeEventListener('animationend', handler);
+                    }
                 });
+            });
+        }
+    } else {
+        // JIKA TIDAK ADA, beri pesan di konsol (untuk debugging) dan lanjutkan.
+        console.log("Loading/Welcome screen elements not found on this page. Skipping their initialization.");
+    }
 
-                // 5. Logika untuk menutup sidebar di mobile (tetap dipertahankan).
-                const sidebar = document.getElementById('sidebar');
-                if (sidebar && sidebar.classList.contains('active')) {
-                    setTimeout(() => {
-                        sidebar.classList.remove('active');
-                        document.body.classList.remove("sidebar-open");
-                    }, 300);
-                }
+    // Logika ini akan selalu berjalan di SEMUA halaman
+    setInterval(checkConnection, 5000);
+    window.addEventListener('online', checkConnection);
+    window.addEventListener('offline', checkConnection);
+
+    if (connectionNotifClose) {
+        connectionNotifClose.addEventListener('click', () => {
+            if(connectionNotif) {
+                connectionNotif.classList.remove('active');
             }
         });
-    });
-}
+    }
+ }
 
-/* -------------------- DARK MODE -------------------- */
-function initDarkMode() {
+function initDarkMode() { 
+    
     const toggle = document.getElementById("darkModeToggle");
     const sidebarDarkBtn = document.getElementById("sidebarDarkModeToggle");
     
@@ -292,10 +254,10 @@ function initDarkMode() {
     });
 
     updateAriaAttributes();
-}
+ }
 
-/* -------------------- SIDEBAR -------------------- */
-function initSidebar() {
+function initSidebar() { 
+    
     const sidebar = document.getElementById("sidebar");
     const sidebarToggle = document.getElementById("sidebarToggle");
 
@@ -322,10 +284,152 @@ function initSidebar() {
             }
         });
     });
-}
+ }
 
-/* -------------------- DEV NOTIF -------------------- */
-function initDevNotif() {
+function initNotificationCenter() { 
+    
+    const modal = document.getElementById("notification-center-modal");
+    const closeModalBtn = document.getElementById("notification-center-close");
+    const openModalBtns = document.querySelectorAll(".dev-notif-toggle");
+
+    if (!modal) {
+        console.warn("Notification Center modal not found.");
+        return;
+    }
+
+    openModalBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modal.style.display = "flex";
+        });
+    });
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+    }
+ }
+
+function initGlobalModalClosers() { 
+    
+    window.addEventListener('click', (e) => {
+        // Cari semua modal yang mungkin ada di halaman
+        const allModals = document.querySelectorAll('.modal, .modal-kontak, .modal-filter');
+        
+        allModals.forEach(modal => {
+            // Cek apakah modal sedang ditampilkan dan apakah yang di-klik adalah
+            // elemen latar belakang modal itu sendiri (bukan konten di dalamnya).
+            if (modal.style.display === 'flex' && e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+ }
+
+function initContactReasonModal() { 
+    
+    // Definisikan semua alasan kontak dalam satu array agar mudah dikelola
+    const contactReasons = [
+        { id: 'layanan', text: 'Menghubungi untuk Layanan', subject: 'Permintaan Layanan AFANLY', 
+            body: 'Halo, saya ingin bertanya tentang layanan yang tersedia.' },
+        { id: 'pembelian', text: 'Menghubungi untuk Pembelian Barang', subject: 'Pemesanan Produk AFANLY', 
+            body: 'Halo, saya ingin melakukan pemesanan produk.' },
+        { id: 'request', text: 'Menghubungi untuk Permintaan Barang', subject: 'Permintaan Barang AFANLY', 
+            body: 'Halo, saya ingin meminta barang yang tidak ada di katalog.' },
+        { id: 'kritik', text: 'Menghubungi untuk Kritik & Saran', subject: 'Kritik & Saran AFANLY', 
+            body: 'Halo, saya ingin memberikan kritik dan saran.' },
+        { id: 'laporan', text: 'Menghubungi untuk Laporan Pengaduan', subject: 'Laporan Pengaduan AFANLY', 
+            body: 'Halo, saya ingin memberikan laporan pengaduan.' },
+        { id: 'lainnya', text: 'Keterangan Lainnya', subject: 'Informasi Lebih Lanjut AFANLY', 
+            body: 'Halo, saya ingin bertanya tentang hal lain.' }
+    ];
+
+    // Ambil semua elemen yang diperlukan
+    const triggers = document.querySelectorAll('.contact-trigger');
+    const modal = document.getElementById('contact-reason-modal');
+    const form = document.getElementById('contact-reason-form');
+    const reasonSelect = document.getElementById('reasonSelect');
+    const closeModalBtn = document.getElementById('closeReasonModal');
+
+    if (!triggers.length || !modal || !form || !reasonSelect || !closeModalBtn) {
+        return; // Jangan jalankan jika ada elemen yang hilang
+    }
+
+    let currentMethod = ''; // Untuk menyimpan 'email' atau 'whatsapp'
+
+    // Isi dropdown dengan pilihan alasan
+    contactReasons.forEach(reason => {
+        const option = document.createElement('option');
+        option.value = reason.id;
+        option.textContent = reason.text;
+        reasonSelect.appendChild(option);
+    });
+
+    // Event listener untuk pemicu (kartu Email & WhatsApp)
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentMethod = trigger.dataset.method;
+            modal.style.display = 'flex';
+        });
+    });
+
+    // Event listener utama saat form di-submit
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Mencegah form mengirim dan me-reload halaman
+
+        // 1. Kumpulkan semua data dari form
+        const nama = document.getElementById('namaInput').value;
+        const telp = document.getElementById('telpInput').value;
+        const email = document.getElementById('emailInput').value;
+        const pesanPengguna = document.getElementById('pesanInput').value;
+        const selectedReasonId = reasonSelect.value;
+        const selectedReason = contactReasons.find(r => r.id === selectedReasonId);
+
+        // 2. Buat template pesan yang detail
+        const templatePesan = `
+${selectedReason.subject}
+
+-- Detail Pengirim --
+Nama: ${nama}
+No. Telp: ${telp}
+Email: ${email}
+
+-- Isi Pesan --
+${pesanPengguna}
+`.trim();
+
+        // 3. Buat URL sesuai metode kontak yang dipilih
+        const waNumber = '628127659073';
+        const emailAddress = 'defry.pku@gmail.com';
+        let url = '';
+
+        if (currentMethod === 'whatsapp') {
+            const pesanWA = encodeURIComponent(templatePesan);
+            url = `https://wa.me/${waNumber}?text=${pesanWA}`;
+        } else if (currentMethod === 'email') {
+            const subject = encodeURIComponent(selectedReason.subject);
+            const body = encodeURIComponent(templatePesan);
+            url = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
+        }
+
+        // 4. Buka link dan tutup modal
+        if (url) {
+            window.open(url, '_blank');
+        }
+        
+        modal.style.display = 'none';
+        form.reset(); // Kosongkan form setelah dikirim
+    });
+
+    // Event listener untuk tombol tutup (X)
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+ }
+
+function initDevNotif() { 
+    
     // 1. Ambil semua elemen yang diperlukan
     const notifContainer = document.getElementById('dev-notif');
     const notifTextElement = document.getElementById('notif-text');
@@ -368,18 +472,18 @@ function initDevNotif() {
     }
     // Jika 'actualMessage' kosong, maka seluruh blok 'if' ini akan dilewati,
     // dan tidak ada notifikasi atau pop-up yang akan muncul.
-}
+ }
 
-/* -------------------- FOOTER YEAR -------------------- */
-function initYear() {
+function initYear() { 
+    
     const yearSpan = document.getElementById("year");
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
-}
+ }
 
-/* -------------------- SECTION SERVICES (VERSI DINAMIS) -------------------- */
-function renderServices() {
+function renderServices() { 
+    
     const wrapper = document.getElementById('layanan-wrapper');
     // Pastikan fungsi ini hanya berjalan jika elemen dan datanya ada
     if (!wrapper || typeof semuaLayanan === 'undefined') {
@@ -406,10 +510,10 @@ function renderServices() {
     
     // Inisialisasi ulang fungsionalitas swipe/drag setelah card dirender
     initCardSwipe('layanan-wrapper');
-}
+ }
 
-// Fungsi swipe yang dibuat lebih umum
-function initCardSwipe(wrapperId) {
+function initCardSwipe(wrapperId) { 
+    
     const cardWrapper = document.getElementById(wrapperId);
     if (!cardWrapper) return;
 
@@ -459,10 +563,10 @@ function initCardSwipe(wrapperId) {
         const walk = (x - startX) * 1.5;
         cardWrapper.scrollLeft = scrollLeft - walk;
     }, { passive: false }); // Penting: { passive: false }
-}
+ }
 
-/* -------------------- Auto About -------------------- */
-function initAboutCarousel() {
+function initAboutCarousel() { 
+    
     const carousel = document.querySelector('.about-image-carousel');
     if (!carousel) return;
 
@@ -525,6 +629,107 @@ function initAboutCarousel() {
 
     // Mulai slideshow
     startSlideshow();
+ }
+
+// --- FUNGSI UTAMA APLIKASI ---
+async function main() {
+    // Langkah A: Muat semua komponen HTML (navbar, modal, dll.)
+    await loadAllComponents();
+
+    // Langkah B: Jalankan semua inisialisasi GLOBAL
+    console.log("Inisialisasi skrip global...");
+    initLoadingAndWelcomeScreen();
+    initDarkMode();
+    initSidebar();
+    initNotificationCenter();
+    initGlobalModalClosers();
+    initContactReasonModal();
+    initDevNotif();
+    initYear();
+    
+    // Langkah C: Jalankan inisialisasi SPESIFIK HALAMAN
+    console.log("Mengecek halaman spesifik...");
+    if (document.getElementById('layanan-wrapper')) { // Halaman Utama (index.html)
+        console.log("Inisialisasi Halaman Utama...");
+        renderServices();
+        if (typeof startAutoScrollCardWrapper === 'function') startAutoScrollCardWrapper();
+        initAboutCarousel();
+    }
+    
+    if (document.getElementById('produkList')) { // Halaman Toko
+        initTokoPage();
+    }
+    
+    if (document.getElementById('layanan-grid-container')) { // Halaman Layanan
+        initLayananPage();
+    }
+    
+    if (document.getElementById('detail-produk')) { // Halaman Spesifikasi
+        initSpesifikasiPage();
+    }
+}
+
+// Jalankan aplikasi setelah DOM siap
+document.addEventListener("DOMContentLoaded", main);
+
+
+/* -------------------- SMOOTH CENTER SCROLL -------------------- */
+function initSmartScrollToCenter() {
+    const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
+
+    scrollLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            // 1. Mencegah perilaku default browser agar kita bisa mengontrol scroll sepenuhnya.
+            e.preventDefault();
+
+            const href = this.getAttribute('href');
+            // Jika link hanya '#', scroll ke paling atas halaman.
+            if (href === '#') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            const targetElement = document.querySelector(href);
+            const header = document.querySelector('header'); // Ambil elemen header
+
+            if (targetElement && header) {
+                // 2. Mengukur semua komponen yang diperlukan secara dinamis.
+                const headerHeight = header.offsetHeight;
+                const targetHeight = targetElement.offsetHeight;
+                const viewportHeight = window.innerHeight;
+                let targetTop;
+
+
+                // 3. Logika "Pintar": Cek apakah seksi lebih tinggi dari ruang yang terlihat.
+                if (targetHeight > viewportHeight - headerHeight) {
+                    // KASUS 1: Seksi lebih tinggi dari layar.
+                    // Scroll agar bagian atas seksi berada tepat di bawah header.
+                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
+                } else {
+                    // KASUS 2: Seksi lebih pendek dari layar.
+                    // Kalkulasi untuk menempatkan seksi di tengah ruang vertikal yang tersedia.
+                    const availableSpace = viewportHeight - headerHeight;
+                    const verticalOffset = (availableSpace - targetHeight) / 2;
+                    targetTop = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight - verticalOffset;
+                }
+
+                // 4. Lakukan scroll ke posisi yang sudah dihitung.
+                window.scrollTo({
+                    top: targetTop,
+                    behavior: 'smooth'
+                });
+
+                // 5. Logika untuk menutup sidebar di mobile (tetap dipertahankan).
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar && sidebar.classList.contains('active')) {
+                    setTimeout(() => {
+                        sidebar.classList.remove('active');
+                        document.body.classList.remove("sidebar-open");
+                    }, 300);
+                }
+            }
+        });
+    });
 }
 
 /* -------------------- Auto Swipe -------------------- */
@@ -638,209 +843,4 @@ function initKritikSaranModal() {
         });
     }
 
-}
-
-/* -------------------- LOADING AND WELCOME SCREEN -------------------- */
-function initLoadingAndWelcomeScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const connectionNotif = document.getElementById('connection-status-notif');
-    const connectionNotifClose = document.getElementById('connection-notif-close');
-
-    // Fungsi untuk cek koneksi (didefinisikan di sini agar bisa diakses semua kondisi)
-    function checkConnection() {
-        if (connectionNotif) {
-            if (!navigator.onLine) {
-                connectionNotif.classList.add('active');
-                addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
-            } else {
-                connectionNotif.classList.remove('active');
-                removeNotification('connection-issue');
-            }
-        }
-    }
-    
-    // Cek apakah halaman ini MEMILIKI fitur loading & welcome screen.
-    if (loadingScreen && welcomeScreen) {
-        // JIKA ADA, jalankan semua logika terkait loading & welcome screen.
-        
-        if (sessionStorage.getItem('hasLoadedOnce')) {
-            // Logika untuk muatan berikutnya (bukan yang pertama)
-            loadingScreen.classList.add('hidden');
-            welcomeScreen.classList.add('hidden');
-        } else {
-            // Logika untuk muatan pertama kali
-            const loadingText = document.getElementById('loading-text');
-
-            if (loadingText) {
-                loadingText.textContent = "Memuat...";
-            }
-            
-            loadingScreen.classList.remove('hidden');
-            welcomeScreen.classList.add('hidden');
-
-            // Tunggu hingga semua aset (gambar, css, dll) selesai dimuat
-            window.addEventListener('load', function() {
-                // *** BARIS INI ADALAH PERBAIKANNYA ***
-                // Sembunyikan loading screen SEBELUM menampilkan welcome screen
-                loadingScreen.classList.add('hidden');
-                
-                // Tampilkan welcome screen
-                welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
-                sessionStorage.setItem('hasLoadedOnce', 'true');
-
-                // Atur waktu untuk animasi menghilang dari welcome screen
-                setTimeout(() => {
-                    welcomeScreen.classList.add('swipe-up-animation-end');
-                }, 2000);
-
-                // Listener untuk menyembunyikan elemen setelah animasi selesai
-                welcomeScreen.addEventListener('animationend', function handler(event) {
-                    if (event.animationName === 'swipeUpAndFade') {
-                        welcomeScreen.classList.add('hidden');
-                        welcomeScreen.classList.remove('swipe-up-animation-end');
-                        welcomeScreen.removeEventListener('animationend', handler);
-                    }
-                });
-            });
-        }
-    } else {
-        // JIKA TIDAK ADA, beri pesan di konsol (untuk debugging) dan lanjutkan.
-        console.log("Loading/Welcome screen elements not found on this page. Skipping their initialization.");
-    }
-
-    // Logika ini akan selalu berjalan di SEMUA halaman
-    setInterval(checkConnection, 5000);
-    window.addEventListener('online', checkConnection);
-    window.addEventListener('offline', checkConnection);
-
-    if (connectionNotifClose) {
-        connectionNotifClose.addEventListener('click', () => {
-            if(connectionNotif) {
-                connectionNotif.classList.remove('active');
-            }
-        });
-    }
-}
-
-/* -------------------- PENUTUP MODAL GLOBAL -------------------- */
-/**
- * Fungsi ini menambahkan satu event listener ke window untuk menangani
- * penutupan semua jenis modal saat area luarnya di-klik.
- */
-function initGlobalModalClosers() {
-    window.addEventListener('click', (e) => {
-        // Cari semua modal yang mungkin ada di halaman
-        const allModals = document.querySelectorAll('.modal, .modal-kontak, .modal-filter');
-        
-        allModals.forEach(modal => {
-            // Cek apakah modal sedang ditampilkan dan apakah yang di-klik adalah
-            // elemen latar belakang modal itu sendiri (bukan konten di dalamnya).
-            if (modal.style.display === 'flex' && e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
-}
-
-/* -------------------- MODAL PEMILIHAN ALASAN KONTAK -------------------- */
-function initContactReasonModal() {
-    // Definisikan semua alasan kontak dalam satu array agar mudah dikelola
-    const contactReasons = [
-        { id: 'layanan', text: 'Menghubungi untuk Layanan', subject: 'Permintaan Layanan AFANLY', 
-            body: 'Halo, saya ingin bertanya tentang layanan yang tersedia.' },
-        { id: 'pembelian', text: 'Menghubungi untuk Pembelian Barang', subject: 'Pemesanan Produk AFANLY', 
-            body: 'Halo, saya ingin melakukan pemesanan produk.' },
-        { id: 'request', text: 'Menghubungi untuk Permintaan Barang', subject: 'Permintaan Barang AFANLY', 
-            body: 'Halo, saya ingin meminta barang yang tidak ada di katalog.' },
-        { id: 'kritik', text: 'Menghubungi untuk Kritik & Saran', subject: 'Kritik & Saran AFANLY', 
-            body: 'Halo, saya ingin memberikan kritik dan saran.' },
-        { id: 'laporan', text: 'Menghubungi untuk Laporan Pengaduan', subject: 'Laporan Pengaduan AFANLY', 
-            body: 'Halo, saya ingin memberikan laporan pengaduan.' },
-        { id: 'lainnya', text: 'Keterangan Lainnya', subject: 'Informasi Lebih Lanjut AFANLY', 
-            body: 'Halo, saya ingin bertanya tentang hal lain.' }
-    ];
-
-    // Ambil semua elemen yang diperlukan
-    const triggers = document.querySelectorAll('.contact-trigger');
-    const modal = document.getElementById('contact-reason-modal');
-    const form = document.getElementById('contact-reason-form');
-    const reasonSelect = document.getElementById('reasonSelect');
-    const closeModalBtn = document.getElementById('closeReasonModal');
-
-    if (!triggers.length || !modal || !form || !reasonSelect || !closeModalBtn) {
-        return; // Jangan jalankan jika ada elemen yang hilang
-    }
-
-    let currentMethod = ''; // Untuk menyimpan 'email' atau 'whatsapp'
-
-    // Isi dropdown dengan pilihan alasan
-    contactReasons.forEach(reason => {
-        const option = document.createElement('option');
-        option.value = reason.id;
-        option.textContent = reason.text;
-        reasonSelect.appendChild(option);
-    });
-
-    // Event listener untuk pemicu (kartu Email & WhatsApp)
-    triggers.forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            currentMethod = trigger.dataset.method;
-            modal.style.display = 'flex';
-        });
-    });
-
-    // Event listener utama saat form di-submit
-    form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Mencegah form mengirim dan me-reload halaman
-
-        // 1. Kumpulkan semua data dari form
-        const nama = document.getElementById('namaInput').value;
-        const telp = document.getElementById('telpInput').value;
-        const email = document.getElementById('emailInput').value;
-        const pesanPengguna = document.getElementById('pesanInput').value;
-        const selectedReasonId = reasonSelect.value;
-        const selectedReason = contactReasons.find(r => r.id === selectedReasonId);
-
-        // 2. Buat template pesan yang detail
-        const templatePesan = `
-${selectedReason.subject}
-
--- Detail Pengirim --
-Nama: ${nama}
-No. Telp: ${telp}
-Email: ${email}
-
--- Isi Pesan --
-${pesanPengguna}
-`.trim();
-
-        // 3. Buat URL sesuai metode kontak yang dipilih
-        const waNumber = '628127659073';
-        const emailAddress = 'defry.pku@gmail.com';
-        let url = '';
-
-        if (currentMethod === 'whatsapp') {
-            const pesanWA = encodeURIComponent(templatePesan);
-            url = `https://wa.me/${waNumber}?text=${pesanWA}`;
-        } else if (currentMethod === 'email') {
-            const subject = encodeURIComponent(selectedReason.subject);
-            const body = encodeURIComponent(templatePesan);
-            url = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
-        }
-
-        // 4. Buka link dan tutup modal
-        if (url) {
-            window.open(url, '_blank');
-        }
-        
-        modal.style.display = 'none';
-        form.reset(); // Kosongkan form setelah dikirim
-    });
-
-    // Event listener untuk tombol tutup (X)
-    closeModalBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
 }
