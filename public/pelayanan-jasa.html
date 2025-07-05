@@ -91,16 +91,14 @@
                 <h2>Kontak</h2>
                 <p>Hubungi kami untuk informasi lebih lanjut</p>
                 <div class="contact-cards">
-                    <a href="mailto:defry.pku@gmail.com?subject=Permintaan%20Layanan%20AFANLY&body=Nama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
-                        id="emailLink" class="contact-card" title="Kirim Email" target="_blank"
-                        rel="noopener noreferrer">
+                    <a href="#" id="emailTrigger" class="contact-card contact-trigger" data-method="email"
+                        title="Hubungi via Email">
                         <span class="contact-icon">📧</span>
                         <span class="contact-label">Email</span>
                         <span class="contact-value">defry.pku@gmail.com</span>
                     </a>
-                    <a href="https://wa.me/628127659073?text=Permintaan%20Layanan%20AFANLY%0A%0ANama%3A%0AAlamat%3A%0AJasa%20yang%20diinginkan%3A%0ADeskripsi%3A"
-                        id="phoneLink" class="contact-card" target="_blank" rel="noopener noreferrer"
-                        title="Chat WhatsApp">
+                    <a href="#" id="whatsappTrigger" class="contact-card contact-trigger" data-method="whatsapp"
+                        title="Hubungi via WhatsApp">
                         <span class="contact-icon">💬</span>
                         <span class="contact-label">WhatsApp</span>
                         <span class="contact-value">0812-7659-073</span>
@@ -118,6 +116,41 @@
         <footer>
             <p>© <span id="year"></span> AFANLY. All rights reserved.</p>
         </footer>
+    </div>
+
+    <div id="contact-reason-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeReasonModal">×</span>
+            <h2>Hubungi Kami</h2>
+            <p>Silakan isi detail di bawah ini agar kami bisa membantu Anda dengan lebih baik.</p>
+            
+            <form id="contact-reason-form" class="contact-form">
+                <div class="form-group">
+                    <label for="reasonSelect">Topik Kontak</label>
+                    <select id="reasonSelect" name="topik" required>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="namaInput">Nama Lengkap</label>
+                    <input type="text" id="namaInput" name="nama" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label for="telpInput">No. Telepon (WhatsApp)</label>
+                    <input type="tel" id="telpInput" name="telepon" placeholder="Contoh: 08123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">Alamat Email</label>
+                    <input type="email" id="emailInput" name="email" placeholder="Contoh: nama@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesanInput">Deskripsi Pesan</label>
+                    <textarea id="pesanInput" name="pesan" rows="4" placeholder="Jelaskan kebutuhan atau pertanyaan Anda di sini..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn-cta contact-submit-btn">Kirim</button>
+            </form>
+        </div>
     </div>
 
     <div id="kritik-saran-modal" class="modal">

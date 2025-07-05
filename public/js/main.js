@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initKritikSaranModal();
     initNotificationCenter(); // <-- PANGGIL FUNGSI BARU DI SINI
     initGlobalModalClosers(); // Panggil fungsi untuk menutup modal global
+    initContactReasonModal(); // Panggil fungsi untuk inisialisasi modal alasan kontak
 
     // Hanya inisialisasi services jika ada elemen terkait
     if (document.querySelector(".services .card-wrapper")) {
@@ -719,5 +720,107 @@ function initGlobalModalClosers() {
                 modal.style.display = 'none';
             }
         });
+    });
+}
+
+/* -------------------- MODAL PEMILIHAN ALASAN KONTAK -------------------- */
+function initContactReasonModal() {
+    // Definisikan semua alasan kontak dalam satu array agar mudah dikelola
+    const contactReasons = [
+        { id: 'layanan', text: 'Menghubungi untuk Layanan', subject: 'Permintaan Layanan AFANLY', 
+            body: 'Halo, saya ingin bertanya tentang layanan yang tersedia.' },
+        { id: 'pembelian', text: 'Menghubungi untuk Pembelian Barang', subject: 'Pemesanan Produk AFANLY', 
+            body: 'Halo, saya ingin melakukan pemesanan produk.' },
+        { id: 'request', text: 'Menghubungi untuk Permintaan Barang', subject: 'Permintaan Barang AFANLY', 
+            body: 'Halo, saya ingin meminta barang yang tidak ada di katalog.' },
+        { id: 'kritik', text: 'Menghubungi untuk Kritik & Saran', subject: 'Kritik & Saran AFANLY', 
+            body: 'Halo, saya ingin memberikan kritik dan saran.' },
+        { id: 'laporan', text: 'Menghubungi untuk Laporan Pengaduan', subject: 'Laporan Pengaduan AFANLY', 
+            body: 'Halo, saya ingin memberikan laporan pengaduan.' },
+        { id: 'lainnya', text: 'Keterangan Lainnya', subject: 'Informasi Lebih Lanjut AFANLY', 
+            body: 'Halo, saya ingin bertanya tentang hal lain.' }
+    ];
+
+    // Ambil semua elemen yang diperlukan
+    const triggers = document.querySelectorAll('.contact-trigger');
+    const modal = document.getElementById('contact-reason-modal');
+    const form = document.getElementById('contact-reason-form');
+    const reasonSelect = document.getElementById('reasonSelect');
+    const closeModalBtn = document.getElementById('closeReasonModal');
+
+    if (!triggers.length || !modal || !form || !reasonSelect || !closeModalBtn) {
+        return; // Jangan jalankan jika ada elemen yang hilang
+    }
+
+    let currentMethod = ''; // Untuk menyimpan 'email' atau 'whatsapp'
+
+    // Isi dropdown dengan pilihan alasan
+    contactReasons.forEach(reason => {
+        const option = document.createElement('option');
+        option.value = reason.id;
+        option.textContent = reason.text;
+        reasonSelect.appendChild(option);
+    });
+
+    // Event listener untuk pemicu (kartu Email & WhatsApp)
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentMethod = trigger.dataset.method;
+            modal.style.display = 'flex';
+        });
+    });
+
+    // Event listener utama saat form di-submit
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Mencegah form mengirim dan me-reload halaman
+
+        // 1. Kumpulkan semua data dari form
+        const nama = document.getElementById('namaInput').value;
+        const telp = document.getElementById('telpInput').value;
+        const email = document.getElementById('emailInput').value;
+        const pesanPengguna = document.getElementById('pesanInput').value;
+        const selectedReasonId = reasonSelect.value;
+        const selectedReason = contactReasons.find(r => r.id === selectedReasonId);
+
+        // 2. Buat template pesan yang detail
+        const templatePesan = `
+${selectedReason.subject}
+
+-- Detail Pengirim --
+Nama: ${nama}
+No. Telp: ${telp}
+Email: ${email}
+
+-- Isi Pesan --
+${pesanPengguna}
+`.trim();
+
+        // 3. Buat URL sesuai metode kontak yang dipilih
+        const waNumber = '628127659073';
+        const emailAddress = 'defry.pku@gmail.com';
+        let url = '';
+
+        if (currentMethod === 'whatsapp') {
+            const pesanWA = encodeURIComponent(templatePesan);
+            url = `https://wa.me/${waNumber}?text=${pesanWA}`;
+        } else if (currentMethod === 'email') {
+            const subject = encodeURIComponent(selectedReason.subject);
+            const body = encodeURIComponent(templatePesan);
+            url = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
+        }
+
+        // 4. Buka link dan tutup modal
+        if (url) {
+            window.open(url, '_blank');
+        }
+        
+        modal.style.display = 'none';
+        form.reset(); // Kosongkan form setelah dikirim
+    });
+
+    // Event listener untuk tombol tutup (X)
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
     });
 }
