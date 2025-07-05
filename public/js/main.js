@@ -1,6 +1,24 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Inisialisasi utama
-    initLoadingAndWelcomeScreen(); // Panggil ini paling awal
+// main.js - sekarang sebagai modul utama
+
+// 1. Impor pemuat komponen
+import { loadAllComponents } from './components/component-loader.js';
+
+// 2. Definisikan semua fungsi inisialisasi Anda di sini
+// (initDarkMode, initSidebar, initContactReasonModal, dll. - salin dari file lama Anda)
+// function initDarkMode() { ... }
+// function initSidebar() { ... }
+// ... dan seterusnya
+
+// Fungsi utama yang berjalan setelah DOM siap
+async function main() {
+    // Langkah A: Muat dan suntikkan semua komponen HTML terlebih dahulu
+    await loadAllComponents();
+
+    // Langkah B: Setelah HTML komponen ada di halaman, BARU jalankan semua skrip inisialisasi
+    // Ini memastikan elemen seperti #sidebar, #navbar, #darkModeToggle sudah ada sebelum
+    // JavaScript mencoba mencarinya.
+    
+    initLoadingAndWelcomeScreen();
     initDarkMode();
     initSmartScrollToCenter();
     initSidebar();
@@ -8,16 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
     initDevNotif();
     initYear();
     initKritikSaranModal();
-    initNotificationCenter(); // <-- PANGGIL FUNGSI BARU DI SINI
-    initGlobalModalClosers(); // Panggil fungsi untuk menutup modal global
-    initContactReasonModal(); // Panggil fungsi untuk inisialisasi modal alasan kontak
+    initNotificationCenter();
+    initGlobalModalClosers();
+    initContactReasonModal();
 
-    // Hanya inisialisasi services jika ada elemen terkait
     if (document.querySelector(".services .card-wrapper")) {
         renderServices();
         startAutoScrollCardWrapper();
     }
-});
+}
+
+// Jalankan fungsi utama
+document.addEventListener("DOMContentLoaded", main);
 
 // === VARIABEL GLOBAL BARU UNTUK MANAJEMEN NOTIFIKASI ===
 let activeNotifications = [];

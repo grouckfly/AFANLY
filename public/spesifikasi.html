@@ -10,48 +10,10 @@
     <link href="img/Logo_AFANLY.png" rel="icon" type="image/png" />
 </head>
 <body>
-    <div class="floating-bar">
-        <button aria-label="Tampilkan/ Sembunyikan Sidebar" class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="sidebar-floating-logo">
-            <div class="dev-notif-toggle-wrapper">
-                <button id="sidebar-notif-toggle" class="dev-notif-toggle" aria-label="Toggle Notification">🔔</button>
-                <span id="sidebar-notif-counter" class="notification-counter"></span>
-            </div>
-            <span>Toko AFANLY</span>
-            <img alt="Logo AFANLY" src="img/Logo_AFANLY.png" style="margin-right: 25px;" />
-        </div>
-    </div>
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div aria-checked="false" class="dark-mode-toggle" id="sidebarDarkModeToggle" role="switch">
-                <span class="slider">
-                    <span class="sun-icon">☀️</span>
-                    <span class="moon-icon">🌙</span>
-                </span>
-                <span class="mode-text">Mode Cerah</span>
-            </div>
-        </div>
-    </aside>
+
+    <div id="component-container-top-spesifikasi"></div>
+
     <div class="main-content">
-        <header>
-            <nav class="navbar">
-                <div class="logo">
-                    <img alt="Logo AFANLY" src="img/Logo_AFANLY.png">
-                    Toko AFANLY
-                </div>
-                <div class="dev-notif-toggle-wrapper">
-                    <button id="toggle-notif" class="dev-notif-toggle">🔔</button>
-                    <span id="navbar-notif-counter" class="notification-counter"></span>
-                </div>
-                <div aria-checked="false" class="dark-mode-toggle" id="darkModeToggle" role="switch">
-                    <span class="slider">
-                        <span class="sun-icon">☀️</span>
-                        <span class="moon-icon">🌙</span>
-                    </span>
-                    <span class="mode-text">Mode Cerah</span>
-                </div>
-            </nav>
-        </header>
         <main>
             <section class="spesifikasi" id="spesifikasi">
                 <div class="produk-detail" id="detail-produk">
@@ -63,80 +25,9 @@
         </footer>
     </div>
 
-    <div id="modalKontak" class="modal-kontak" style="display:none;">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModalKontak">&times;</span>
-            <h3>Hubungi Kami</h3>
-            <p>
-                Anda ingin memesan: <b id="modalNamaProduk">[Nama Produk]</b>
-            </p>
-            <div id="modalSpesifikasi" class="modal-spesifikasi-list"></div>
-            <p>
-                Dengan harga: <b id="modalHargaProduk">[Harga]</b>
-            </p>
-            <p>Pilih kontak untuk pemesanan:</p>
-            <div class="modal-actions">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="modal-btn wa" id="modalWaBtn">WhatsApp</a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="modal-btn email" id="modalEmailBtn">Email</a>
-            </div>
-        </div>
-    </div>
+    <div id="component-container-bottom"></div>
 
-    <div id="dev-notif">
-        <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
-        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>    
-    </div>
-
-    <div id="connection-status-notif">
-        <span id="connection-notif-text">Koneksi internet Anda tidak stabil atau terputus.</span>
-        <button id="connection-notif-close" aria-label="Tutup Notifikasi Koneksi">✖</button>
-    </div>
-
-    <div id="notification-center-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" id="notification-center-close">×</span>
-            <h2>Pusat Notifikasi</h2>
-
-            <div class="notification-category">
-                <h3>Pemberitahuan</h3>
-                <ul id="pemberitahuan-list">
-                </ul>
-            </div>
-
-            <div class="notification-category">
-                <h3>Peringatan</h3>
-                <ul id="peringatan-list">
-                </ul>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- MODAL OPSI SPESIFIKASI -->
-     <div id="options-modal" class="modal-filter" style="display: none;">
-        <div class="modal-filter-content">
-            <div class="modal-filter-header">
-                <h3 id="options-modal-title">Pilih Opsi Produk</h3>
-                <button id="closeOptionsModal" class="close-modal-btn">×</button>
-            </div>
-            <div id="options-modal-body" class="modal-filter-body"></div>
-            <div class="modal-filter-footer options-modal-footer">
-                <div class="options-modal-price-wrapper">
-                    <span>Total Harga:</span>
-                    <strong id="options-modal-price" class="harga-display-modal"></strong>
-                </div>
-                <button id="applyOptionsBtn" class="btn-primary">Terapkan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Zoom Produk -->
-     <div id="image-lightbox" style="display: none;">
-        <span id="close-lightbox" class="close-modal">&times;</span>
-        <img id="lightbox-image" src="" alt="Gambar Produk Diperbesar">
-    </div>
-
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
     <script src="js/toko.js"></script>
     <script src="js/spesifikasi.js"></script>
 </body>
