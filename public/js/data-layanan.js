@@ -45,6 +45,7 @@ const semuaLayanan = [
         nama: "Layanan Antar Jemput",
         deskripsi: "Layanan antar jemput perangkat gratis untuk area Sidoarjo dan sekitarnya, demi kemudahan dan kenyamanan Anda.",
         gambar: "img/antar jemput.jpg",
-        detail: "Tidak punya waktu untuk datang ke tempat kami? Kami yang akan menjemput perangkat Anda dan mengantarkannya kembali setelah selesai diperbaiki."
+        detail: "Tidak punya waktu untuk datang ke tempat kami? Kami yang akan menjemput perangkat Anda dan mengantarkannya kembali setelah selesai diperbaiki.",
+        isBonus: true
     }
 ];

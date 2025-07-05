@@ -22,35 +22,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- FUNGSI UNTUK MERENDER KARTU LAYANAN KE DALAM GRID ---
-    const renderLayananGrid = (layananArray) => {
-        container.innerHTML = ''; // Kosongkan grid sebelum diisi ulang
+const renderLayananGrid = (layananArray) => {
+    container.innerHTML = ''; // Kosongkan grid sebelum diisi ulang
 
-        if (layananArray.length === 0) {
-            notFoundMessage.style.display = 'block';
-        } else {
-            notFoundMessage.style.display = 'none';
-        }
+    if (layananArray.length === 0) {
+        notFoundMessage.style.display = 'block';
+    } else {
+        notFoundMessage.style.display = 'none';
+    }
 
-        layananArray.forEach(layanan => {
-            const card = document.createElement('div');
-            card.className = 'layanan-card';
-            
-            // Perubahan: Tombol "Ambil Jasa Ini" sekarang menjadi <button> pemicu modal
-            card.innerHTML = `
-                <img src="${layanan.gambar}" alt="${layanan.nama}">
-                <div class="layanan-card-content">
-                    <h3>${layanan.nama}</h3>
-                    <p>${layanan.detail}</p>
-                    <button class="btn-cta hubungi-layanan-btn" 
-                            data-layanan-nama="${layanan.nama}" 
-                            data-layanan-detail="${layanan.deskripsi}">
-                        Ambil Jasa Ini
-                    </button>
-                </div>
+    layananArray.forEach(layanan => {
+        const card = document.createElement('div');
+        card.className = 'layanan-card';
+        
+        // --- LOGIKA KONDISIONAL BARU UNTUK TOMBOL ---
+        let tombolHTML;
+        if (layanan.isBonus) {
+            // Jika ini layanan bonus, buat tombol non-interaktif
+            tombolHTML = `
+                <span class="btn-cta btn-bonus">
+                    ✓ Layanan Gratis
+                </span>
             `;
-            container.appendChild(card);
-        });
-    };
+        } else {
+            // Jika layanan biasa, buat tombol yang bisa diklik
+            tombolHTML = `
+                <button class="btn-cta hubungi-layanan-btn" 
+                        data-layanan-nama="${layanan.nama}" 
+                        data-layanan-detail="${layanan.deskripsi}">
+                    Ambil Jasa Ini
+                </button>
+            `;
+        }
+        
+        // Masukkan HTML tombol yang sudah ditentukan ke dalam kartu
+        card.innerHTML = `
+            <img src="${layanan.gambar}" alt="${layanan.nama}">
+            <div class="layanan-card-content">
+                <h3>${layanan.nama}</h3>
+                <p>${layanan.detail}</p>
+                ${tombolHTML} 
+            </div>
+        `;
+        container.appendChild(card);
+    });
+};
 
     // --- FUNGSI UNTUK MELAKUKAN FILTER ---
     const filterLayanan = () => {

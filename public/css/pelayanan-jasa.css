@@ -93,7 +93,8 @@
 }
 
 /* PERBAIKAN: Gaya untuk tombol di dalam kartu layanan */
-.layanan-card-content .btn-cta {
+.layanan-card-content .btn-cta,
+.btn-bonus {
     margin-top: auto; /* Mendorong tombol ke bagian bawah kartu */
     align-self: flex-start;
     padding: 10px 20px;
@@ -108,12 +109,14 @@
     transition: all 0.2s ease;
 }
 
-.layanan-card-content .btn-cta:hover {
+.layanan-card-content .btn-cta:hover,
+.btn-bonus:hover {
     filter: brightness(110%);
     transform: translateY(-2px);
 }
 
-.dark-mode .layanan-card-content .btn-cta {
+.dark-mode .layanan-card-content .btn-cta,
+.btn-bonus {
     color: #000;
 }
 
