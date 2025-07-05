@@ -16,8 +16,9 @@
 
 .layanan-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
+    justify-content: center;
 }
 
 .layanan-card {
@@ -61,4 +62,48 @@
 .layanan-card-content .btn-cta {
     margin-top: 1rem;
     align-self: flex-start; /* Tombol rata kiri */
+}
+
+/* ================================== */
+/* ==== GAYA UNTUK FITUR PENCARIAN ==== */
+/* ================================== */
+
+.layanan-search-bar {
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+}
+
+#searchLayananInput {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 50px; /* Membuatnya berbentuk kapsul */
+    border: 1px solid #ddd;
+    box-shadow: var(--shadow-sm);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#searchLayananInput:focus {
+    outline: none;
+    border-color: var(--highlight-color, #007bff);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.dark-mode #searchLayananInput {
+    background-color: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.layanan-notfound {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin-top: 2rem;
 }
