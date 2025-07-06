@@ -831,12 +831,12 @@ async function main() {
     initYear();
     initSmartScrollToCenter();
     initKritikSaranModal();
-    startAutoScrollCardWrapper();
     
     // Inisialisasi Spesifik Halaman (hanya berjalan jika di halaman yang tepat)
     if (pageName === 'index') {
         console.log("Inisialisasi Halaman Utama...");
         renderServices();
+        startAutoScrollCardWrapper();
         initAboutCarousel();
     } else if (pageName === 'toko') {
         initTokoPage();
