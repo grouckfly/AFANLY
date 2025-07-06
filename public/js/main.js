@@ -772,50 +772,59 @@ function startAutoScrollCardWrapper(
     startAutoScroll();
 }
 
-function initFormValidation(formId) {
-    const form = document.getElementById(formId);
-    if (!form) return;
+/* -------------------- VALIDASI FORMULIR REAL-TIME (VERSI FINAL) -------------------- */
+function initFormValidation() {
+    // Ambil SEMUA form yang ingin kita validasi dengan class .contact-form
+    const formsToValidate = document.querySelectorAll('.contact-form');
+    
+    formsToValidate.forEach(form => {
+        const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
 
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
+        // Fungsi helper untuk memvalidasi satu field
+        const validateField = (input) => {
+            const errorContainer = input.nextElementSibling;
+            if (!errorContainer || !errorContainer.classList.contains('error-message')) return;
 
-    const validateField = (input) => {
-        const errorContainer = input.nextElementSibling;
-        if (!errorContainer || !errorContainer.classList.contains('error-message')) return;
-
-        if (input.checkValidity()) {
-            input.classList.remove('is-invalid');
-            errorContainer.textContent = '';
-        } else {
-            input.classList.add('is-invalid');
-            errorContainer.textContent = input.title; // Ambil pesan error dari atribut title
-        }
-    };
-
-    inputs.forEach(input => {
-        // Validasi saat pengguna selesai mengetik dan pindah dari input
-        input.addEventListener('blur', () => validateField(input));
-        // Hapus tanda error saat pengguna mulai mengetik lagi
-        input.addEventListener('input', () => {
-            if (input.classList.contains('is-invalid')) {
-                validateField(input);
+            // checkValidity() akan otomatis mengecek aturan seperti 'required', 'pattern', 'minlength', dll.
+            if (input.checkValidity()) {
+                input.classList.remove('is-invalid');
+                errorContainer.textContent = '';
+            } else {
+                input.classList.add('is-invalid');
+                // Ambil pesan error dari atribut 'title' di HTML untuk pesan yang lebih ramah
+                errorContainer.textContent = input.title || input.validationMessage;
             }
-        });
-    });
+        };
 
-    // Validasi saat form di-submit
-    form.addEventListener('submit', (e) => {
-        let isFormValid = true;
+        // Tambahkan listener untuk setiap input
         inputs.forEach(input => {
-            validateField(input); // Validasi semua field sekali lagi
-            if (!input.checkValidity()) {
-                isFormValid = false;
-            }
+            // Validasi saat pengguna selesai mengetik dan pindah dari input
+            input.addEventListener('blur', () => validateField(input));
+            // Hapus tanda error secara real-time saat pengguna mulai memperbaiki isinya
+            input.addEventListener('input', () => {
+                if (input.classList.contains('is-invalid')) {
+                    validateField(input);
+                }
+            });
         });
 
-        if (!isFormValid) {
-            e.preventDefault(); // Hentikan pengiriman jika ada yang tidak valid
-            console.log("Formulir tidak valid. Pengiriman dibatalkan.");
-        }
+        // Modifikasi event listener submit yang sudah ada untuk validasi akhir
+        form.addEventListener('submit', (e) => {
+            let isFormValid = true;
+            // Validasi semua field sekali lagi saat tombol kirim ditekan
+            inputs.forEach(input => {
+                validateField(input);
+                if (!input.checkValidity()) {
+                    isFormValid = false;
+                }
+            });
+
+            // Jika ada satu saja yang tidak valid, batalkan pengiriman
+            if (!isFormValid) {
+                e.preventDefault();
+                console.log("Formulir tidak valid. Pengiriman dibatalkan.");
+            }
+        });
     });
 }
 
@@ -841,9 +850,7 @@ async function main() {
     initDevNotif();
     initYear();
     initSmartScrollToCenter();
-
-    initFormValidation('contact-reason-form');
-    initFormValidation('inquiry-form');
+    initFormValidation();
     
     // Inisialisasi Spesifik Halaman (hanya berjalan jika di halaman yang tepat)
     if (pageName === 'index') {
