@@ -93,59 +93,61 @@ function initLoadingAndWelcomeScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     const welcomeScreen = document.getElementById('welcome-screen');
 
-    // Pengaman jika elemen tidak ada di halaman (misalnya halaman admin nanti)
+    // Pengaman jika elemen tidak ada di halaman
     if (!loadingScreen || !welcomeScreen) {
         if(loadingScreen) loadingScreen.classList.add('hidden');
         if(welcomeScreen) welcomeScreen.classList.add('hidden');
         return;
     }
 
-    // Fungsi inti yang akan dijalankan setelah halaman siap
-    const onPageReady = () => {
+    // Fungsi inti yang akan dijalankan setelah semua kondisi terpenuhi
+    const transitionToContent = () => {
         // Cek apakah welcome screen sudah pernah tampil di sesi ini
         if (sessionStorage.getItem('hasLoadedOnce')) {
-            // Jika sudah, langsung sembunyikan keduanya
             loadingScreen.classList.add('hidden');
             welcomeScreen.classList.add('hidden');
         } else {
-            // Jika ini kunjungan pertama, lakukan transisi:
-            // 1. Sembunyikan loading screen
             loadingScreen.classList.add('hidden');
-            // 2. Tampilkan welcome screen
             welcomeScreen.classList.remove('hidden');
-            // 3. Tandai bahwa sudah pernah tampil
             sessionStorage.setItem('hasLoadedOnce', 'true');
             
-            // 4. Atur waktu agar welcome screen menghilang setelah 2 detik
             setTimeout(() => {
                 welcomeScreen.classList.add('swipe-up-animation-end');
-            }, 2000);
+            }, 1500);
 
-            // 5. Tambahkan listener untuk benar-benar menyembunyikan welcome screen setelah animasinya selesai
             welcomeScreen.addEventListener('animationend', function onAnimationEnd() {
                 welcomeScreen.classList.add('hidden');
-                // Hapus listener setelah dijalankan agar tidak menumpuk
                 welcomeScreen.removeEventListener('animationend', onAnimationEnd);
             }, { once: true });
         }
     };
 
-    // =================================================================
-    // INTI PERBAIKAN: Cek status halaman saat ini
-    // =================================================================
-    if (document.readyState === 'complete') {
-        // Jika halaman SUDAH selesai dimuat saat skrip ini berjalan,
-        // langsung panggil fungsinya.
-        console.log("Halaman sudah 'complete'. Menjalankan onPageReady() secara langsung.");
-        onPageReady();
-    } else {
-        // Jika halaman BELUM selesai dimuat,
-        // tambahkan listener yang akan berjalan saat event 'load' terjadi.
-        console.log("Halaman belum 'complete'. Menambahkan event listener 'load'.");
-        window.addEventListener('load', onPageReady, { once: true });
-    }
+    // 1. Promise untuk waktu tunggu minimum
+    const minTimePromise = new Promise(resolve => {
+        setTimeout(resolve, 1000); // Anda bisa mengubah durasi ini (dalam milidetik)
+    });
+
+    // 2. Promise untuk event 'load' halaman yang sudah diperbaiki
+    const pageLoadPromise = new Promise(resolve => {
+        // PERBAIKANNYA DI SINI:
+        // Cek dulu apakah halaman sudah selesai dimuat.
+        if (document.readyState === 'complete') {
+            // Jika sudah, langsung selesaikan promise ini.
+            resolve();
+        } else {
+            // Jika belum, baru tambahkan listener untuk menunggu.
+            window.addEventListener('load', resolve, { once: true });
+        }
+    });
+
+    // 3. Jalankan transisi HANYA SETELAH KEDUA kondisi terpenuhi
+    Promise.all([minTimePromise, pageLoadPromise]).then(() => {
+        console.log("Durasi minimum & pemuatan halaman selesai. Memulai transisi...");
+        transitionToContent();
+    });
     
     // Logika untuk notifikasi koneksi tetap berjalan seperti biasa
+    // ... (kode checkConnection Anda tidak perlu diubah) ...
     const connectionNotif = document.getElementById('connection-status-notif');
     const connectionNotifClose = document.getElementById('connection-notif-close');
     
@@ -153,10 +155,14 @@ function initLoadingAndWelcomeScreen() {
         if (connectionNotif) {
             if (!navigator.onLine) {
                 connectionNotif.classList.add('active');
-                addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
+                if(typeof addNotification === 'function') {
+                    addNotification('connection-issue', 'Koneksi internet terputus atau tidak stabil.', 'peringatan');
+                }
             } else {
                 connectionNotif.classList.remove('active');
-                removeNotification('connection-issue');
+                if(typeof removeNotification === 'function') {
+                    removeNotification('connection-issue');
+                }
             }
         }
     }
