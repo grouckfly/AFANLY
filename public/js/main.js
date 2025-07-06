@@ -1,8 +1,8 @@
 // js/main.js (Versi Orkestrator Final)
 
 import { loadAllComponents } from './components/component-loader.js';
-import { semuaLayanan } from './data-layanan.js';
 import { initTokoPage } from './toko.js';
+import { semuaLayanan } from './data-layanan.js';
 import { initLayananPage } from './pelayanan-jasa.js';
 import { initSpesifikasiPage } from './spesifikasi.js';
 
@@ -89,14 +89,66 @@ function updateNotificationUI() {
     }
  }
 
-function initLoadingAndWelcomeScreen() { 
-    
+function initLoadingAndWelcomeScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     const welcomeScreen = document.getElementById('welcome-screen');
+
+    // Pengaman jika elemen tidak ada di halaman (misalnya halaman admin nanti)
+    if (!loadingScreen || !welcomeScreen) {
+        if(loadingScreen) loadingScreen.classList.add('hidden');
+        if(welcomeScreen) welcomeScreen.classList.add('hidden');
+        return;
+    }
+
+    // Fungsi inti yang akan dijalankan setelah halaman siap
+    const onPageReady = () => {
+        // Cek apakah welcome screen sudah pernah tampil di sesi ini
+        if (sessionStorage.getItem('hasLoadedOnce')) {
+            // Jika sudah, langsung sembunyikan keduanya
+            loadingScreen.classList.add('hidden');
+            welcomeScreen.classList.add('hidden');
+        } else {
+            // Jika ini kunjungan pertama, lakukan transisi:
+            // 1. Sembunyikan loading screen
+            loadingScreen.classList.add('hidden');
+            // 2. Tampilkan welcome screen
+            welcomeScreen.classList.remove('hidden');
+            // 3. Tandai bahwa sudah pernah tampil
+            sessionStorage.setItem('hasLoadedOnce', 'true');
+            
+            // 4. Atur waktu agar welcome screen menghilang setelah 2 detik
+            setTimeout(() => {
+                welcomeScreen.classList.add('swipe-up-animation-end');
+            }, 2000);
+
+            // 5. Tambahkan listener untuk benar-benar menyembunyikan welcome screen setelah animasinya selesai
+            welcomeScreen.addEventListener('animationend', function onAnimationEnd() {
+                welcomeScreen.classList.add('hidden');
+                // Hapus listener setelah dijalankan agar tidak menumpuk
+                welcomeScreen.removeEventListener('animationend', onAnimationEnd);
+            }, { once: true });
+        }
+    };
+
+    // =================================================================
+    // INTI PERBAIKAN: Cek status halaman saat ini
+    // =================================================================
+    if (document.readyState === 'complete') {
+        // Jika halaman SUDAH selesai dimuat saat skrip ini berjalan,
+        // langsung panggil fungsinya.
+        console.log("Halaman sudah 'complete'. Menjalankan onPageReady() secara langsung.");
+        onPageReady();
+    } else {
+        // Jika halaman BELUM selesai dimuat,
+        // tambahkan listener yang akan berjalan saat event 'load' terjadi.
+        console.log("Halaman belum 'complete'. Menambahkan event listener 'load'.");
+        window.addEventListener('load', onPageReady, { once: true });
+    }
+    
+    // Logika untuk notifikasi koneksi tetap berjalan seperti biasa
     const connectionNotif = document.getElementById('connection-status-notif');
     const connectionNotifClose = document.getElementById('connection-notif-close');
-
-    // Fungsi untuk cek koneksi (didefinisikan di sini agar bisa diakses semua kondisi)
+    
     function checkConnection() {
         if (connectionNotif) {
             if (!navigator.onLine) {
@@ -108,69 +160,15 @@ function initLoadingAndWelcomeScreen() {
             }
         }
     }
-    
-    // Cek apakah halaman ini MEMILIKI fitur loading & welcome screen.
-    if (loadingScreen && welcomeScreen) {
-        // JIKA ADA, jalankan semua logika terkait loading & welcome screen.
-        
-        if (sessionStorage.getItem('hasLoadedOnce')) {
-            // Logika untuk muatan berikutnya (bukan yang pertama)
-            loadingScreen.classList.add('hidden');
-            welcomeScreen.classList.add('hidden');
-        } else {
-            // Logika untuk muatan pertama kali
-            const loadingText = document.getElementById('loading-text');
-
-            if (loadingText) {
-                loadingText.textContent = "Memuat...";
-            }
-            
-            loadingScreen.classList.remove('hidden');
-            welcomeScreen.classList.add('hidden');
-
-            // Tunggu hingga semua aset (gambar, css, dll) selesai dimuat
-            window.addEventListener('load', function() {
-                // *** BARIS INI ADALAH PERBAIKANNYA ***
-                // Sembunyikan loading screen SEBELUM menampilkan welcome screen
-                loadingScreen.classList.add('hidden');
-                
-                // Tampilkan welcome screen
-                welcomeScreen.classList.remove('hidden', 'swipe-up-animation-end');
-                sessionStorage.setItem('hasLoadedOnce', 'true');
-
-                // Atur waktu untuk animasi menghilang dari welcome screen
-                setTimeout(() => {
-                    welcomeScreen.classList.add('swipe-up-animation-end');
-                }, 2000);
-
-                // Listener untuk menyembunyikan elemen setelah animasi selesai
-                welcomeScreen.addEventListener('animationend', function handler(event) {
-                    if (event.animationName === 'swipeUpAndFade') {
-                        welcomeScreen.classList.add('hidden');
-                        welcomeScreen.classList.remove('swipe-up-animation-end');
-                        welcomeScreen.removeEventListener('animationend', handler);
-                    }
-                });
-            });
-        }
-    } else {
-        // JIKA TIDAK ADA, beri pesan di konsol (untuk debugging) dan lanjutkan.
-        console.log("Loading/Welcome screen elements not found on this page. Skipping their initialization.");
-    }
-
-    // Logika ini akan selalu berjalan di SEMUA halaman
     setInterval(checkConnection, 5000);
     window.addEventListener('online', checkConnection);
     window.addEventListener('offline', checkConnection);
-
     if (connectionNotifClose) {
         connectionNotifClose.addEventListener('click', () => {
-            if(connectionNotif) {
-                connectionNotif.classList.remove('active');
-            }
+            if(connectionNotif) connectionNotif.classList.remove('active');
         });
     }
- }
+}
 
 function initDarkMode() { 
     
@@ -632,51 +630,42 @@ function initAboutCarousel() {
     startSlideshow();
  }
 
-// --- FUNGSI UTAMA APLIKASI ---
-async function main() {
-    // Langkah A: Muat semua komponen HTML (navbar, modal, dll.)
-    await loadAllComponents();
+ 
+function initKritikSaranModal() {
+    const modal = document.getElementById("kritik-saran-modal");
+    const closeModal = modal ? modal.querySelector(".modal-close") : null;
+    const kritikSaranBtns = document.querySelectorAll(".kritik-saran-btn");
+    const sidebar = document.getElementById("sidebar");
+    const body = document.body;
 
-    // Langkah B: Jalankan semua inisialisasi GLOBAL
-    console.log("Inisialisasi skrip global...");
-    initLoadingAndWelcomeScreen();
-    initDarkMode();
-    initSidebar();
-    initNotificationCenter();
-    initGlobalModalClosers();
-    initContactReasonModal();
-    initDevNotif();
-    initYear();
-    initSmartScrollToCenter();
-    initKritikSaranModal();
-    
-    // Langkah C: Jalankan inisialisasi SPESIFIK HALAMAN
-    console.log("Mengecek halaman spesifik...");
-    if (document.getElementById('layanan-wrapper')) { // Halaman Utama (index.html)
-        console.log("Inisialisasi Halaman Utama...");
-        renderServices();
-        if (typeof startAutoScrollCardWrapper === 'function') startAutoScrollCardWrapper();
-        initAboutCarousel();
+    if (!modal) {
+        console.warn("Kritik & Saran modal not found.");
+        return;
     }
-    
-    if (document.getElementById('produkList')) { // Halaman Toko
-        initTokoPage();
+
+    kritikSaranBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            modal.style.display = "flex";
+
+            if (
+                btn.id === "sidebar-kritik-saran" &&
+                sidebar && sidebar.classList.contains("active")
+            ) {
+                sidebar.classList.remove("active");
+                body.classList.remove("sidebar-open");
+            }
+        });
+    });
+
+    if (closeModal) {
+        closeModal.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
     }
-    
-    if (document.getElementById('layanan-grid-container')) { // Halaman Layanan
-        initLayananPage();
-    }
-    
-    if (document.getElementById('detail-produk')) { // Halaman Spesifikasi
-        initSpesifikasiPage();
-    }
+
 }
 
-// Jalankan aplikasi setelah DOM siap
-document.addEventListener("DOMContentLoaded", main);
 
-
-/* -------------------- SMOOTH CENTER SCROLL -------------------- */
 function initSmartScrollToCenter() {
     const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
 
@@ -735,7 +724,7 @@ function initSmartScrollToCenter() {
     });
 }
 
-/* -------------------- Auto Swipe -------------------- */
+
 function startAutoScrollCardWrapper(
     selector = ".services .card-wrapper",
     intervalMs = 3000
@@ -813,37 +802,44 @@ function startAutoScrollCardWrapper(
     startAutoScroll();
 }
 
-/* -------------------- KRITIK DAN SARAN MODAL -------------------- */
-function initKritikSaranModal() {
-    const modal = document.getElementById("kritik-saran-modal");
-    const closeModal = modal ? modal.querySelector(".modal-close") : null;
-    const kritikSaranBtns = document.querySelectorAll(".kritik-saran-btn");
-    const sidebar = document.getElementById("sidebar");
-    const body = document.body;
+// --- FUNGSI UTAMA APLIKASI ---
+async function main() {
+    // Dapatkan nama halaman dari atribut data-page di body
+    const pageName = document.body.dataset.page;
 
-    if (!modal) {
-        console.warn("Kritik & Saran modal not found.");
-        return;
+    // Langkah A: Muat semua komponen HTML yang relevan untuk halaman ini
+    // "await" akan MEMASTIKAN JavaScript menunggu sampai semua HTML siap.
+    await loadAllComponents(pageName);
+
+    // Langkah B: Setelah HTML dijamin ada, jalankan semua skrip inisialisasi
+    console.log("Semua komponen dimuat. Menjalankan skrip inisialisasi...");
+
+    // Inisialisasi Global (selalu berjalan)
+    initLoadingAndWelcomeScreen();
+    initDarkMode();
+    initSidebar();
+    initNotificationCenter();
+    initGlobalModalClosers();
+    initContactReasonModal();
+    initDevNotif();
+    initYear();
+    initSmartScrollToCenter();
+    initKritikSaranModal();
+    startAutoScrollCardWrapper();
+    
+    // Inisialisasi Spesifik Halaman (hanya berjalan jika di halaman yang tepat)
+    if (pageName === 'index') {
+        console.log("Inisialisasi Halaman Utama...");
+        renderServices();
+        initAboutCarousel();
+    } else if (pageName === 'toko') {
+        initTokoPage();
+    } else if (pageName === 'pelayanan') {
+        initLayananPage();
+    } else if (pageName === 'spesifikasi') {
+        initSpesifikasiPage();
     }
-
-    kritikSaranBtns.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            modal.style.display = "flex";
-
-            if (
-                btn.id === "sidebar-kritik-saran" &&
-                sidebar && sidebar.classList.contains("active")
-            ) {
-                sidebar.classList.remove("active");
-                body.classList.remove("sidebar-open");
-            }
-        });
-    });
-
-    if (closeModal) {
-        closeModal.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-
 }
+
+// --- 4. JALANKAN APLIKASI ---
+document.addEventListener("DOMContentLoaded", main);

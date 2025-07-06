@@ -1,42 +1,47 @@
-// js/components/component-loader.js
+// js/components/component-loader.js (Versi Final)
 
-// Fungsi ini mengambil file HTML dan menyuntikkannya ke target
-async function loadComponent(componentPath, targetElementId) {
+// Fungsi ini mengambil satu file HTML dan menyuntikkannya ke target
+async function loadComponent(componentPath, targetElement) {
+    // Jika target tidak ada di halaman saat ini, lewati
+    if (!targetElement) return;
+
     try {
         const response = await fetch(componentPath);
-        if (!response.ok) {
-            throw new Error(`Gagal memuat komponen: ${componentPath}`);
-        }
+        if (!response.ok) throw new Error(`Gagal memuat: ${componentPath}`);
         const html = await response.text();
-        const target = document.getElementById(targetElementId);
-        if (target) {
-            // Gunakan insertAdjacentHTML agar tidak menghapus konten yang sudah ada
-            target.insertAdjacentHTML('beforeend', html);
-        }
+        // Gunakan insertAdjacentHTML untuk menambahkan konten tanpa menghapus yang sudah ada
+        targetElement.insertAdjacentHTML('beforeend', html);
     } catch (error) {
-        console.error(error);
+        console.error(`Error saat memuat komponen ${componentPath}:`, error);
     }
 }
 
-// Ekspor fungsi utama untuk memuat semua komponen
-export async function loadAllComponents() {
-    // Definisikan komponen dan targetnya
-    const components = [
-        { path: 'components/loading-screens.html', target: 'component-container-top' },
-        { path: 'components/navbar/navbar.html', target: 'component-container-top' },
-        { path: 'components/navbar/navbar-toko.html', target: 'component-container-top-toko' },
-        { path: 'components/navbar/navbar-pelayanan.html', target: 'component-container-top-pelayanan' },
-        { path: 'components/navbar/navbar-spesifikasi.html', target: 'component-container-top-spesifikasi' },
-        { path: 'components/sidebar/sidebar.html', target: 'component-container-top' },
-        { path: 'components/sidebar/sidebar-toko.html', target: 'component-container-top-toko' },
-        { path: 'components/sidebar/sidebar-pelayanan.html', target: 'component-container-top-pelayanan' },
-        { path: 'components/sidebar/sidebar-spesifikasi.html', target: 'component-container-top-spesifikasi' },
-        { path: 'components/modals.html', target: 'component-container-bottom' }
+// Fungsi utama yang diekspor untuk memuat semua komponen yang dibutuhkan
+export async function loadAllComponents(pageName) {
+    const topContainer = document.getElementById('component-container-top');
+    const bottomContainer = document.getElementById('component-container-bottom');
+
+    // Komponen yang selalu dimuat di semua halaman
+    const commonPromises = [
+        loadComponent('./components/loading-screen.html', topContainer),
+        loadComponent('./components/modals.html', bottomContainer)
     ];
 
-    // Buat array dari semua promise fetch
-    const loadingPromises = components.map(comp => loadComponent(comp.path, comp.target));
+    // Komponen spesifik berdasarkan nama halaman
+    if (pageName === 'index') {
+        await loadComponent('./components/navbar/navbar.html', topContainer);
+        await loadComponent('./components/sidebar/sidebar.html', topContainer);
+    } else if (pageName === 'toko') {
+        await loadComponent('./components/navbar/navbar-toko.html', topContainer);
+        await loadComponent('./components/sidebar/sidebar-toko.html', topContainer);
+    } else if (pageName === 'pelayanan') {
+        await loadComponent('./components/navbar/navbar-pelayanan.html', topContainer);
+        await loadComponent('./components/sidebar/sidebar-pelayanan.html', topContainer);
+    } else if (pageName === 'spesifikasi') {
+        await loadComponent('./components/navbar/navbar-spesifikasi.html', topContainer);
+        await loadComponent('./components/sidebar/sidebar-spesifikasi.html', topContainer);
+    }
 
-    // Tunggu semua komponen selesai dimuat
-    await Promise.all(loadingPromises);
+    // Tunggu semua komponen yang relevan selesai dimuat
+    await Promise.all(commonPromises);
 }
