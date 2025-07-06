@@ -50,7 +50,7 @@ function renderProduk(data) {
             <img src="${p.gambar}" alt="${p.nama}">
             <h3>${p.nama}</h3>
             <span class="harga">${hargaTampil}</span>
-            <div class="produk-actions">
+            <div class="produk-actions" style="justify-content: center;">
                 <button class="beli-btn" data-produk="${p.nama}" data-harga="${hargaUntukTombol}">Beli</button>
                 <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
             </div>

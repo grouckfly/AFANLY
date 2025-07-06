@@ -297,9 +297,6 @@
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    /* Default untuk Desktop: 4 produk per baris */
-    width: calc(25% - 15px); /* Akan dijelaskan mengapa 15px */
-
     justify-content: center;
     align-items: center;
 
@@ -442,7 +439,7 @@
 
 /* ===== TOMBOL SPESIFIKASI ===== */
 .produk-actions {
-    display: flexbox;
+    display: flex;
     gap: 0.5rem;
     margin-top: 0.5rem;
 }
@@ -586,29 +583,27 @@
 }
 
 /* ===== DARK MODE ADJUSTMENTS ===== */
-.dark-mode {
-    .produk-filter-bar input,
-    .produk-filter-bar select {
-        border: 1px solid #444;
-    }
+.dark-mode .produk-filter-bar input,
+.dark-mode .produk-filter-bar select {
+    border: 1px solid #444;
+}
 
-    .produk img {
-        background: #333;
-    }
+.dark-mode .produk img {
+    background: #333;
+}
 
-    .produk p {
-        color: #bbb;
-    }
+.dark-mode .produk p {
+    color: #bbb;
+}
 
-    .beli-btn{
-        color: #000000;
-        background-color: #0099ff;
-    }
+.dark-mode .beli-btn {
+    color: #000000;
+    background-color: #0099ff;
+}
 
-    .spec-btn {
-        color: #000000;
-        background-color: #ffd700;
-    }
+.dark-mode .spec-btn {
+    color: #000000;
+    background-color: #ffd700;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

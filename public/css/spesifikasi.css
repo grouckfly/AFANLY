@@ -1,8 +1,6 @@
 /* Tambahkan variabel untuk dark mode */
 :root {
     --highlight-color: #007bff;
-    --bg-detil-produk: #f8f9fa;
-    --text-color-spesifikasi: #333;
     --bg-color: #ffffff; /* Example fallback */
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example fallback */
 }
@@ -103,7 +101,7 @@
     margin: 40px auto;
     padding: 1.5rem;
     box-sizing: border-box;
-    background-color: var(--bg-detil-produk);
+    background-color: var(--card-bg);
     border-radius: 10px;
     box-shadow: var(--shadow-md);
 }
@@ -260,7 +258,7 @@ body.lightbox-active {
 #detail-produk .detail-info {
     flex: 1;
     text-align: left;
-    color: var(--text-color-spesifikasi);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
