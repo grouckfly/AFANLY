@@ -8,6 +8,7 @@
  */
 
 // js/spesifikasi.js
+import { validasiPembelian } from './toko.js';
 
 // --- Semua fungsi dari spesifikasi.js lama Anda ---
 function formatRupiah(angka) { 
@@ -119,39 +120,39 @@ function setupGallery(images) {
     }
  }
 
-function setupBeliButton(container, produk, pilihan, hargaFinal) { 
-    
+function setupBeliButton(container, produk) {
     const tombolBeli = container.querySelector('.beli-btn');
-    if (tombolBeli && !tombolBeli.dataset.listenerAttached) {
-        tombolBeli.addEventListener('click', function() {
-            // Siapkan paket data pesanan setiap kali di-klik untuk data terbaru
-            const detailPesanan = {
-                namaDasar: produk.nama,
-                pilihan: pilihan,
-                hargaFinal: hargaFinal || produk.harga
-            };
+    if (!tombolBeli) return;
+    
+    // Trik cloneNode untuk memastikan hanya ada satu listener aktif
+    const newTombolBeli = tombolBeli.cloneNode(true);
+    tombolBeli.parentNode.replaceChild(newTombolBeli, tombolBeli);
 
-            if (produk.options) {
-                const updatedOptions = {};
-                const optionsBody = document.getElementById('options-modal-body');
+    newTombolBeli.addEventListener('click', function() {
+        const hargaTampilan = container.querySelector('.harga-display').textContent;
+        const detailPesanan = {
+            namaDasar: produk.nama,
+            pilihan: {},
+            hargaFinal: hargaTampilan
+        };
+
+        if (produk.options) {
+            const updatedOptions = {};
+            const optionsBody = document.getElementById('options-modal-body');
+            if (optionsBody) {
                 optionsBody.querySelectorAll('select').forEach(select => {
                     const groupName = select.dataset.group;
                     const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
                     updatedOptions[groupName] = selectedText;
                 });
                 detailPesanan.pilihan = updatedOptions;
-                detailPesanan.hargaFinal = container.querySelector('.harga-display').textContent;
             }
-            
-            if (typeof validasiPembelian === 'function') {
-                validasiPembelian(detailPesanan);
-            } else {
-                console.error("Fungsi 'validasiPembelian' dari toko.js tidak ditemukan.");
-            }
-        });
-        tombolBeli.dataset.listenerAttached = 'true';
-    }
- }
+        }
+        
+        // Sekarang pemanggilan ini akan berhasil karena fungsinya sudah diimpor
+        validasiPembelian(detailPesanan);
+    });
+}
 
 function renderBaseLayout(produk, container) { 
     
@@ -217,21 +218,21 @@ function renderBaseLayout(produk, container) {
  }
 
 function renderSimpleInfo(produk, container) { 
-    
-    container.innerHTML += `
+    const infoContainer = container.querySelector('.detail-info') || container;
+    infoContainer.innerHTML = `
         <h2>${produk.nama}</h2>
         <div class="harga-display">${produk.harga}</div>
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
-            <button class="beli-btn" data-produk="${produk.nama}" data-harga="${produk.harga}">Beli</button>
+            <button class="beli-btn">Beli</button>
             <a href="toko.html#produk" class="spec-btn">Kembali ke Produk</a>
         </div>
     `;
-    setupBeliButton(container, produk.nama);
+    setupBeliButton(infoContainer, produk);
  }
 
 function renderInfoWithOptions(produk, container) { 
-    
+    const infoContainer = container.querySelector('.detail-info') || container;
     // 1. Siapkan kerangka HTML di halaman utama
     container.innerHTML = `
         <h2>${produk.nama}</h2>
@@ -335,7 +336,6 @@ function populateOptionsModal(produk, modalBody) {
  }
 
 function renderProductPage() {
-    
     const urlParams = new URLSearchParams(window.location.search);
     const namaProduk = decodeURIComponent(urlParams.get('produk'));
     const semuaProduk = JSON.parse(localStorage.getItem('semuaProduk'));
@@ -344,24 +344,21 @@ function renderProductPage() {
     if (!semuaProduk || !detailProdukContainer) {
         return handleError("Data produk tidak dapat dimuat.");
     }
-
     const produk = semuaProduk.find(p => p.nama === namaProduk);
-
     if (!produk) {
         return handleError(`Produk "${namaProduk}" tidak ditemukan.`);
     }
 
-    // Render layout dasar (gambar, galeri) dan dapatkan div info
-    const detailInfoDiv = renderBaseLayout(produk, detailProdukContainer);
+    renderBaseLayout(produk, detailProdukContainer); // renderBaseLayout akan mengisi detailInfoDiv
+    const detailInfoDiv = detailProdukContainer.querySelector('.detail-info');
 
-    // Render detail info berdasarkan tipe produk (dengan atau tanpa opsi)
+
     if (produk.options && produk.hargaDasar !== undefined) {
         renderInfoWithOptions(produk, detailInfoDiv);
     } else {
         renderSimpleInfo(produk, detailInfoDiv);
     }
     
-    // Inisialisasi fungsionalitas JS setelah semua elemen HTML dibuat
     initializeZoom();
 }
 

@@ -237,7 +237,7 @@ function openOptionsModal(produk) {
     optionsModal.style.display = 'flex';
  }
 
-function validasiPembelian(detailPesanan) { 
+export function validasiPembelian(detailPesanan) { 
     
     const modal = document.getElementById('modalKontak');
     const namaProdukSpan = document.getElementById('modalNamaProduk');
