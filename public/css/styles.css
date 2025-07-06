@@ -2023,3 +2023,15 @@ section,
     background-color: #555;
     border-color: var(--modal-bg);
 }
+
+/* Gaya untuk input yang tidak bisa diedit di modal */
+.form-group input[readonly] {
+    background-color: var(--bg-color);
+    opacity: 0.7;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+.dark-mode .form-group input[readonly] {
+    background-color: #2a2a2a;
+}

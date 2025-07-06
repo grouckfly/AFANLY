@@ -149,7 +149,7 @@ function handleBeliClick(produk) {
     
     if (produk.options && produk.hargaDasar !== undefined) {
         // Jika produk punya varian, buka modal untuk memilih opsi
-        openOptionsModal(produk);
+        openInquiryModal(produk);
     } else {
         // Jika produk sederhana, langsung panggil modal kontak
         const detailPesanan = {
@@ -157,140 +157,114 @@ function handleBeliClick(produk) {
             pilihan: {}, // Tidak ada pilihan spesifik
             hargaFinal: produk.harga
         };
-        validasiPembelian(detailPesanan);
+        openInquiryModal(detailPesanan);
     }
  }
 
-function openOptionsModal(produk) { 
-    
-    const optionsModal = document.getElementById('options-modal');
-    const title = document.getElementById('options-modal-title');
-    const body = document.getElementById('options-modal-body');
-    const priceDisplay = document.getElementById('options-modal-price');
-    const applyBtn = document.getElementById('applyOptionsBtn');
-    const closeBtn = document.getElementById('closeOptionsModal');
+// Hapus validasiPembelian dan openOptionsModal lama, ganti dengan ini
+// js/toko.js
 
-    if (!optionsModal || !title || !body || !priceDisplay || !applyBtn || !closeBtn) {
-        console.error("Elemen modal opsi tidak lengkap!");
+export function openInquiryModal(inquiryDetails) {
+    const modal = document.getElementById('inquiry-modal');
+    if (!modal) {
+        console.error("Modal formulir inquiry (#inquiry-modal) tidak ditemukan!");
         return;
     }
 
-    // Mengatur konten & tombol sesuai konteks Halaman Toko
-    title.textContent = `Pilih Opsi untuk ${produk.nama}`;
-    applyBtn.textContent = 'Terapkan'; // Ubah teks tombol
-    body.innerHTML = ''; 
+    // Ambil semua elemen di dalam modal
+    const title = document.getElementById('inquiry-modal-title');
+    const form = document.getElementById('inquiry-form');
+    const itemNameInput = document.getElementById('inquiry-item-name');
+    const itemSpecsDiv = document.getElementById('inquiry-item-specs');
+    const priceWrapper = document.getElementById('inquiry-item-price-wrapper');
+    const priceInput = document.getElementById('inquiry-item-price');
+    const messageInput = document.getElementById('inquiry-message');
+    const closeBtn = document.getElementById('closeInquiryModal');
 
-    // Buat dropdown di dalam modal
-    produk.options.forEach(optionGroup => {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = 'option-group';
-        const label = document.createElement('label');
-        label.textContent = optionGroup.nama;
-        const select = document.createElement('select');
-        select.dataset.group = optionGroup.nama;
-        optionGroup.choices.forEach(choice => {
-            const optionEl = document.createElement('option');
-            optionEl.value = choice.modifier;
-            optionEl.textContent = choice.text;
-            if (choice.default) optionEl.selected = true;
-            select.appendChild(optionEl);
-        });
-        groupDiv.appendChild(label);
-        groupDiv.appendChild(select);
-        body.appendChild(groupDiv);
-    });
-
-    const calculatePriceInModal = () => {
-        let totalHarga = produk.hargaDasar;
-        const selectedOptions = {};
-        body.querySelectorAll('select').forEach(select => {
-            totalHarga += parseInt(select.value, 10);
-            const groupName = select.dataset.group;
-            const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
-            selectedOptions[groupName] = selectedText;
-        });
-        priceDisplay.textContent = formatRupiah(totalHarga);
-        return { totalHarga, selectedOptions };
-    };
-
-    calculatePriceInModal(); // Panggil untuk harga awal
-
-    body.querySelectorAll('select').forEach(select => {
-        select.addEventListener('change', calculatePriceInModal);
-    });
-
-    // Hapus listener lama untuk mencegah penumpukan, lalu tambahkan yang baru
-    const newApplyBtn = applyBtn.cloneNode(true);
-    applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
-    newApplyBtn.addEventListener('click', () => {
-        const { totalHarga, selectedOptions } = calculatePriceInModal();
-        const detailPesanan = {
-            namaDasar: produk.nama,
-            pilihan: selectedOptions,
-            hargaFinal: formatRupiah(totalHarga)
-        };
-        validasiPembelian(detailPesanan); // Panggil modal kontak
-        optionsModal.style.display = 'none'; // Tutup modal opsi
-    });
+    // --- Isi form dengan data yang dikirim ---
+    form.reset(); // Selalu bersihkan form
+    title.textContent = `Formulir untuk: ${inquiryDetails.namaDasar}`;
+    itemNameInput.value = inquiryDetails.namaDasar;
     
-    closeBtn.onclick = () => optionsModal.style.display = 'none';
-    optionsModal.style.display = 'flex';
- }
-
-export function validasiPembelian(detailPesanan) { 
-    
-    const modal = document.getElementById('modalKontak');
-    const namaProdukSpan = document.getElementById('modalNamaProduk');
-    const hargaProdukSpan = document.getElementById('modalHargaProduk');
-    const spekProdukDiv = document.getElementById('modalSpesifikasi');
-    const waBtn = document.getElementById('modalWaBtn');
-    const emailBtn = document.getElementById('modalEmailBtn');
-    const closeBtn = document.getElementById('closeModalKontak');
-
-    if (!modal || !namaProdukSpan || !hargaProdukSpan || !spekProdukDiv) return;
-
-    namaProdukSpan.textContent = detailPesanan.namaDasar;
-    hargaProdukSpan.textContent = detailPesanan.hargaFinal;
-
-    let spekListHTML = '';
-    let spekListText = '';
-    if (detailPesanan.pilihan && Object.keys(detailPesanan.pilihan).length > 0) {
-        spekListHTML = '<ul>';
-        spekListText += '\n\nSpesifikasi yang Dipilih:';
-        for (const [key, value] of Object.entries(detailPesanan.pilihan)) {
-            spekListHTML += `<li><strong>${key}:</strong> ${value}</li>`;
-            spekListText += `\n- ${key}: ${value}`;
+    // Tampilkan spesifikasi jika ada
+    if (inquiryDetails.pilihan && Object.keys(inquiryDetails.pilihan).length > 0) {
+        let spekHTML = '<ul>';
+        for (const [key, value] of Object.entries(inquiryDetails.pilihan)) {
+            spekHTML += `<li><strong>${key}:</strong> ${value}</li>`;
         }
-        spekListHTML += '</ul>';
-        spekProdukDiv.style.display = 'block';
+        spekHTML += '</ul>';
+        itemSpecsDiv.innerHTML = spekHTML;
+        itemSpecsDiv.style.display = 'block';
     } else {
-        spekProdukDiv.style.display = 'none';
+        itemSpecsDiv.style.display = 'none';
     }
-    spekProdukDiv.innerHTML = spekListHTML;
 
-    const templatePesan = `Pemesanan Produk AFANLY
-------------------------
-Produk: ${detailPesanan.namaDasar}${spekListText}
+    // Tampilkan harga jika ada
+    if (inquiryDetails.hargaFinal) {
+        priceInput.value = inquiryDetails.hargaFinal;
+        priceWrapper.style.display = 'block';
+    } else {
+        priceWrapper.style.display = 'none';
+    }
 
-Harga Total: ${detailPesanan.hargaFinal}
-------------------------
+    // Tampilkan pesan awal jika ada
+    if (inquiryDetails.pesanAwal) {
+        messageInput.value = inquiryDetails.pesanAwal;
+    }
 
-Mohon lengkapi data berikut:
-Nama Pemesan:
-No. Telpon:
-Alamat Pengiriman:`.trim();
+    // --- Atur event listener untuk form submit ---
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
 
-    const pesanWA = encodeURIComponent(templatePesan);
-    const subjectEmail = encodeURIComponent(`Pemesanan Produk - ${detailPesanan.namaDasar}`);
-    const bodyEmail = encodeURIComponent(templatePesan);
+    newForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const submitMethod = e.submitter.dataset.method;
 
-    waBtn.href = `https://wa.me/628127659073?text=${pesanWA}`;
-    emailBtn.href = `mailto:defry.pku@gmail.com?subject=${subjectEmail}&body=${bodyEmail}`;
+        const data = {
+            namaUser: document.getElementById('inquiry-name').value,
+            telpUser: document.getElementById('inquiry-phone').value,
+            emailUser: document.getElementById('inquiry-email').value,
+            alamatUser: document.getElementById('inquiry-address').value,
+            pesanUser: document.getElementById('inquiry-message').value,
+        };
 
+        let spekListText = '';
+        if (inquiryDetails.pilihan && Object.keys(inquiryDetails.pilihan).length > 0) {
+            spekListText = '\n\n-- Rincian Spesifikasi --';
+            for (const [key, value] of Object.entries(inquiryDetails.pilihan)) {
+                spekListText += `\n- ${key}: ${value}`;
+            }
+        }
+        
+        const templatePesan = `
+-- Detail Permintaan --
+Produk/Layanan: ${inquiryDetails.namaDasar}${spekListText}
+${inquiryDetails.hargaFinal ? `Harga: ${inquiryDetails.hargaFinal}` : ''}
+
+-- Detail Pelanggan --
+Nama: ${data.namaUser}
+No. Telp: ${data.telpUser}
+Email: ${data.emailUser}
+Alamat: ${data.alamatUser}
+
+-- Pesan Tambahan --
+${data.pesanUser || '(Tidak ada pesan tambahan)'}
+        `.trim().replace(/\n\n\n/g, '\n\n'); // Hapus spasi baris berlebih
+
+        let url = '';
+        if (submitMethod === 'whatsapp') {
+            url = `https://wa.me/628127659073?text=${encodeURIComponent(templatePesan)}`;
+        } else {
+            url = `mailto:defry.pku@gmail.com?subject=${encodeURIComponent('Permintaan - ' + inquiryDetails.namaDasar)}&body=${encodeURIComponent(templatePesan)}`;
+        }
+        
+        if (url) window.open(url, '_blank');
+        modal.style.display = 'none';
+    });
+
+    closeBtn.onclick = () => { modal.style.display = 'none'; };
     modal.style.display = 'flex';
-
-    closeBtn.onclick = () => modal.style.display = 'none';
- }
+}
 
 // --- Fungsi inisialisasi utama yang diekspor ---
 export function initTokoPage() {

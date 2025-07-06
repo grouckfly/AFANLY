@@ -8,7 +8,7 @@
  */
 
 // js/spesifikasi.js
-import { validasiPembelian } from './toko.js';
+import { openInquiryModal } from './toko.js';
 
 // --- Semua fungsi dari spesifikasi.js lama Anda ---
 function formatRupiah(angka) { 
@@ -150,7 +150,7 @@ function setupBeliButton(container, produk) {
         }
         
         // Sekarang pemanggilan ini akan berhasil karena fungsinya sudah diimpor
-        validasiPembelian(detailPesanan);
+        openInquiryModal(detailPesanan);
     });
 }
 

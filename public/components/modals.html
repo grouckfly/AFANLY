@@ -80,26 +80,6 @@
         </div>
     </div>
 
-    
-    <div id="modalKontak" class="modal-kontak" style="display:none;">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModalKontak">×</span>
-            <h3>Hubungi Kami</h3>
-            <p>
-                Anda ingin memesan: <b id="modalNamaProduk">[Nama Produk]</b>
-            </p>
-            <div id="modalSpesifikasi" class="modal-spesifikasi-list"></div>
-            <p>
-                Dengan harga: <b id="modalHargaProduk">[Harga]</b>
-            </p>
-            <p>Pilih kontak untuk pemesanan:</p>
-            <div class="modal-actions">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="modal-btn wa" id="modalWaBtn">WhatsApp</a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="modal-btn email" id="modalEmailBtn">Email</a>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL OPSI SPESIFIKASI -->
      <div id="options-modal" class="modal-filter" style="display: none;">
         <div class="modal-filter-content">
@@ -162,26 +142,6 @@
             </div>
         </div>
     </div>
-
-    
-
-    <!-- MODAL KONTAK LAYANAN -->
-     <div id="modalLayanan" class="modal-kontak" style="display:none;">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModalLayanan">&times;</span>
-            <h3>Konsultasi Layanan</h3>
-            <p>
-                Anda tertarik dengan layanan: <b id="modalLayananNama">[Nama Layanan]</b>
-            </p>
-            <div id="modalLayananDetail" class="modal-spesifikasi-list"></div>
-            <p>Pilih kontak untuk konsultasi lebih lanjut:</p>
-            <div class="modal-actions">
-                <a href="#" target="_blank" rel="noopener" class="modal-btn wa" id="modalLayananWaBtn">WhatsApp</a>
-                <a href="#" target="_blank" rel="noopener" class="modal-btn email" id="modalLayananEmailBtn">Email</a>
-            </div>
-        </div>
-    </div>
-
     
     <!-- MODAL OPSI SPESIFIKASI -->
      <div id="options-modal" class="modal-filter" style="display: none;">
@@ -206,3 +166,55 @@
         <span id="close-lightbox" class="close-modal">&times;</span>
         <img id="lightbox-image" src="" alt="Gambar Produk Diperbesar">
     </div>
+
+
+    <!-- MODAL PEMESANAN GLOBAL -->
+     <div id="inquiry-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeInquiryModal">×</span>
+        <h2 id="inquiry-modal-title">Formulir Permintaan</h2>
+        
+        <form id="inquiry-form" class="contact-form">
+            
+            <div class="form-group">
+                <label>Layanan/Produk yang Dipilih</label>
+                <input type="text" id="inquiry-item-name" readonly>
+            </div>
+            <div id="inquiry-item-specs" class="modal-spesifikasi-list" style="display: none;"></div>
+            <div id="inquiry-item-price-wrapper" class="form-group" style="display: none;">
+                <label>Harga Total</label>
+                <input type="text" id="inquiry-item-price" readonly>
+            </div>
+
+            <hr style="margin: 20px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+            <p style="text-align:center; margin-top:0; margin-bottom: 20px;">Silakan lengkapi data Anda:</p>
+            
+            <div class="form-group">
+                <label for="inquiry-name">Nama Lengkap</label>
+                <input type="text" id="inquiry-name" placeholder="Masukkan nama Anda" required>
+            </div>
+            <div class="form-group">
+                <label for="inquiry-phone">No. Telepon (WhatsApp)</label>
+                <input type="tel" id="inquiry-phone" placeholder="Contoh: 08123456789" required>
+            </div>
+            <div class="form-group">
+                <label for="inquiry-email">Alamat Email</label>
+                <input type="email" id="inquiry-email" placeholder="Contoh: nama@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="inquiry-address">Alamat Lengkap</label>
+                <textarea id="inquiry-address" rows="3" placeholder="Masukkan alamat lengkap untuk pengiriman atau kunjungan teknisi" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="inquiry-message">Pesan Tambahan (Opsional)</label>
+                <textarea id="inquiry-message" rows="3" placeholder="Contoh: Pertanyaan teknis, permintaan jadwal, dll."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" data-method="whatsapp" class="btn-cta contact-submit-btn wa">Kirim via WhatsApp</button>
+                <button type="submit" data-method="email" class="btn-cta contact-submit-btn email">Kirim via Email</button>
+            </div>
+        </form>
+    </div>
+</div>

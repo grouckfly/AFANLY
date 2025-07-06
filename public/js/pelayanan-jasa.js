@@ -6,6 +6,7 @@
 
 // LANGKAH 1: Impor data yang dibutuhkan langsung di file ini.
 import { semuaLayanan } from './data-layanan.js';
+import { openInquiryModal } from './toko.js';
 
 // --- Fungsi-fungsi spesifik untuk halaman layanan ---
 
@@ -113,7 +114,22 @@ export function initLayananPage() {
     // Event listener untuk klik pada tombol di dalam grid
     container.addEventListener('click', (e) => {
         if (e.target.classList.contains('hubungi-layanan-btn')) {
-            bukaModalLayanan(e.target.dataset.layananNama, e.target.dataset.layananDetail);
+            const namaLayanan = e.target.dataset.layananNama;
+            
+            // Siapkan paket data untuk dikirim ke modal formulir
+            const inquiryDetails = {
+                namaDasar: namaLayanan,
+                pilihan: {}, // Layanan tidak punya opsi seperti produk
+                hargaFinal: null, // Harga didiskusikan nanti
+                pesanAwal: `Halo, saya tertarik untuk konsultasi lebih lanjut mengenai layanan "${namaLayanan}".`
+            };
+            
+            // Panggil fungsi global dari toko.js
+            if (typeof openInquiryModal === 'function') {
+                openInquiryModal(inquiryDetails);
+            } else {
+                console.error("Fungsi 'openInquiryModal' tidak ditemukan. Pastikan toko.js sudah dimuat.");
+            }
         }
     });
 
