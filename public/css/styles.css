@@ -2035,3 +2035,12 @@ section,
 .dark-mode .form-group input[readonly] {
     background-color: #2a2a2a;
 }
+
+/* GAYA UNTUK INPUT YANG TIDAK VALID */
+.form-group input:invalid,
+.form-group textarea:invalid,
+.form-group select:invalid {
+    /* Hanya terapkan gaya ini setelah pengguna mulai berinteraksi */
+    border-color: var(--error, #d60000);
+    box-shadow: 0 0 0 1px var(--error, #d60000);
+}

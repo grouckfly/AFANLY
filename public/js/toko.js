@@ -232,6 +232,14 @@ export function openInquiryModal(inquiryDetails) {
 
     newForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        // Cek apakah seluruh form valid sesuai aturan HTML5
+        if (!newForm.checkValidity()) {
+            // Jika tidak valid, perintahkan browser untuk menunjukkan pesan error
+            newForm.reportValidity();
+            return; // Hentikan eksekusi
+        }
+
         const submitMethod = e.submitter.dataset.method;
 
         const data = {
