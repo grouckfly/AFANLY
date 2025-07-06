@@ -41,39 +41,6 @@ function renderProduk(data, container) {
     });
 }
 
-function filterProduk() { 
-    
-    const search = document.getElementById("searchInput").value.toLowerCase();
-    const kategori = document.getElementById("kategoriSelect").value;
-    const urutkan = document.getElementById("urutkanHargaSelect").value;
-    const minHarga = unformatRupiah(document.getElementById("minPriceInput").value);
-    let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
-    if (maxHarga === 0) maxHarga = Infinity;
- 
-    let hasil = semuaProdukProcessed.filter(p => {
-        const cocokPencarian = p.nama.toLowerCase().includes(search) || (p.deskripsi && p.deskripsi.toLowerCase().includes(search)) || p.jenis.toLowerCase().includes(search);
-        const cocokKategori = kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase();
-        
-        // Gunakan hargaAngka yang sudah diproses untuk filter harga
-        const hargaUntukFilter = p.hargaAngka;
-        const cocokHarga = hargaUntukFilter >= minHarga && hargaUntukFilter <= maxHarga;
-        
-        return cocokPencarian && cocokKategori && cocokHarga;
-    });
- 
-    if (urutkan === 'terendah') {
-        hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
-    } else if (urutkan === 'tertinggi') {
-        hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
-    }
- 
-    renderProduk(hasil);
-    updateFilterButtonState();
- 
-    const produkListElement = document.getElementById("produkList");
-    if (produkListElement) produkListElement.scrollLeft = 0;
- }
-
 function updateFilterButtonState() { 
     
     const kategori = document.getElementById("kategoriSelect").value;
@@ -317,33 +284,76 @@ ${data.pesanUser || '(Tidak ada pesan tambahan)'}
 export function initTokoPage() {
     console.log("Inisialisasi Halaman Toko...");
     
+    // Proses data produk di dalam lingkup fungsi ini
     const semuaProdukProcessed = semuaProduk.map(p => ({ ...p, hargaAngka: p.hargaDasar || unformatRupiah(p.harga) }));
+    localStorage.setItem('semuaProduk', JSON.stringify(semuaProduk));
+
     const produkListContainer = document.getElementById("produkList");
-    
+    const searchInput = document.getElementById("searchInput");
+    const openFilterBtn = document.getElementById("openFilterBtn");
+    const filterModal = document.getElementById("filter-modal");
+    const closeFilterModalBtn = document.getElementById("closeFilterModal");
+    const applyFilterBtn = document.getElementById("applyFilterBtn");
+    const resetFilterBtn = document.getElementById("resetFilterBtn");
+
+    // --- RENDER AWAL ---
     renderProduk(semuaProdukProcessed, produkListContainer);
+
+    // --- FUNGSI FILTER (sekarang berada di dalam scope yang benar) ---
+    function filterProduk() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const kategori = document.getElementById("kategoriSelect").value;
+        const urutkan = document.getElementById("urutkanHargaSelect").value;
+        const minHarga = unformatRupiah(document.getElementById("minPriceInput").value);
+        let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
+        if (maxHarga === 0) maxHarga = Infinity;
+     
+        let hasil = semuaProdukProcessed.filter(p => {
+            const cocokPencarian = p.nama.toLowerCase().includes(searchTerm) || (p.deskripsi && p.deskripsi.toLowerCase().includes(searchTerm)) || p.jenis.toLowerCase().includes(searchTerm);
+            const cocokKategori = kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase();
+            const cocokHarga = p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga;
+            return cocokPencarian && cocokKategori && cocokHarga;
+        });
+     
+        if (urutkan === 'terendah') hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
+        else if (urutkan === 'tertinggi') hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
+     
+        renderProduk(hasil, produkListContainer);
+        updateFilterButtonState();
+        if (produkListContainer) produkListContainer.scrollLeft = 0;
+    }
     
-    // --- Setup Event Listeners ---
+    // --- SETUP EVENT LISTENERS ---
+    if(searchInput) searchInput.addEventListener("input", filterProduk);
+    if(openFilterBtn) openFilterBtn.addEventListener("click", () => filterModal.style.display = "flex");
+    if(closeFilterModalBtn) closeFilterModalBtn.addEventListener("click", () => filterModal.style.display = "none");
+    if(applyFilterBtn) applyFilterBtn.addEventListener("click", () => {
+        filterProduk();
+        filterModal.style.display = "none";
+    });
+    if (resetFilterBtn) {
+        resetFilterBtn.addEventListener("click", () => {
+            document.getElementById("kategoriSelect").value = "all";
+            document.getElementById("urutkanHargaSelect").value = "default";
+            document.getElementById("minPriceInput").value = "";
+            document.getElementById("maxPriceInput").value = "";
+            filterProduk();
+        });
+    }
+
     document.body.addEventListener('click', (e) => {
         if (e.target.classList.contains('beli-btn')) {
             e.preventDefault();
-            // PERBAIKAN KUNCI: Gunakan 'data-produk-nama' yang konsisten
-            const namaProduk = e.target.getAttribute('data-produk-nama'); 
+            const namaProduk = e.target.getAttribute('data-produk-nama');
             const produk = semuaProduk.find(p => p.nama === namaProduk);
-            if (produk) {
-                handleBeliClick(produk);
-            } else {
-                console.error(`Produk tidak ditemukan: ${namaProduk}`);
-            }
+            if (produk) handleBeliClick(produk);
         }
     });
     
-    // ... event listener untuk modal filter ...
-
-    setupEventListeners();
-    InitSliderHero();
-    InitProductSliderControls();
+    // Inisialisasi slider jika ada
+    if (typeof InitSliderHero === 'function') InitSliderHero();
+    if (typeof InitProductSliderControls === 'function') InitProductSliderControls();
 }
-
 
 // =================================================================================
 // HELPER & PRE-PROCESSING
