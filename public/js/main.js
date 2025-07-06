@@ -1,6 +1,7 @@
 // js/main.js (Versi Orkestrator Final)
 
 import { loadAllComponents } from './components/component-loader.js';
+import { semuaLayanan } from './data-layanan.js';
 import { initTokoPage } from './toko.js';
 import { initLayananPage } from './pelayanan-jasa.js';
 import { initSpesifikasiPage } from './spesifikasi.js';
@@ -646,6 +647,8 @@ async function main() {
     initContactReasonModal();
     initDevNotif();
     initYear();
+    initSmartScrollToCenter();
+    initKritikSaranModal();
     
     // Langkah C: Jalankan inisialisasi SPESIFIK HALAMAN
     console.log("Mengecek halaman spesifik...");

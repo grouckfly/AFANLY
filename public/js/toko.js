@@ -315,6 +315,7 @@ export function initTokoPage() {
     
     // ... event listener untuk modal filter ...
 
+    setupEventListeners();
     InitSliderHero();
     InitProductSliderControls();
 }

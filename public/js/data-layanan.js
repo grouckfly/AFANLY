@@ -1,4 +1,4 @@
-const semuaLayanan = [
+export const semuaLayanan = [
     {
         nama: "Konsultasi IT",
         deskripsi: "Dapatkan konsultasi IT profesional untuk solusi terbaik sesuai kebutuhan bisnis atau personal Anda.",

@@ -369,7 +369,3 @@ export function initSpesifikasiPage() {
     console.log("Inisialisasi Halaman Spesifikasi...");
     renderProductPage();
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    renderProductPage();
-});
