@@ -2036,11 +2036,26 @@ section,
     background-color: #2a2a2a;
 }
 
-/* GAYA UNTUK INPUT YANG TIDAK VALID */
-.form-group input:invalid,
-.form-group textarea:invalid,
-.form-group select:invalid {
-    /* Hanya terapkan gaya ini setelah pengguna mulai berinteraksi */
+/* ========================================================== */
+/* GAYA UNTUK VALIDASI FORMULIR                               */
+/* ========================================================== */
+
+/* Gaya untuk input yang sedang dalam kondisi tidak valid */
+.form-group input.is-invalid,
+.form-group textarea.is-invalid {
     border-color: var(--error, #d60000);
     box-shadow: 0 0 0 1px var(--error, #d60000);
+}
+
+/* Gaya untuk pesan error di bawah input */
+.error-message {
+    color: var(--error, #d60000);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none; /* Sembunyikan secara default */
+}
+
+/* Tampilkan pesan error hanya jika input memiliki kelas .is-invalid */
+.is-invalid + .error-message {
+    display: block;
 }

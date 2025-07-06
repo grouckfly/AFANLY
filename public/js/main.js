@@ -636,42 +636,6 @@ function initAboutCarousel() {
     startSlideshow();
  }
 
- 
-function initKritikSaranModal() {
-    const modal = document.getElementById("kritik-saran-modal");
-    const closeModal = modal ? modal.querySelector(".modal-close") : null;
-    const kritikSaranBtns = document.querySelectorAll(".kritik-saran-btn");
-    const sidebar = document.getElementById("sidebar");
-    const body = document.body;
-
-    if (!modal) {
-        console.warn("Kritik & Saran modal not found.");
-        return;
-    }
-
-    kritikSaranBtns.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            modal.style.display = "flex";
-
-            if (
-                btn.id === "sidebar-kritik-saran" &&
-                sidebar && sidebar.classList.contains("active")
-            ) {
-                sidebar.classList.remove("active");
-                body.classList.remove("sidebar-open");
-            }
-        });
-    });
-
-    if (closeModal) {
-        closeModal.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-
-}
-
-
 function initSmartScrollToCenter() {
     const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
 
@@ -808,6 +772,53 @@ function startAutoScrollCardWrapper(
     startAutoScroll();
 }
 
+function initFormValidation(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    const inputs = form.querySelectorAll('input[required], textarea[required]');
+
+    const validateField = (input) => {
+        const errorContainer = input.nextElementSibling;
+        if (!errorContainer || !errorContainer.classList.contains('error-message')) return;
+
+        if (input.checkValidity()) {
+            input.classList.remove('is-invalid');
+            errorContainer.textContent = '';
+        } else {
+            input.classList.add('is-invalid');
+            errorContainer.textContent = input.title; // Ambil pesan error dari atribut title
+        }
+    };
+
+    inputs.forEach(input => {
+        // Validasi saat pengguna selesai mengetik dan pindah dari input
+        input.addEventListener('blur', () => validateField(input));
+        // Hapus tanda error saat pengguna mulai mengetik lagi
+        input.addEventListener('input', () => {
+            if (input.classList.contains('is-invalid')) {
+                validateField(input);
+            }
+        });
+    });
+
+    // Validasi saat form di-submit
+    form.addEventListener('submit', (e) => {
+        let isFormValid = true;
+        inputs.forEach(input => {
+            validateField(input); // Validasi semua field sekali lagi
+            if (!input.checkValidity()) {
+                isFormValid = false;
+            }
+        });
+
+        if (!isFormValid) {
+            e.preventDefault(); // Hentikan pengiriman jika ada yang tidak valid
+            console.log("Formulir tidak valid. Pengiriman dibatalkan.");
+        }
+    });
+}
+
 // --- FUNGSI UTAMA APLIKASI ---
 async function main() {
     // Dapatkan nama halaman dari atribut data-page di body
@@ -830,7 +841,9 @@ async function main() {
     initDevNotif();
     initYear();
     initSmartScrollToCenter();
-    initKritikSaranModal();
+
+    initFormValidation('contact-reason-form');
+    initFormValidation('inquiry-form');
     
     // Inisialisasi Spesifik Halaman (hanya berjalan jika di halaman yang tepat)
     if (pageName === 'index') {

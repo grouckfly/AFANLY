@@ -1,169 +1,11 @@
-<!-- MODAL SECTION KONTAK -->
-
-<div id="contact-reason-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" id="closeReasonModal">×</span>
-            <h2>Hubungi Kami</h2>
-            <p>Silakan isi detail di bawah ini agar kami bisa membantu Anda dengan lebih baik.</p>
-            
-            <form id="contact-reason-form" class="contact-form" novalidate>
-                <div class="form-group">
-                    <label for="reasonSelect">Topik Kontak</label>
-                    <select id="reasonSelect" name="topik" required>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="namaInput">Nama Lengkap</label>
-                    <input type="text" id="namaInput" name="nama" placeholder="Masukkan nama Anda" required minlength="3" maxlength="60">
-                </div>
-                <div class="form-group">
-                    <label for="telpInput">No. Telepon (WhatsApp)</label>
-                    <input type="tel" id="telpInput" name="telepon" placeholder="Contoh: 08123456789" required pattern="[0-9]{10,13}">
-                </div>
-                <div class="form-group">
-                    <label for="emailInput">Alamat Email</label>
-                    <input type="email" id="emailInput" name="email" placeholder="Contoh: nama@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="pesanInput">Deskripsi Pesan</label>
-                    <textarea id="pesanInput" name="pesan" rows="4" placeholder="Jelaskan kebutuhan atau pertanyaan Anda di sini..."
-                        required minlength="10"></textarea>
-                </div>
-
-                <button type="submit" class="btn-cta contact-submit-btn">Kirim</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- NOTIFIKASI -->
-
-    <div id="dev-notif">
-        <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
-        <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>
-    </div>
-
-    <div id="connection-status-notif">
-        <span id="connection-notif-text">Koneksi internet Anda tidak stabil atau terputus.</span>
-        <button id="connection-notif-close" aria-label="Tutup Notifikasi Koneksi">✖</button>
-    </div>
-
-    <div id="notification-center-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" id="notification-center-close">×</span>
-            <h2>Pusat Notifikasi</h2>
-
-            <div class="notification-category">
-                <h3>Pemberitahuan</h3>
-                <ul id="pemberitahuan-list">
-                </ul>
-            </div>
-
-            <div class="notification-category">
-                <h3>Peringatan</h3>
-                <ul id="peringatan-list">
-                </ul>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- MODAL OPSI SPESIFIKASI -->
-     <div id="options-modal" class="modal-filter" style="display: none;">
-        <div class="modal-filter-content">
-            <div class="modal-filter-header">
-                <h3 id="options-modal-title">Pilih Opsi Produk</h3>
-                <button id="closeOptionsModal" class="close-modal-btn">×</button>
-            </div>
-            <div id="options-modal-body" class="modal-filter-body"></div>
-            <div class="modal-filter-footer options-modal-footer">
-                <div class="options-modal-price-wrapper">
-                    <span>Total Harga:</span>
-                    <strong id="options-modal-price" class="harga-display-modal"></strong>
-                </div>
-                <button id="applyOptionsBtn" class="btn-primary">Terapkan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL FILTER & URUTKAN -->
-
-    <div id="filter-modal" class="modal-filter" style="display: none;">
-        <div class="modal-filter-content">
-            <div class="modal-filter-header">
-                <h3>Filter & Urutkan</h3>
-                <button id="closeFilterModal" class="close-modal-btn">×</button>
-            </div>
-            <div class="modal-filter-body">
-                <div class="filter-group">
-                    <label for="kategoriSelect">Kategori</label>
-                    <select id="kategoriSelect">
-                        <option value="all">Semua Kategori</option>
-                        <option value="Komputer">Komputer</option>
-                        <option value="Alat Kantor">Alat Kantor</option>
-                        <option value="Security System">Security System</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="urutkanHargaSelect">Urutkan Harga</label>
-                    <select id="urutkanHargaSelect">
-                        <option value="default">Relevansi</option>
-                        <option value="terendah">Terendah - Tertinggi</option>
-                        <option value="tertinggi">Tertinggi - Terendah</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Rentang Harga</label>
-                    <div class="price-inputs">
-                        <div class="price-input-container">
-                            <input type="text" id="minPriceInput" placeholder="Minimum" inputmode="numeric">
-                        </div>
-                        <span>-</span>
-                        <div class="price-input-container">
-                            <input type="text" id="maxPriceInput" placeholder="Maksimum" inputmode="numeric">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-filter-footer">
-                <button id="resetFilterBtn" class="btn-secondary">Reset Filter</button>
-                <button id="applyFilterBtn" class="btn-primary">Terapkan</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- MODAL OPSI SPESIFIKASI -->
-     <div id="options-modal" class="modal-filter" style="display: none;">
-        <div class="modal-filter-content">
-            <div class="modal-filter-header">
-                <h3 id="options-modal-title">Pilih Opsi Produk</h3>
-                <button id="closeOptionsModal" class="close-modal-btn">×</button>
-            </div>
-            <div id="options-modal-body" class="modal-filter-body"></div>
-            <div class="modal-filter-footer options-modal-footer">
-                <div class="options-modal-price-wrapper">
-                    <span>Total Harga:</span>
-                    <strong id="options-modal-price" class="harga-display-modal"></strong>
-                </div>
-                <button id="applyOptionsBtn" class="btn-primary">Terapkan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Zoom Produk -->
-     <div id="image-lightbox" style="display: none;">
-        <span id="close-lightbox" class="close-modal">&times;</span>
-        <img id="lightbox-image" src="" alt="Gambar Produk Diperbesar">
-    </div>
-
-
-    <!-- MODAL PEMESANAN GLOBAL -->
-     <div id="inquiry-modal" class="modal">
+<!-- MODAL PEMESANAN GLOBAL -->
+<div id="inquiry-modal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeInquiryModal">×</span>
         <h2 id="inquiry-modal-title">Formulir Permintaan</h2>
-        
+
         <form id="inquiry-form" class="contact-form" novalidate>
-            
+
             <div class="form-group">
                 <label>Layanan/Produk yang Dipilih</label>
                 <input type="text" id="inquiry-item-name" readonly>
@@ -177,33 +19,211 @@
             <hr style="margin: 20px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
 
             <p style="text-align:center; margin-top:0; margin-bottom: 20px;">Silakan lengkapi data Anda:</p>
-            
+
             <div class="form-group">
                 <label for="inquiry-name">Nama Lengkap</label>
-                <input type="text" id="inquiry-name" placeholder="Masukkan nama Anda" required minlength="3" maxlength="60">
+                <input type="text" id="inquiry-name" placeholder="Masukkan nama Anda" required minlength="3"
+                    maxlength="60" pattern="[a-zA-Z\s']+"
+                    title="Nama hanya boleh berisi huruf dan spasi (minimal 3 karakter).">
+                <div class="error-message"></div>
             </div>
             <div class="form-group">
-                <label for="inquiry-phone">No. Telepon (WhatsApp)</label>
-                <input type="tel" id="inquiry-phone" placeholder="Contoh: 08123456789" required pattern="[0-9]{10,13}">
+                <label for="inquiry-phone">No. Telepon</label>
+                <input type="tel" id="inquiry-phone" placeholder="Contoh: 08123456789" required
+                    pattern="^08[0-9]{10,13}$" title="Format nomor telepon salah. Contoh: 08123456789">
+                <div class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="inquiry-email">Alamat Email</label>
-                <input type="email" id="inquiry-email" placeholder="Contoh: nama@email.com" required>
+                <input type="email" id="inquiry-email" placeholder="Contoh: nama@email.com" required
+                    title="Harap masukkan alamat email yang valid.">
+                <div class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="inquiry-address">Alamat Lengkap</label>
-                <textarea id="inquiry-address" rows="3" placeholder="Masukkan alamat lengkap untuk pengiriman atau kunjungan teknisi"
-                required minlength="10"></textarea>
+                <textarea id="inquiry-address" rows="3" placeholder="Masukkan alamat..." required minlength="10"
+                    pattern="[^<>]*" title="Alamat tidak boleh mengandung karakter < atau >."></textarea>
+                <div class="error-message"></div>
             </div>
             <div class="form-group">
                 <label for="inquiry-message">Pesan Tambahan (Opsional)</label>
-                <textarea id="inquiry-message" rows="3" placeholder="..."></textarea>
+                <textarea id="inquiry-message" rows="3" placeholder="..." pattern="[^<>]*"
+                    title="Pesan tidak boleh mengandung karakter < atau >."></textarea>
+                <div class="error-message"></div>
             </div>
 
             <div class="form-actions">
-                <button type="submit" data-method="whatsapp" class="btn-cta contact-submit-btn wa">Kirim via WhatsApp</button>
-                <button type="submit" data-method="email" class="btn-cta contact-submit-btn email">Kirim via Email</button>
+                <button type="submit" data-method="whatsapp" class="btn-cta contact-submit-btn wa">Kirim via
+                    WhatsApp</button>
+                <button type="submit" data-method="email" class="btn-cta contact-submit-btn email">Kirim via
+                    Email</button>
             </div>
         </form>
     </div>
+</div>
+
+<!-- MODAL SECTION KONTAK -->
+
+<div id="contact-reason-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeReasonModal">×</span>
+        <h2>Hubungi Kami</h2>
+        <p>Silakan isi detail di bawah ini agar kami bisa membantu Anda dengan lebih baik.</p>
+
+        <form id="contact-reason-form" class="contact-form" novalidate>
+            <div class="form-group">
+                <label for="reasonSelect">Topik Kontak</label>
+                <select id="reasonSelect" name="topik" required>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="namaInput">Nama Lengkap</label>
+                <input type="text" id="namaInput" name="nama" placeholder="Masukkan nama Anda" required minlength="3"
+                    maxlength="60" pattern="[a-zA-Z\s']+"
+                    title="Nama hanya boleh berisi huruf dan spasi (minimal 3 karakter).">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="telpInput">No. Telepon (WhatsApp)</label>
+                <input type="tel" id="telpInput" name="telepon" placeholder="Contoh: 08123456789" required
+                    pattern="^08[0-9]{10,13}$" title="Format nomor telepon salah. Contoh: 08123456789">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="emailInput">Alamat Email</label>
+                <input type="email" id="emailInput" name="email" placeholder="Contoh: nama@email.com" required
+                    title="Harap masukkan alamat email yang valid.">
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="pesanInput">Deskripsi Pesan</label>
+                <textarea id="pesanInput" name="pesan" rows="4"
+                    placeholder="Jelaskan kebutuhan atau pertanyaan Anda di sini..." required pattern="[^<>]*"
+                    title="Pesan tidak boleh mengandung karakter < atau >."></textarea>
+                <div class="error-message"></div>
+            </div>
+
+            <button type="submit" class="btn-cta contact-submit-btn">Kirim</button>
+        </form>
+    </div>
+</div>
+
+<!-- NOTIFIKASI -->
+
+<div id="dev-notif">
+    <span id="notif-text">Website Masih Dalam Proses Pengembangan!!!</span>
+    <button id="notif-close" aria-label="Tutup Notifikasi">✖</button>
+</div>
+
+<div id="connection-status-notif">
+    <span id="connection-notif-text">Koneksi internet Anda tidak stabil atau terputus.</span>
+    <button id="connection-notif-close" aria-label="Tutup Notifikasi Koneksi">✖</button>
+</div>
+
+<div id="notification-center-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" id="notification-center-close">×</span>
+        <h2>Pusat Notifikasi</h2>
+
+        <div class="notification-category">
+            <h3>Pemberitahuan</h3>
+            <ul id="pemberitahuan-list">
+            </ul>
+        </div>
+
+        <div class="notification-category">
+            <h3>Peringatan</h3>
+            <ul id="peringatan-list">
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL OPSI SPESIFIKASI -->
+<div id="options-modal" class="modal-filter" style="display: none;">
+    <div class="modal-filter-content">
+        <div class="modal-filter-header">
+            <h3 id="options-modal-title">Pilih Opsi Produk</h3>
+            <button id="closeOptionsModal" class="close-modal-btn">×</button>
+        </div>
+        <div id="options-modal-body" class="modal-filter-body"></div>
+        <div class="modal-filter-footer options-modal-footer">
+            <div class="options-modal-price-wrapper">
+                <span>Total Harga:</span>
+                <strong id="options-modal-price" class="harga-display-modal"></strong>
+            </div>
+            <button id="applyOptionsBtn" class="btn-primary">Terapkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FILTER & URUTKAN -->
+
+<div id="filter-modal" class="modal-filter" style="display: none;">
+    <div class="modal-filter-content">
+        <div class="modal-filter-header">
+            <h3>Filter & Urutkan</h3>
+            <button id="closeFilterModal" class="close-modal-btn">×</button>
+        </div>
+        <div class="modal-filter-body">
+            <div class="filter-group">
+                <label for="kategoriSelect">Kategori</label>
+                <select id="kategoriSelect">
+                    <option value="all">Semua Kategori</option>
+                    <option value="Komputer">Komputer</option>
+                    <option value="Alat Kantor">Alat Kantor</option>
+                    <option value="Security System">Security System</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="urutkanHargaSelect">Urutkan Harga</label>
+                <select id="urutkanHargaSelect">
+                    <option value="default">Relevansi</option>
+                    <option value="terendah">Terendah - Tertinggi</option>
+                    <option value="tertinggi">Tertinggi - Terendah</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Rentang Harga</label>
+                <div class="price-inputs">
+                    <div class="price-input-container">
+                        <input type="text" id="minPriceInput" placeholder="Minimum" inputmode="numeric">
+                    </div>
+                    <span>-</span>
+                    <div class="price-input-container">
+                        <input type="text" id="maxPriceInput" placeholder="Maksimum" inputmode="numeric">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-filter-footer">
+            <button id="resetFilterBtn" class="btn-secondary">Reset Filter</button>
+            <button id="applyFilterBtn" class="btn-primary">Terapkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL OPSI SPESIFIKASI -->
+<div id="options-modal" class="modal-filter" style="display: none;">
+    <div class="modal-filter-content">
+        <div class="modal-filter-header">
+            <h3 id="options-modal-title">Pilih Opsi Produk</h3>
+            <button id="closeOptionsModal" class="close-modal-btn">×</button>
+        </div>
+        <div id="options-modal-body" class="modal-filter-body"></div>
+        <div class="modal-filter-footer options-modal-footer">
+            <div class="options-modal-price-wrapper">
+                <span>Total Harga:</span>
+                <strong id="options-modal-price" class="harga-display-modal"></strong>
+            </div>
+            <button id="applyOptionsBtn" class="btn-primary">Terapkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Zoom Produk -->
+<div id="image-lightbox" style="display: none;">
+    <span id="close-lightbox" class="close-modal">&times;</span>
+    <img id="lightbox-image" src="" alt="Gambar Produk Diperbesar">
 </div>
