@@ -15,49 +15,31 @@ function unformatRupiah(rupiah) {
     return parseInt(rupiah.replace(/[^0-9]/g, ''), 10) || 0;
  }
 
-function renderProduk(data) { 
-    
-    const list = document.getElementById("produkList");
+function renderProduk(data, container) {
+    if (!container) return;
     const notFoundMessage = document.getElementById("produk-notfound");
- 
-    if (!list || !notFoundMessage) return;
- 
-    list.innerHTML = "";
- 
-    if (data.length === 0) {
-        notFoundMessage.style.display = "flex";
-        list.style.display = "none";
-    } else {
-        notFoundMessage.style.display = "none";
-        list.style.display = "flex";
-    }
- 
+    container.innerHTML = "";
+    notFoundMessage.style.display = data.length === 0 ? "flex" : "none";
+    container.style.display = data.length === 0 ? "none" : "flex";
+
     data.forEach(p => {
         const item = document.createElement("div");
         item.className = "produk";
         const encodedNama = encodeURIComponent(p.nama);
- 
-        let hargaTampil = '';
-        if (p.hargaDasar !== undefined) {
-            hargaTampil = `Mulai dari ${formatRupiah(p.hargaDasar)}`;
-        } else {
-            hargaTampil = p.harga;
-        }
-
-        const hargaUntukTombol = p.hargaDasar !== undefined ? formatRupiah(p.hargaDasar) : p.harga;
- 
+        const hargaTampil = p.hargaDasar !== undefined ? `Mulai dari ${formatRupiah(p.hargaDasar)}` : p.harga;
+        
         item.innerHTML = `
             <img src="${p.gambar}" alt="${p.nama}">
             <h3>${p.nama}</h3>
             <span class="harga">${hargaTampil}</span>
-            <div class="produk-actions" style="justify-content: center;">
-                <button class="beli-btn" data-produk="${p.nama}" data-harga="${hargaUntukTombol}">Beli</button>
+            <div class="produk-actions" style="display: flex; gap: 10px;">
+                <button class="beli-btn" data-produk-nama="${p.nama}">Beli</button>
                 <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
             </div>
         `;
-        list.appendChild(item);
+        container.appendChild(item);
     });
- }
+}
 
 function filterProduk() { 
     
@@ -145,23 +127,88 @@ function InitProductSliderControls() {
     nextBtn.addEventListener("click", () => scrollProducts('next'));
  }
 
-function handleBeliClick(produk) { 
-    
+function handleBeliClick(produk) {
     if (produk.options && produk.hargaDasar !== undefined) {
-        // Jika produk punya varian, buka modal untuk memilih opsi
-        openInquiryModal(produk);
+        // Produk dengan varian: Buka modal untuk memilih opsi terlebih dahulu.
+        openOptionsModal(produk);
     } else {
-        // Jika produk sederhana, langsung panggil modal kontak
+        // Produk sederhana: Langsung siapkan data dan buka formulir pemesanan.
         const detailPesanan = {
             namaDasar: produk.nama,
-            pilihan: {}, // Tidak ada pilihan spesifik
+            pilihan: {},
             hargaFinal: produk.harga
         };
         openInquiryModal(detailPesanan);
     }
- }
+}
 
 // Hapus validasiPembelian dan openOptionsModal lama, ganti dengan ini
+
+function openOptionsModal(produk) {
+    const optionsModal = document.getElementById('options-modal');
+    if (!optionsModal) { return; }
+
+    const title = optionsModal.querySelector('#options-modal-title');
+    const body = optionsModal.querySelector('#options-modal-body');
+    const priceDisplay = optionsModal.querySelector('#options-modal-price');
+    const applyBtn = optionsModal.querySelector('#applyOptionsBtn');
+    const closeBtn = optionsModal.querySelector('#closeOptionsModal');
+
+    title.textContent = `Pilih Opsi untuk ${produk.nama}`;
+    applyBtn.textContent = 'Lanjut ke Pembelian';
+    body.innerHTML = '';
+
+    produk.options.forEach(optionGroup => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'option-group';
+        const label = document.createElement('label');
+        label.textContent = optionGroup.nama;
+        const select = document.createElement('select');
+        select.dataset.group = optionGroup.nama;
+        optionGroup.choices.forEach(choice => {
+            const optionEl = document.createElement('option');
+            optionEl.value = choice.modifier;
+            optionEl.textContent = choice.text;
+            if (choice.default) optionEl.selected = true;
+            select.appendChild(optionEl);
+        });
+        groupDiv.appendChild(label);
+        groupDiv.appendChild(select);
+        body.appendChild(groupDiv);
+    });
+
+    const calculatePriceInModal = () => {
+        let totalHarga = produk.hargaDasar;
+        const selectedOptions = {};
+        body.querySelectorAll('select').forEach(select => {
+            totalHarga += parseInt(select.value, 10);
+            selectedOptions[select.dataset.group] = select.options[select.selectedIndex].textContent.split(' (')[0];
+        });
+        priceDisplay.textContent = formatRupiah(totalHarga);
+        return { totalHarga, selectedOptions };
+    };
+
+    calculatePriceInModal();
+    body.querySelectorAll('select').forEach(select => select.addEventListener('change', calculatePriceInModal));
+
+    const newApplyBtn = applyBtn.cloneNode(true);
+    applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
+    newApplyBtn.addEventListener('click', () => {
+        const { totalHarga, selectedOptions } = calculatePriceInModal();
+        const detailPesanan = {
+            namaDasar: produk.nama,
+            pilihan: selectedOptions,
+            hargaFinal: formatRupiah(totalHarga)
+        };
+        openInquiryModal(detailPesanan); // Panggil modal formulir akhir
+        optionsModal.style.display = 'none';
+    });
+
+    closeBtn.onclick = () => optionsModal.style.display = 'none';
+    optionsModal.style.display = 'flex';
+}
+
+
 // js/toko.js
 
 export function openInquiryModal(inquiryDetails) {
@@ -271,19 +318,22 @@ export function initTokoPage() {
     console.log("Inisialisasi Halaman Toko...");
     
     const semuaProdukProcessed = semuaProduk.map(p => ({ ...p, hargaAngka: p.hargaDasar || unformatRupiah(p.harga) }));
+    const produkListContainer = document.getElementById("produkList");
     
-    renderProduk(semuaProdukProcessed);
+    renderProduk(semuaProdukProcessed, produkListContainer);
     
-    // Setup event listeners spesifik untuk halaman toko
-    const searchInput = document.getElementById("searchInput");
-    if(searchInput) searchInput.addEventListener("input", () => filterProduk(semuaProdukProcessed));
-    
+    // --- Setup Event Listeners ---
     document.body.addEventListener('click', (e) => {
         if (e.target.classList.contains('beli-btn')) {
             e.preventDefault();
-            const namaProduk = e.target.getAttribute('data-produk');
+            // PERBAIKAN KUNCI: Gunakan 'data-produk-nama' yang konsisten
+            const namaProduk = e.target.getAttribute('data-produk-nama'); 
             const produk = semuaProduk.find(p => p.nama === namaProduk);
-            if (produk) handleBeliClick(produk);
+            if (produk) {
+                handleBeliClick(produk);
+            } else {
+                console.error(`Produk tidak ditemukan: ${namaProduk}`);
+            }
         }
     });
     
