@@ -383,6 +383,13 @@ function initContactReasonModal() {
     form.addEventListener('submit', (e) => {
         e.preventDefault(); // Mencegah form mengirim dan me-reload halaman
 
+        if (!form.checkValidity()) {
+          // Jika form tidak valid, picu pesan error bawaan browser pada field yang salah
+          form.reportValidity();
+          // Hentikan eksekusi fungsi agar tidak lanjut mengirim
+          return;
+        }
+
         // 1. Kumpulkan semua data dari form
         const nama = document.getElementById('namaInput').value;
         const telp = document.getElementById('telpInput').value;
