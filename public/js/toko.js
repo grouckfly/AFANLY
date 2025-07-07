@@ -185,7 +185,6 @@ export function openInquiryModal(inquiryDetails) {
         return;
     }
 
-    // Ambil semua elemen di dalam modal
     const title = document.getElementById('inquiry-modal-title');
     const form = document.getElementById('inquiry-form');
     const itemNameInput = document.getElementById('inquiry-item-name');
@@ -196,11 +195,10 @@ export function openInquiryModal(inquiryDetails) {
     const closeBtn = document.getElementById('closeInquiryModal');
 
     // --- Isi form dengan data yang dikirim ---
-    form.reset(); // Selalu bersihkan form
+    form.reset();
     title.textContent = `Formulir untuk: ${inquiryDetails.namaDasar}`;
     itemNameInput.value = inquiryDetails.namaDasar;
     
-    // Tampilkan spesifikasi jika ada
     if (inquiryDetails.pilihan && Object.keys(inquiryDetails.pilihan).length > 0) {
         let spekHTML = '<ul>';
         for (const [key, value] of Object.entries(inquiryDetails.pilihan)) {
@@ -213,7 +211,6 @@ export function openInquiryModal(inquiryDetails) {
         itemSpecsDiv.style.display = 'none';
     }
 
-    // Tampilkan harga jika ada
     if (inquiryDetails.hargaFinal) {
         priceInput.value = inquiryDetails.hargaFinal;
         priceWrapper.style.display = 'block';
@@ -221,27 +218,24 @@ export function openInquiryModal(inquiryDetails) {
         priceWrapper.style.display = 'none';
     }
 
-    // Tampilkan pesan awal jika ada
     if (inquiryDetails.pesanAwal) {
         messageInput.value = inquiryDetails.pesanAwal;
     }
 
-    // --- Atur event listener untuk form submit ---
-    const newForm = form.cloneNode(true);
-    form.parentNode.replaceChild(newForm, form);
-
-    newForm.addEventListener('submit', (e) => {
+    // =======================================================
+    // --- PERBAIKAN LOGIKA EVENT LISTENER SUBMIT ---
+    // =======================================================
+    
+    // Simpan handler dalam sebuah variabel agar bisa dilepas pasang
+    const submitHandler = (e) => {
         e.preventDefault();
-
-        // Cek apakah seluruh form valid sesuai aturan HTML5
-        if (!newForm.checkValidity()) {
-            // Jika tidak valid, perintahkan browser untuk menunjukkan pesan error
-            newForm.reportValidity();
-            return; // Hentikan eksekusi
+        
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
         }
 
         const submitMethod = e.submitter.dataset.method;
-
         const data = {
             namaUser: document.getElementById('inquiry-name').value,
             telpUser: document.getElementById('inquiry-phone').value,
@@ -271,7 +265,7 @@ Alamat: ${data.alamatUser}
 
 -- Pesan Tambahan --
 ${data.pesanUser || '(Tidak ada pesan tambahan)'}
-        `.trim().replace(/\n\n\n/g, '\n\n'); // Hapus spasi baris berlebih
+        `.trim().replace(/\n\n\n/g, '\n\n');
 
         let url = '';
         if (submitMethod === 'whatsapp') {
@@ -282,9 +276,24 @@ ${data.pesanUser || '(Tidak ada pesan tambahan)'}
         
         if (url) window.open(url, '_blank');
         modal.style.display = 'none';
-    });
+        
+        // Hapus event listener setelah digunakan untuk mencegah duplikasi
+        form.removeEventListener('submit', submitHandler);
+    };
 
-    closeBtn.onclick = () => { modal.style.display = 'none'; };
+    // Hapus listener lama (jika ada) dan tambahkan yang baru.
+    // Ini adalah cara yang benar untuk mencegah penumpukan event tanpa merusak listener lain.
+    if (form.submitListener) {
+        form.removeEventListener('submit', form.submitListener);
+    }
+    form.addEventListener('submit', submitHandler);
+    form.submitListener = submitHandler; // Simpan referensi ke listener saat ini
+
+    // Tampilkan modal
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+        form.removeEventListener('submit', submitHandler); // Bersihkan listener saat ditutup juga
+    };
     modal.style.display = 'flex';
 }
 
