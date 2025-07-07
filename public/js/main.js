@@ -315,21 +315,24 @@ function initNotificationCenter() {
     }
  }
 
-function initGlobalModalClosers() { 
-    
+/* -------------------- PENUTUP MODAL GLOBAL (DENGAN RESET) -------------------- */
+function initGlobalModalClosers() {
     window.addEventListener('click', (e) => {
-        // Cari semua modal yang mungkin ada di halaman
         const allModals = document.querySelectorAll('.modal, .modal-kontak, .modal-filter');
         
         allModals.forEach(modal => {
-            // Cek apakah modal sedang ditampilkan dan apakah yang di-klik adalah
-            // elemen latar belakang modal itu sendiri (bukan konten di dalamnya).
             if (modal.style.display === 'flex' && e.target === modal) {
                 modal.style.display = 'none';
+                
+                // Cari form di dalam modal yang ditutup, lalu reset
+                const form = modal.querySelector('form');
+                if (form) {
+                    resetForm(form);
+                }
             }
         });
     });
- }
+}
 
 function initContactReasonModal() { 
     
@@ -437,6 +440,7 @@ ${pesanPengguna}
     // Event listener untuk tombol tutup (X)
     closeModalBtn.addEventListener('click', () => {
         modal.style.display = 'none';
+        resetForm(form); // Kosongkan form saat modal ditutup
     });
  }
 
@@ -832,6 +836,29 @@ function initFormValidation() {
                 console.log("Formulir tidak valid. Pengiriman dibatalkan.");
             }
         });
+    });
+}
+
+/**
+ * Fungsi universal untuk membersihkan formulir dan status validasinya.
+ * @param {HTMLElement} formElement - Elemen form yang ingin di-reset.
+ */
+function resetForm(formElement) {
+    if (!formElement) return;
+
+    // 1. Mengosongkan semua nilai input di dalam form
+    formElement.reset();
+
+    // 2. Hapus semua kelas 'is-invalid' dari setiap input
+    const invalidInputs = formElement.querySelectorAll('.is-invalid');
+    invalidInputs.forEach(input => {
+        input.classList.remove('is-invalid');
+    });
+
+    // 3. Kosongkan semua teks pesan error
+    const errorMessages = formElement.querySelectorAll('.error-message');
+    errorMessages.forEach(message => {
+        message.textContent = '';
     });
 }
 

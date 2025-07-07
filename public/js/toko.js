@@ -293,6 +293,7 @@ ${data.pesanUser || '(Tidak ada pesan tambahan)'}
     closeBtn.onclick = () => {
         modal.style.display = 'none';
         form.removeEventListener('submit', submitHandler); // Bersihkan listener saat ditutup juga
+        resetForm(form); // Kosongkan form saat modal ditutup
     };
     modal.style.display = 'flex';
 }
