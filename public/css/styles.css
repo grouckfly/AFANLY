@@ -1889,48 +1889,7 @@ section,
 }
 
 /* ========================================================== */
-/* GAYA UNTUK MODAL PEMILIHAN ALASAN KONTAK                   */
-/* ========================================================== */
-
-.reason-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.reason-list .reason-item {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: block; /* Agar bisa diklik di seluruh area */
-}
-
-.reason-list .reason-item:hover {
-    background-color: var(--accent-color);
-    color: #fff;
-    border-color: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.dark-mode .reason-list .reason-item {
-    background-color: #3a3a3a;
-    border-color: #555;
-}
-
-.dark-mode .reason-list .reason-item:hover {
-    color: #000;
-}
-
-/* ========================================================== */
-/* GAYA UNTUK FORMULIR DI DALAM MODAL KONTAK                  */
+/* GAYA FORMULIR & VALIDASI GLOBAL (VERSI FINAL TERPADU)      */
 /* ========================================================== */
 
 .contact-form {
@@ -1939,122 +1898,8 @@ section,
     flex-direction: column;
     gap: 15px;
     text-align: left;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-color);
-}
-
-/* Aturan spesifik untuk textarea */
-.form-group textarea {
-    resize: vertical; /* Izinkan pengguna mengubah tinggi, tapi tidak lebarnya */
-    min-height: 80px; /* Tinggi awal minimal */
-    font-family: var(--font-family); /* Pastikan font sama dengan input lain */
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Penting! */
-    background-color: #fff;
-    color: #333;
-}
-
-.dark-mode .form-group input,
-.dark-mode .form-group select,
-.dark-mode .form-group textarea {
-    background-color: #333;
-    color: #fff;
-    border-color: #555;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
-}
-
-.contact-submit-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
-    background-color: #4CAF50; /* Warna hijau untuk tombol kirim */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.contact-submit-btn:hover {
-    filter: brightness(110%);
-    transform: translateY(-2px);
-}
-
-/* Styling untuk scrollbar di dalam form modal */
-.contact-form::-webkit-scrollbar {
-    width: 8px;
-}
-
-.contact-form::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.contact-form::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 10px;
-    border: 2px solid var(--modal-bg);
-}
-
-.dark-mode .contact-form::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-color: var(--modal-bg);
-}
-
-/* Gaya untuk input yang tidak bisa diedit di modal */
-.form-group input[readonly] {
-    background-color: var(--bg-color);
-    opacity: 0.7;
-    cursor: not-allowed;
-    border-style: dashed;
-}
-
-.dark-mode .form-group input[readonly] {
-    background-color: #2a2a2a;
-}
-
-/* ========================================================== */
-/* GAYA FORMULIR & VALIDASI GLOBAL (UNTUK SEMUA MODAL)        */
-/* ========================================================== */
-
-.contact-form {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
-    /* Membuat form bisa di-scroll jika kontennya lebih tinggi dari modal */
     overflow-y: auto; 
-    padding: 5px 10px 5px 5px; /* Beri sedikit ruang untuk scrollbar */
+    padding: 5px 10px 5px 5px;
 }
 
 .form-group {
@@ -2069,7 +1914,6 @@ section,
     color: var(--text-color);
 }
 
-/* Aturan dasar untuk semua jenis input di dalam form */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -2089,9 +1933,9 @@ section,
 .dark-mode .form-group textarea {
     background-color: #333;
     border-color: #555;
+    color: #e0e0e0;
 }
 
-/* Efek focus yang konsisten */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -2100,30 +1944,76 @@ section,
     box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
 }
 
-/* Aturan spesifik untuk textarea */
 .form-group textarea {
     resize: vertical;
     min-height: 80px;
     font-family: var(--font-family);
 }
 
-/* --- Gaya Umpan Balik Validasi --- */
-
-/* Gaya untuk input yang TIDAK VALID */
-.form-group .is-invalid {
-    border-color: var(--error, #d60000);
-    box-shadow: 0 0 0 1px var(--error, #d60000);
+.form-group input[readonly] {
+    background-color: rgba(0,0,0,0.05);
+    cursor: not-allowed;
+    border-style: dashed;
 }
 
-/* Gaya untuk pesan error */
+.dark-mode .form-group input[readonly] {
+    background-color: #2a2a2a;
+}
+
+/* --- Gaya Umpan Balik Validasi --- */
+.form-group .is-invalid {
+    border-color: var(--error, #d60000) !important; /* !important untuk menimpa state :focus */
+    box-shadow: none !important;
+}
+
 .error-message {
     color: var(--error, #d60000);
     font-size: 0.8rem;
     margin-top: 2px;
-    display: none; /* Sembunyi secara default */
+    display: none;
 }
 
-/* Tampilkan pesan error jika input memiliki kelas .is-invalid */
 .is-invalid + .error-message {
     display: block;
+}
+
+/* --- Gaya Tombol Kirim di Form --- */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.contact-submit-btn {
+    flex: 1;
+    margin-top: 0;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff !important;
+    transition: filter 0.2s ease;
+}
+
+.contact-submit-btn.wa { background-color: var(--whatsapp); }
+.contact-submit-btn.email { background-color: var(--email); }
+.contact-submit-btn:hover { filter: brightness(110%); }
+
+/* Styling untuk scrollbar di dalam form modal */
+.contact-form::-webkit-scrollbar {
+    width: 8px;
+}
+.contact-form::-webkit-scrollbar-track {
+    background: transparent;
+}
+.contact-form::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 2px solid var(--modal-bg);
+}
+.dark-mode .contact-form::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-color: var(--modal-bg);
 }
