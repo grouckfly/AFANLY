@@ -1505,9 +1505,15 @@ section,
         background: #eaeaea;
     }
 
-    .services .card-wrapper {
-        min-height: 480px;
-    }
+        .services {
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+    
+        .services .card-wrapper {
+            min-height: auto;
+            padding: 1rem;
+        }
     
     .service-desc {
         font-size: 1rem;
