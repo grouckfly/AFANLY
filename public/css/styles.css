@@ -433,7 +433,7 @@ header {
 
 /* --- Variabel CSS untuk Mode Gelap (Dark Mode) --- */
 body.dark-mode {
-  --jumbotron-bg-color: #1e1e1e;
+  --jumbotron-bg-color: #181818;
   --jumbotron-text-color: #f8f9fa;
   --jumbotron-heading-color: #f8f9fa;
   --btn-primary-bg: #0d6efd;
@@ -1505,10 +1505,17 @@ section,
         background: #eaeaea;
     }
 
-        .services {
-            padding-top: 2.5rem;
-            padding-bottom: 2.5rem;
-        }
+        /* ATURAN BARU YANG LEBIH BAIK & KONSISTEN */
+    .about, .services, .contact, .hero, .jumbotron {
+        padding: 2.5rem 1rem; /* Padding yang sama untuk semua seksi */
+        margin-bottom: 2.5rem; /* Jarak bawah yang sama untuk semua seksi */
+    }
+
+    /* Hapus margin atas dari seksi pertama agar tidak terlalu jauh dari header */
+    main > section:first-child {
+        margin-top: 1rem;
+        margin-bottom: 2.5rem;
+    }
     
         .services .card-wrapper {
             min-height: auto;
@@ -1549,6 +1556,20 @@ section,
         top: 10px;
         right: 10px;
     }
+
+    /* Aturan BARU di dalam @media (max-width: 900px) */
+
+/* ========================================================== */
+/* PERBAIKAN: Tambahkan jarak antar seksi di tampilan mobile  */
+/* ========================================================== */
+.about,
+.services,
+.contact,
+.hero, 
+.jumbotron {
+    /* Beri jarak bawah yang cukup untuk setiap seksi */
+    margin-bottom: 3rem; 
+}
 }
 
 @media (min-width: 901px) {
