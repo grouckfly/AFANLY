@@ -127,6 +127,10 @@ body {
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
+.dark-mode #loading-screen {
+    background-color: #181818;
+}
+
 #welcome-screen {
     position: fixed;
     top: 0;
@@ -142,6 +146,10 @@ body {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+}
+
+.dark-mode #welcome-screen {
+    background-color: #181818;
 }
 
 .hidden {
