@@ -5,23 +5,23 @@
     --card-max-width: 900px;
 
     /* Jumbotron */
-  --jumbotron-bg-color: #fff;
-  --jumbotron-text-color: #333;
-  --jumbotron-heading-color: #212529;
-  --btn-primary-bg: #007bff;
-  --btn-primary-border: #007bff;
-  --btn-primary-hover-bg: #0056b3;
-  --btn-primary-hover-border: #004085;
+    --jumbotron-bg-color: #fff;
+    --jumbotron-text-color: #333;
+    --jumbotron-heading-color: #212529;
+    --btn-primary-bg: #007bff;
+    --btn-primary-border: #007bff;
+    --btn-primary-hover-bg: #0056b3;
+    --btn-primary-hover-border: #004085;
 
-  /* About */
-  --about-bg-color: #f8f9fa; /* Warna latar section */
-    --about-card-bg-color: #ffffff; /* Warna kartu deskripsi */
-    --about-primary-text: #212529; /* Teks utama */
-    --about-secondary-text: #495057; /* Teks paragraf */
-    --about-accent-color: #007bff; /* Warna aksen/tombol */
-    --about-accent-hover: #0056b3; /* Warna hover tombol */
-    --about-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Bayangan kartu */
-    --about-border-radius: 0.75rem; /* Radius sudut */
+    /* About */
+    --about-bg-color: #f8f9fa;
+    --about-card-bg-color: #ffffff;
+    --about-primary-text: #212529;
+    --about-secondary-text: #495057;
+    --about-accent-color: #007bff;
+    --about-accent-hover: #0056b3;
+    --about-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --about-border-radius: 0.75rem;
 
     /* Colors - Light Mode */
     --bg-color: #f9f9f9;
@@ -118,12 +118,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #f0f2f5; /* Sesuaikan warna latar belakang loading */
+    background-color: #f0f2f5;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* Pastikan di atas welcome screen saat aktif */
+    z-index: 10000;
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
@@ -133,26 +133,26 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #ffffff; /* Warna latar belakang welcome screen */
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Pastikan di bawah loading screen, tapi di atas konten utama */
-    opacity: 1; /* Default tampil */
-    visibility: visible; /* Default tampil */
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
 }
 
 .hidden {
-    display: none !important; /* Penting untuk menyembunyikan sepenuhnya */
+    display: none !important;
     opacity: 0;
     visibility: hidden;
-    /* Transisi untuk menyembunyikan/menampilkan secara instan jika tidak ada animasi */
     transition: opacity 0.0s ease, visibility 0.0s ease;
 }
 
-#loading-screen.hidden, #welcome-screen.hidden {
+#loading-screen.hidden, 
+#welcome-screen.hidden {
     opacity: 0;
     pointer-events: none;
 }
@@ -197,51 +197,14 @@ body {
     animation: fadeIn 1.2s ease-out;
 }
 
-/* Keyframes untuk animasi geser ke atas dan menghilang */
 @keyframes swipeUpAndFade {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-100%); /* Geser ke atas */
-        opacity: 0; /* Menghilang */
-    }
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
 }
 
-/* Kelas ini akan ditambahkan oleh JS untuk memulai animasi menghilang */
 #welcome-screen.swipe-up-animation-end {
-    animation: swipeUpAndFade 0.7s forwards; /* Durasi animasi 0.7 detik */
+    animation: swipeUpAndFade 0.7s forwards;
 }
-
-/* Dark mode specific for loading and welcome screens */
-/* Loading Screen Dark Mode */
-    .dark-mode #loading-screen {
-        background-color: #1a1a1a; /* Latar belakang gelap untuk loading screen */
-    }
-
-    .dark-mode #loading-screen .spinner {
-        border-color: rgba(255, 255, 255, 0.2); /* Warna border spinner lebih terang agar kontras */
-        border-top-color: var(--accent-color-dark); /* Warna spinner yang kontras di dark mode */
-    }
-
-    .dark-mode #loading-text {
-        color: #e0e0e0; /* Warna teks loading lebih terang di dark mode */
-    }
-
-    /* Welcome Screen Dark Mode */
-    .dark-mode #welcome-screen {
-        background-color: #2c2c2c; /* Latar belakang gelap untuk welcome screen */
-    }
-
-    .dark-mode #welcome-screen h1 {
-        color: var(--accent-color-dark); /* Warna h1 yang kontras di dark mode */
-    }
-
-    .dark-mode #welcome-screen p {
-        color: #e0e0e0; /* Warna paragraf lebih terang di dark mode */
-    }
-
 
 /* ===== HEADER & NAVBAR ===== */
 header {
@@ -251,7 +214,7 @@ header {
     background: var(--header-bg);
     color: var(--text-color);
     width: 100%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Tambahkan garis tipis */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     transition: var(--transition-color);
 }
 
@@ -445,26 +408,18 @@ body.dark-mode {
 /* --- Styling untuk Hero/Jumbotron Section --- */
 .jumbotron {
   position: relative;
-  /* Hapus padding tetap karena kita akan memusatkan konten */
-  /* padding: 4rem 2rem; */
-  margin-bottom: 0; /* Biasanya Jumbotron tidak punya margin bawah jika mengisi layar penuh */
-
-  /* Properti untuk memusatkan konten secara vertikal */
-  min-height: calc(
-    100vh - var(--header-height) - var(--footer-height)
-  ); /* Minimal setinggi viewport dikurangi header/footer */
-  display: flex; /* Aktifkan Flexbox */
-  flex-direction: column; /* Susun item anak (hero-bg, container) secara vertikal */
-  justify-content: center; /* Pusatkan konten secara vertikal */
-  align-items: center; /* Pusatkan konten secara horizontal (jika lebar kontainer tidak 100%) */
-
+  padding: 6rem 1.5rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: var(--jumbotron-bg-color);
-  border-radius: 0; /* Biasanya jumbotron penuh layar tidak memiliki border-radius */
+  border-radius: 0;
   text-align: center;
   color: var(--jumbotron-text-color);
   overflow: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
-  box-sizing: border-box; /* Penting agar padding/border tidak menambah ukuran */
 }
 
 .jumbotron .hero-bg {
@@ -482,9 +437,8 @@ body.dark-mode {
 .jumbotron .container {
   position: relative;
   z-index: 2;
-  /* Sesuaikan lebar maksimum kontainer agar teks tetap terbaca */
-  max-width: 960px; /* Contoh: lebar maksimum seperti container Bootstrap */
-  padding: 0 1rem; /* Padding horizontal untuk responsivitas */
+  max-width: 960px;
+  padding: 0 1rem;
 }
 
 .jumbotron-logo {
@@ -524,7 +478,7 @@ body.dark-mode {
   line-height: 1.5;
   border-radius: 0.3rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+              border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .jumbotron .btn-primary {
@@ -567,7 +521,7 @@ body.dark-mode {
     margin-bottom: 1rem;
   }
   .jumbotron .container {
-    padding: 0 0.8rem; /* Padding lebih kecil di mobile */
+    padding: 0 0.8rem;
   }
 }
 
@@ -607,13 +561,11 @@ body.dark-mode {
 .about-content-wrapper {
     display: flex;
     align-items: center;
-    /* gap: 3rem; */ /* HAPUS ATAU KOMENTARI BARIS INI */
-
-    /* TAMBAHKAN PROPERTI DI BAWAH INI */
+    gap: 3rem;
     background-color: var(--about-card-bg-color);
     border-radius: var(--about-border-radius);
     box-shadow: var(--about-card-shadow);
-    overflow: hidden; /* KUNCI UTAMA untuk sudut yang rapi */
+    overflow: hidden;
 }
 
 /* --- Kartu Deskripsi (Sisi Kiri di Desktop) --- */
@@ -622,7 +574,6 @@ body.dark-mode {
     order: 1;
     padding: 2.5rem;
     text-align: center;
-    /* background-color, border-radius, dan box-shadow dihapus */
 }
 
 .about-description-card h3 {
@@ -637,7 +588,7 @@ body.dark-mode {
     line-height: 1.8;
     color: var(--about-secondary-text);
     margin-bottom: 2rem;
-    text-align: left; /* Pastikan teks rata kiri */
+    text-align: left;
 }
 
 .about-description-card .btn {
@@ -661,7 +612,9 @@ body.dark-mode {
     order: 2;
     position: relative;
     aspect-ratio: 16 / 10;
-    /* border-radius, overflow, dan box-shadow dihapus. Overflow sudah ada di parent. */
+    border-radius: var(--about-border-radius);
+    overflow: hidden;
+    box-shadow: var(--about-card-shadow);
 }
 
 .carousel-inner {
@@ -712,19 +665,19 @@ body.dark-mode {
 /* --- Aturan Responsif untuk About Section --- */
 @media (max-width: 900px) {
     .about-content-wrapper {
-        flex-direction: column; /* Mengubah layout menjadi vertikal (tumpukan) */
+        flex-direction: column;
     }
 
     .about-description-card,
     .about-image-carousel {
-        order: initial; /* Hapus urutan agar kembali ke urutan HTML asli */
+        order: initial;
     }
 
     .about-image-carousel {
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
-        aspect-ratio: 16 / 9; /* Rasio yang lebih umum untuk mobile */
+        aspect-ratio: 16 / 9;
     }
 }
 
@@ -740,7 +693,7 @@ body.dark-mode {
 
 .about p, .contact p {
     text-align: center;
-    color: var(--text-color); /* Changed from hardcoded #444 */
+    color: var(--text-color);
     margin-bottom: 1rem;
 }
 
@@ -755,15 +708,20 @@ body.dark-mode {
     font-size: 1.1rem;
     font-weight: 600;
     color: #fff;
-    background-color: var(--highlight-color, #007bff);
+    background-color: var(--accent-color);
     border-radius: 50px;
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.dark-mode .btn-cta {
+    background-color: var(--accent-color);
+    color: #0f0f0f;
+}
+
 .btn-cta:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4);
 }
 
 /* ===== CARDS ===== */
@@ -800,12 +758,12 @@ body.dark-mode {
     height: auto;
     scroll-snap-align: start;
     -webkit-scroll-snap-align: start;
-    transition: var(--transition-color), var(--transition-card); /* Combined transitions */
+    transition: var(--transition-color), var(--transition-card);
 }
 
 /* Services cards */
 .services .card-wrapper {
-    min-height: 500px; /* Diperbesar dari 420px */
+    min-height: 420px;
     flex-grow: 1; 
     display: flex; 
     align-items: center; 
@@ -814,11 +772,11 @@ body.dark-mode {
 }
 
 .services .photocard {
-    min-width: 350px;
+    min-width: 320px;
     max-width: 90vw;
     flex: 0 0 100%;
-    border-radius: 12px; /* Overrides default */
-    padding: 1rem; /* Overrides default */
+    border-radius: 12px;
+    padding: 1rem;
     text-align: center;
     cursor: grab;
     scroll-snap-align: center;
@@ -834,24 +792,23 @@ body.dark-mode {
 
 .services .photocard .service-desc {
     display: block;
-    margin-top: 0.5rem; /* Beri jarak dari judul */
+    margin-top: 0.5rem;
     margin-bottom: 0;
-    font-size: 0.95em; /* Deskripsi diperbesar agar lebih mudah dibaca */
-    line-height: 1.5; /* Tingkatkan line-height untuk kenyamanan membaca */
+    font-size: 0.95em;
     color: #555;
 }
 
 .services .photocard img {
- display: block;
- margin: 0 auto 0.5rem; /* Beri sedikit margin bawah */
- width: 100%;
- max-width: 380px; /* Diperbesar dari 320px */
- height: auto;
- max-height: 240px; /* Diperbesar dari 200px */
- aspect-ratio: 16/10;
- object-fit: contain;
- border-radius: 8px;
- background: #f3f3f3;
+    display: block;
+    margin: 0 auto 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    max-height: 200px;
+    aspect-ratio: 16/10;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f3f3f3;
 }
 
 .services .photocard:active,
@@ -1125,7 +1082,6 @@ footer {
     color: white;
     border: none;
     border-radius: 50%;
-    /* Ukuran yang KONSISTEN untuk semua tampilan */
     width: 36px;
     height: 36px;
     font-size: 1rem;
@@ -1188,20 +1144,20 @@ footer {
 #connection-status-notif {
     position: fixed;
     bottom: 24px;
-    left: 24px; /* Diposisikan di kiri agar tidak tumpang tindih dengan dev-notif */
-    background: #fff1f0; /* Warna latar yang lembut untuk peringatan */
-    color: #d93025; /* Warna teks merah */
+    left: 24px;
+    background: #fff1f0;
+    color: #d93025;
     border: 2px solid #d93025;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     padding: 1.2rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    z-index: 9998; /* Di bawah dev-notif tapi di atas konten lain */
+    z-index: 9998;
     display: flex;
     align-items: center;
     transition: transform 0.4s ease, opacity 0.4s ease;
-    transform: translateY(150px); /* Mulai dari bawah layar */
+    transform: translateY(150px);
     opacity: 0;
     max-width: 400px;
 }
@@ -1808,17 +1764,17 @@ section,
 .harga-display {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--highlight-color, #007bff); /* Fallback color */
+    color: var(--accent-color); /* Fallback color */
     margin: 20px 0;
     padding: 10px;
-    background: linear-gradient(45deg, rgba(0,123,255,0.05), rgba(0,123,255,0.15));
-    border-left: 5px solid var(--highlight-color, #007bff);
+    background: linear-gradient(45deg, rgba(30, 136, 229, 0.05), rgba(30, 136, 229, 0.15));
+    border-left: 5px solid var(--accent-color);
     border-radius: 0 8px 8px 0;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .dark-mode .harga-display {
-    background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(0,123,255,0.2));
+    background: linear-gradient(45deg, rgba(30, 136, 229, 0.1), rgba(30, 136, 229, 0.2));
 }
 
 
@@ -1867,8 +1823,8 @@ section,
 
 #options-modal .option-group select:focus {
     outline: none;
-    border-color: var(--highlight-color, #007bff);
-    box-shadow: 0 0 0 2px var(--highlight-color-translucent, rgba(0, 123, 255, 0.25));
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.25);
 }
 
 /* Footer Modal Opsi */
@@ -1896,7 +1852,7 @@ section,
 #options-modal .harga-display-modal {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--highlight-color, #007bff);
+    color: var(--accent-color);
 }
 
 #options-modal .btn-primary {
@@ -2016,6 +1972,10 @@ section,
     font-weight: 600;
     color: #fff !important;
     transition: filter 0.2s ease;
+}
+
+.dark-mode .contact-submit-btn {
+    color: #0f0f0f !important; /* Pastikan teks tetap putih di dark mode */
 }
 
 .contact-submit-btn.wa { background-color: var(--whatsapp); }
