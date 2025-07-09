@@ -994,11 +994,6 @@ footer {
 }
 
 /* ===== MODALS & NOTIFICATIONS ===== */
-/* Kritik Saran Button */
-#navbar-kritik-saran,
-#sidebar-kritik-saran {
-    cursor: pointer;
-}
 
 /* Modal */
 .modal {
@@ -1507,11 +1502,6 @@ section,
     .services .photocard img {
         max-width: 80vw;
         max-height: 180px;
-    }
-    
-    .kritik-saran-btn {
-        font-size: 14px;
-        padding: 8px 12px;
     }
     
     .sidebar-floating-logo {

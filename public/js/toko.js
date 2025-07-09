@@ -19,6 +19,7 @@ function renderProduk(data, container) {
     if (!container) return;
     const notFoundMessage = document.getElementById("produk-notfound");
     container.innerHTML = "";
+
     notFoundMessage.style.display = data.length === 0 ? "flex" : "none";
     container.style.display = data.length === 0 ? "none" : "flex";
 
@@ -27,13 +28,27 @@ function renderProduk(data, container) {
         item.className = "produk";
         const encodedNama = encodeURIComponent(p.nama);
         const hargaTampil = p.hargaDasar !== undefined ? `Mulai dari ${formatRupiah(p.hargaDasar)}` : p.harga;
-        
+
+        let statusBadgeHTML = '';
+        let tombolBeliHTML = '';
+
+        if (p.status === "Tidak Tersedia") {
+            statusBadgeHTML = `<div class="status-badge tidak-tersedia">Tidak Tersedia</div>`;
+            tombolBeliHTML = `<button class="beli-btn disabled" style data-produk-nama="${p.nama}">Tidak Tersedia</button>`;
+        } else { // Asumsi lainnya adalah "Tersedia"
+            statusBadgeHTML = `<div class="status-badge tersedia">Tersedia</div>`;
+            tombolBeliHTML = `<button class="beli-btn" data-produk-nama="${p.nama}">Beli</button>`;
+        }
+
         item.innerHTML = `
             <img src="${p.gambar}" alt="${p.nama}">
             <h3>${p.nama}</h3>
-            <span class="harga">${hargaTampil}</span>
+            ${statusBadgeHTML}
+            <div class="harga-wrapper">
+                <span class="harga">${hargaTampil}</span>
+            </div>
             <div class="produk-actions" style="display: flex; gap: 10px;">
-                <button class="beli-btn" data-produk-nama="${p.nama}">Beli</button>
+                ${tombolBeliHTML}
                 <a href="spesifikasi.html?produk=${encodedNama}" class="spec-btn">Spesifikasi</a>
             </div>
         `;
@@ -95,6 +110,12 @@ function InitProductSliderControls() {
  }
 
 function handleBeliClick(produk) {
+    // Jika produk tidak tersedia, buka modal status dan hentikan proses.
+    if (produk.status === "Tidak Tersedia") {
+        openStatusModal(produk.nama);
+        return;
+    }
+
     if (produk.options && produk.hargaDasar !== undefined) {
         // Produk dengan varian: Buka modal untuk memilih opsi terlebih dahulu.
         openOptionsModal(produk);
@@ -173,6 +194,22 @@ function openOptionsModal(produk) {
 
     closeBtn.onclick = () => optionsModal.style.display = 'none';
     optionsModal.style.display = 'flex';
+}
+
+function openStatusModal(namaProduk) {
+    const modal = document.getElementById('status-modal');
+    if (!modal) return;
+
+    const productNameSpan = document.getElementById('status-modal-product-name');
+    const closeBtn = document.getElementById('closeStatusModal');
+    const closeBtn2 = document.getElementById('status-modal-close-btn');
+
+    if (productNameSpan) productNameSpan.textContent = namaProduk;
+    modal.style.display = 'flex';
+
+    const closeModal = () => modal.style.display = 'none';
+    if(closeBtn) closeBtn.onclick = closeModal;
+    if(closeBtn2) closeBtn2.onclick = closeModal;
 }
 
 
@@ -319,27 +356,38 @@ export function initTokoPage() {
 
     // --- FUNGSI FILTER (sekarang berada di dalam scope yang benar) ---
     function filterProduk() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const kategori = document.getElementById("kategoriSelect").value;
-        const urutkan = document.getElementById("urutkanHargaSelect").value;
-        const minHarga = unformatRupiah(document.getElementById("minPriceInput").value);
-        let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
-        if (maxHarga === 0) maxHarga = Infinity;
-     
-        let hasil = semuaProdukProcessed.filter(p => {
-            const cocokPencarian = p.nama.toLowerCase().includes(searchTerm) || (p.deskripsi && p.deskripsi.toLowerCase().includes(searchTerm)) || p.jenis.toLowerCase().includes(searchTerm);
-            const cocokKategori = kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase();
-            const cocokHarga = p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga;
-            return cocokPencarian && cocokKategori && cocokHarga;
-        });
-     
-        if (urutkan === 'terendah') hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
-        else if (urutkan === 'tertinggi') hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
-     
-        renderProduk(hasil, produkListContainer);
-        updateFilterButtonState();
-        if (produkListContainer) produkListContainer.scrollLeft = 0;
-    }
+    // Pastikan variabel `semuaProdukProcessed` tersedia dalam scope ini
+    const searchInput = document.getElementById("searchInput");
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    const kategori = document.getElementById("kategoriSelect").value;
+    const urutkan = document.getElementById("urutkanHargaSelect").value;
+    const minHarga = unformatRupiah(document.getElementById("minPriceInput").value);
+    let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
+    if (maxHarga === 0) maxHarga = Infinity;
+
+    let hasil = semuaProdukProcessed.filter(p => {
+        const cocokFilterLain = 
+            (kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase()) &&
+            (p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga);
+
+        // Jika pengguna aktif mencari, abaikan status ketersediaan
+        if (searchTerm) {
+            const cocokPencarian = p.nama.toLowerCase().includes(searchTerm) || (p.deskripsi && p.deskripsi.toLowerCase().includes(searchTerm));
+            return cocokPencarian && cocokFilterLain;
+        } 
+        // Jika tidak ada pencarian, hanya tampilkan yang statusnya "Tersedia"
+        else {
+            return p.status === "Tersedia" && cocokFilterLain;
+        }
+    });
+
+    if (urutkan === 'terendah') hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
+    else if (urutkan === 'tertinggi') hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
+    
+    renderProduk(hasil, document.getElementById("produkList"));
+    updateFilterButtonState();
+}
     
     // --- SETUP EVENT LISTENERS ---
     if(searchInput) searchInput.addEventListener("input", filterProduk);

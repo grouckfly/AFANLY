@@ -262,28 +262,22 @@
 
 /* ===== PENYEMPURNAAN KARTU PRODUK ===== */
 .produk {
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
+    padding: 1rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Gunakan flexbox untuk menata semua konten di dalam kartu */
+    display: flex;
+    flex-direction: column;
 
-.produk:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
+    /* Properti untuk slider */
+    flex: 0 0 auto;
+    scroll-snap-align: start;
 
-.dark-mode .produk:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
-
-.produk img {
-    aspect-ratio: 1 / 1; /* Menjaga rasio gambar tetap kotak */
-    object-fit: contain; /* Pastikan gambar tidak gepeng */
-    background-color: transparent; /* Hapus background abu-abu, biarkan transparan */
-    padding: 0; /* Hapus padding */
-}
-
-/* Produk Card (Individual Product Item) */
-.produk {
     background-color: var(--card-bg);
     box-shadow: var(--shadow-sm);
     border-radius: 8px;
@@ -301,6 +295,31 @@
     align-items: center;
 
     aspect-ratio: 16/10;
+}
+
+.produk:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.dark-mode .produk:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.produk:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.dark-mode .produk:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.produk img {
+    aspect-ratio: 1 / 1; /* Menjaga rasio gambar tetap kotak */
+    object-fit: contain; /* Pastikan gambar tidak gepeng */
+    background-color: transparent; /* Hapus background abu-abu, biarkan transparan */
+    padding: 0; /* Hapus padding */
 }
 
 .produk:hover {
@@ -439,9 +458,11 @@
 
 /* ===== TOMBOL SPESIFIKASI ===== */
 .produk-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    display: flex; /* Pastikan menggunakan flex, bukan flexbox */
+    gap: 10px;     /* Beri jarak antar tombol */
+    width: 100%;   /* Pastikan wrapper tombol mengambil lebar penuh */
+    margin-top: auto; /* KUNCI: Mendorong blok ini ke bawah kartu */
+    padding-top: 1rem; /* Memberi jarak dari elemen di atasnya */
 }
 
 .beli-btn,
@@ -669,4 +690,43 @@
         font-size: 18px;
         padding: 6px 10px;
     }
+}
+
+/* ================================== */
+/* GAYA BARU UNTUK STATUS PRODUK      */
+/* ================================== */
+
+/* Aturan baru untuk lencana status */
+.status-badge {
+    display: inline-block; /* Agar bisa diberi padding dan margin */
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 50px; /* Membuatnya berbentuk kapsul */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem; /* Memberi jarak ke harga */
+}
+
+/* Warna untuk status "Tersedia" */
+.status-badge.tersedia {
+    background-color: rgba(76, 175, 80, 0.15); /* Latar hijau transparan */
+    color: #388e3c; /* Teks hijau tua */
+}
+
+/* Warna untuk status "Tidak Tersedia" */
+.status-badge.tidak-tersedia {
+    background-color: rgba(211, 47, 47, 0.15); /* Latar merah transparan */
+    color: #c62828; /* Teks merah tua */
+}
+
+/* Penyesuaian untuk Dark Mode */
+.dark-mode .status-badge.tersedia {
+    background-color: rgba(102, 187, 106, 0.2);
+    color: #a5d6a7; /* Teks hijau terang */
+}
+
+.dark-mode .status-badge.tidak-tersedia {
+    background-color: rgba(239, 83, 80, 0.2);
+    color: #ef9a9a; /* Teks merah terang */
 }
