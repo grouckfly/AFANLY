@@ -1,43 +1,4 @@
-// js/data-produk.js (Versi Final dengan Data Lengkap untuk Semua Produk)
-
-// INSTRUKSI PEMBERIAN DATA PRODUK:
-// 1. Contoh produk yang memiliki opsi konfigurasi:
-// {
-    //     nama: "Laptop Ultrabook Swift 14",
-    //     jenis: "Komputer",
-    //     deskripsi: "Bebas.",
-    //     gambar: "Bebas",
-    //     gallery: [
-    //         "Gambar 1",
-    //         "Gambar 2",
-    //         "Gambar 3" dst jangan lupa koma di akhir
-    //     ],
-        // hargaDasar: 15500000,  Harga awal produk
-    //     options: [
-    //         {
-    //             nama: "Prosesor",
-    //             choices: [
-    //                 { text: "Intel Core i5 (Bawaan)", modifier: 0, default: true },
-    //                 { text: "Intel Core i7 (+ Rp 2.000.000)", modifier: 2000000 }
-    //             ]
-    //         },
-    //         {
-    //             nama: "RAM",
-    //             choices: [
-    //                 { text: "8 GB DDR5 (Bawaan)", modifier: 0, default: true },
-    //                 { text: "16 GB DDR5 (+ Rp 1.200.000)", modifier: 1200000 }
-    //             ]
-    //         },
-    //         {
-    //             nama: "Warna",
-    //             choices: [
-    //                 { text: "Perak Metalik", modifier: 0, default: true },
-    //                 { text: "Hitam Karbon", modifier: 0 },
-    //                 { text: "Special Edition Biru Laut (+ Rp 350.000)", modifier: 350000 }
-    //             ]
-    //         }
-    //     ]
-    // },
+// Data Lengkap untuk Semua Produk
 
 const semuaProduk = [
     // =================================================================================
@@ -84,7 +45,8 @@ const semuaProduk = [
                     { text: "Special Edition Biru Laut (+ Rp 350.000)", modifier: 350000 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     {
         nama: "PC Gaming ROG Strix G15",
@@ -112,7 +74,8 @@ const semuaProduk = [
                     { text: "2 TB SSD Gen4 (+ Rp 1.800.000)", modifier: 1800000 }
                 ]
             }
-        ]
+        ],
+        status: "Tidak Tersedia"
     },
     {
         nama: "Monitor Ultrawide LG 34 inch",
@@ -133,7 +96,8 @@ const semuaProduk = [
                     { text: "Like New (Buka Kotak)", modifier: -500000 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     {
         nama: "Keyboard Mekanikal Keychron K2",
@@ -158,7 +122,8 @@ const semuaProduk = [
                     { text: "Aluminium (+ Rp 300.000)", modifier: 300000 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     {
         nama: "Mouse Logitech MX Master 3S",
@@ -175,7 +140,8 @@ const semuaProduk = [
                     { text: "Pale Gray (Putih)", modifier: 0 }
                 ]
             }
-        ]
+        ],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "Webcam Logitech C922 Pro Stream", 
@@ -192,7 +158,8 @@ const semuaProduk = [
                     { text: "Webcam + Mini Tripod (+ Rp 150.000)", modifier: 150000}
                 ]
             }
-        ] 
+        ],
+        status: "Tersedia" 
     },
     { 
         nama: "Headset SteelSeries Arctis 7+", 
@@ -209,7 +176,8 @@ const semuaProduk = [
                     { text: "Putih", modifier: 0 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     { 
         nama: "Motherboard ASUS ROG Z790", 
@@ -225,7 +193,8 @@ const semuaProduk = [
         deskripsi: "Kartu grafis performa tinggi untuk gaming 4K.", 
         harga: "Rp 22.000.000", 
         gambar: "https://placehold.co/600x600/76b900/white?text=VGA+Card", 
-        gallery: ["https://placehold.co/600x600/76b900/white?text=VGA+Card", "https://placehold.co/600x600/5a8c00/white?text=Kipas"] 
+        gallery: ["https://placehold.co/600x600/76b900/white?text=VGA+Card", "https://placehold.co/600x600/5a8c00/white?text=Kipas"],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "RAM Corsair Vengeance 32GB Kit", 
@@ -233,7 +202,8 @@ const semuaProduk = [
         deskripsi: "Kit memori DDR5 32GB (2x16GB) kecepatan 6000MHz.", 
         harga: "Rp 2.100.000", 
         gambar: "https://placehold.co/600x600/1a1a1a/white?text=RAM", 
-        gallery: ["https://placehold.co/600x600/1a1a1a/white?text=RAM", "https://placehold.co/600x600/3d3d3d/white?text=Terpasang"] 
+        gallery: ["https://placehold.co/600x600/1a1a1a/white?text=RAM", "https://placehold.co/600x600/3d3d3d/white?text=Terpasang"],
+        status: "Tersedia"
     },
 
     // =================================================================================
@@ -254,7 +224,8 @@ const semuaProduk = [
                     { text: "Tinta Bawaan + 1 Set Cadangan (+ Rp 350.000)", modifier: 350000}
                 ]
             }
-        ]
+        ],
+        status: "Tidak Tersedia"
     },
     {
         nama: "Mesin Penghancur Kertas SecureMax",
@@ -262,7 +233,8 @@ const semuaProduk = [
         deskripsi: "Hancurkan dokumen rahasia dengan aman menggunakan mesin cross-cut kapasitas 10 lembar.",
         harga: "Rp 1.850.000",
         gambar: "https://placehold.co/600x600/4d4d4d/white?text=Shredder",
-        gallery: ["https://placehold.co/600x600/4d4d4d/white?text=Shredder"]
+        gallery: ["https://placehold.co/600x600/4d4d4d/white?text=Shredder"],
+        status: "Tersedia"
     },
     {
         nama: "Proyektor BenQ MW550",
@@ -270,7 +242,8 @@ const semuaProduk = [
         deskripsi: "Proyektor bisnis dengan kecerahan 3600 Lumens untuk presentasi yang jelas.",
         harga: "Rp 6.200.000",
         gambar: "https://placehold.co/600x600/f0f0f0/black?text=Proyektor",
-        gallery: ["https://placehold.co/600x600/f0f0f0/black?text=Proyektor", "https://placehold.co/600x600/cccccc/black?text=Lensa"]
+        gallery: ["https://placehold.co/600x600/f0f0f0/black?text=Proyektor", "https://placehold.co/600x600/cccccc/black?text=Lensa"],
+        status: "Tersedia"
     },
     {
         nama: "Kursi Ergonomis ErgoPro",
@@ -294,7 +267,8 @@ const semuaProduk = [
                     { text: "4D Adjustable (+ Rp 450.000)", modifier: 450000 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     { 
         nama: "Meja Kerja Elektrik Adjustable", 
@@ -302,7 +276,8 @@ const semuaProduk = [
         deskripsi: "Meja yang ketinggiannya dapat diatur secara elektrik.", 
         harga: "Rp 5.500.000", 
         gambar: "https://placehold.co/600x600/d2b48c/black?text=Meja+Elektrik",
-        gallery: ["https://placehold.co/600x600/d2b48c/black?text=Meja+Elektrik"] 
+        gallery: ["https://placehold.co/600x600/d2b48c/black?text=Meja+Elektrik"],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "Lemari Arsip Baja 4 Laci", 
@@ -310,7 +285,8 @@ const semuaProduk = [
         deskripsi: "Lemari arsip dari bahan baja yang kokoh dan tahan lama.", 
         harga: "Rp 2.750.000", 
         gambar: "https://placehold.co/600x600/a9a9a9/white?text=Lemari+Arsip",
-        gallery: ["https://placehold.co/600x600/a9a9a9/white?text=Lemari+Arsip"]
+        gallery: ["https://placehold.co/600x600/a9a9a9/white?text=Lemari+Arsip"],
+        status: "Tersedia"
     },
     { 
         nama: "Papan Tulis Kaca Glassboard", 
@@ -327,7 +303,8 @@ const semuaProduk = [
                     { text: "150 x 90 cm (+ Rp 400.000)", modifier: 400000}
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     { 
         nama: "Mesin Laminating A3 SecureLam", 
@@ -335,7 +312,8 @@ const semuaProduk = [
         deskripsi: "Melindungi dokumen penting hingga ukuran A3.", 
         harga: "Rp 950.000", 
         gambar: "https://placehold.co/600x600/b0c4de/black?text=Laminating",
-        gallery: ["https://placehold.co/600x600/b0c4de/black?text=Laminating"]
+        gallery: ["https://placehold.co/600x600/b0c4de/black?text=Laminating"],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "Telepon IP Cisco 7821", 
@@ -343,7 +321,8 @@ const semuaProduk = [
         deskripsi: "Telepon berbasis IP untuk komunikasi bisnis yang jernih.", 
         harga: "Rp 2.200.000", 
         gambar: "https://placehold.co/600x600/708090/white?text=Telepon+IP",
-        gallery: ["https://placehold.co/600x600/708090/white?text=Telepon+IP"]
+        gallery: ["https://placehold.co/600x600/708090/white?text=Telepon+IP"],
+        status: "Tersedia"
     },
     { 
         nama: "Brankas Digital Tahan Api", 
@@ -351,7 +330,8 @@ const semuaProduk = [
         deskripsi: "Brankas baja dengan kunci digital dan ketahanan api.", 
         harga: "Rp 4.800.000", 
         gambar: "https://placehold.co/600x600/2f4f4f/white?text=Brankas",
-        gallery: ["https://placehold.co/600x600/2f4f4f/white?text=Brankas"]
+        gallery: ["https://placehold.co/600x600/2f4f4f/white?text=Brankas"],
+        status: "Tersedia"
     },
 
     // =================================================================================
@@ -373,7 +353,8 @@ const semuaProduk = [
                     { text: "Kamera + Adaptor & Kabel 20m (+ Rp 150.000)", modifier: 150000 }
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     {
         nama: "Smart Lock Digital Bardi",
@@ -390,7 +371,8 @@ const semuaProduk = [
                     { text: "Silver", modifier: 0}
                 ]
             }
-        ]
+        ],
+        status: "Tersedia"
     },
     { 
         nama: "Video Doorbell Eufy Security", 
@@ -398,7 +380,8 @@ const semuaProduk = [
         deskripsi: "Bel pintu pintar dengan kamera 2K dan komunikasi dua arah.", 
         harga: "Rp 2.900.000", 
         gambar: "https://placehold.co/600x600/1a2b3c/white?text=Video+Doorbell",
-        gallery: ["https://placehold.co/600x600/1a2b3c/white?text=Video+Doorbell"]
+        gallery: ["https://placehold.co/600x600/1a2b3c/white?text=Video+Doorbell"],
+        status: "Tersedia"
     },
     { 
         nama: "Alarm System Kit AJAX", 
@@ -406,7 +389,8 @@ const semuaProduk = [
         deskripsi: "Paket sistem alarm nirkabel profesional.", 
         harga: "Rp 7.500.000", 
         gambar: "https://placehold.co/600x600/999999/black?text=Alarm+Kit",
-        gallery: ["https://placehold.co/600x600/999999/black?text=Alarm+Kit"]
+        gallery: ["https://placehold.co/600x600/999999/black?text=Alarm+Kit"],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "DVR 8 Channel Dahua", 
@@ -414,7 +398,8 @@ const semuaProduk = [
         deskripsi: "Digital Video Recorder untuk 8 channel kamera CCTV.", 
         harga: "Rp 1.500.000", 
         gambar: "https://placehold.co/600x600/3d3d3d/white?text=DVR",
-        gallery: ["https://placehold.co/600x600/3d3d3d/white?text=DVR"] 
+        gallery: ["https://placehold.co/600x600/3d3d3d/white?text=DVR"],
+        status: "Tersedia"
     },
     { 
         nama: "Sensor Gerak PIR Wireless", 
@@ -422,7 +407,8 @@ const semuaProduk = [
         deskripsi: "Passive Infrared sensor untuk mendeteksi gerakan.", 
         harga: "Rp 350.000", 
         gambar: "https://placehold.co/600x600/f5f5f5/black?text=Sensor+Gerak",
-        gallery: ["https://placehold.co/600x600/f5f5f5/black?text=Sensor+Gerak"]
+        gallery: ["https://placehold.co/600x600/f5f5f5/black?text=Sensor+Gerak"],
+        status: "Tersedia"
     },
     { 
         nama: "Sirine Alarm Outdoor 120dB", 
@@ -430,7 +416,8 @@ const semuaProduk = [
         deskripsi: "Sirine eksternal dengan suara 120 desibel dan lampu strobo.", 
         harga: "Rp 450.000", 
         gambar: "https://placehold.co/600x600/ff3333/white?text=Sirine+Alarm",
-        gallery: ["https://placehold.co/600x600/ff3333/white?text=Sirine+Alarm"]
+        gallery: ["https://placehold.co/600x600/ff3333/white?text=Sirine+Alarm"],
+        status: "Tersedia"
     },
     { 
         nama: "Access Control Sidik Jari ZKTeco", 
@@ -438,7 +425,8 @@ const semuaProduk = [
         deskripsi: "Mesin absensi dan kontrol akses pintu.", 
         harga: "Rp 1.950.000", 
         gambar: "https://placehold.co/600x600/0066cc/white?text=Access+Control",
-        gallery: ["https://placehold.co/600x600/0066cc/white?text=Access+Control"]
+        gallery: ["https://placehold.co/600x600/0066cc/white?text=Access+Control"],
+        status: "Tidak Tersedia"
     },
     { 
         nama: "CCTV Indoor Dome 2MP", 
@@ -446,7 +434,8 @@ const semuaProduk = [
         deskripsi: "Kamera pengawas dalam ruangan berbentuk kubah.", 
         harga: "Rp 450.000", 
         gambar: "https://placehold.co/600x600/e0e0e0/black?text=CCTV+Indoor",
-        gallery: ["https://placehold.co/600x600/e0e0e0/black?text=CCTV+Indoor"]
+        gallery: ["https://placehold.co/600x600/e0e0e0/black?text=CCTV+Indoor"],
+        status: "Tersedia"
     },
     { 
         nama: "Smoke Detector & Heat Alarm", 
@@ -454,6 +443,7 @@ const semuaProduk = [
         deskripsi: "Detektor asap dan panas untuk peringatan dini kebakaran.", 
         harga: "Rp 300.000", 
         gambar: "https://placehold.co/600x600/ff9900/white?text=Smoke+Detector",
-        gallery: ["https://placehold.co/600x600/ff9900/white?text=Smoke+Detector"]
+        gallery: ["https://placehold.co/600x600/ff9900/white?text=Smoke+Detector"],
+        status: "Tidak Tersedia"
     }
 ];
