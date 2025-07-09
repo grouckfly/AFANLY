@@ -648,7 +648,7 @@ function initAboutCarousel() {
  }
 
 function initSmartScrollToCenter() {
-    const scrollLinks = document.querySelectorAll('.nav-links a[href^="#"], .sidebar-links a[href^="#"]');
+    const scrollLinks = document.querySelectorAll('a[href^="#"]');
 
     scrollLinks.forEach(link => {
         link.addEventListener('click', function (e) {
