@@ -8,7 +8,7 @@
  */
 
 // js/spesifikasi.js
-import { openInquiryModal } from './toko.js';
+import { openInquiryModal, openStatusModal } from './toko.js';
 
 // --- Semua fungsi dari spesifikasi.js lama Anda ---
 function formatRupiah(angka) { 
@@ -211,38 +211,46 @@ function renderBaseLayout(produk, container) {
 
     container.appendChild(imageGalleryDiv);
     container.appendChild(detailInfoDiv);
-    
-    // Panggil setup untuk fungsionalitas galeri setelah elemennya dibuat
-    setupGallery(imagesToDisplay);
+    if (typeof setupGallery === 'function') setupGallery(produk.gallery || [produk.gambar]);
     return detailInfoDiv;
  }
 
-function renderSimpleInfo(produk, container) { 
+function renderSimpleInfo(produk, container) {
     const infoContainer = container.querySelector('.detail-info') || container;
+
+    // --- LOGIKA BARU UNTUK TOMBOL ---
+    const tombolBeliHTML = produk.status === 'Tidak Tersedia'
+        ? `<button class="beli-btn disabled" data-produk-nama="${produk.nama}">Stok Habis</button>`
+        : `<button class="beli-btn" data-produk-nama="${produk.nama}">Beli</button>`;
+
     infoContainer.innerHTML = `
         <h2>${produk.nama}</h2>
         <div class="harga-display">${produk.harga}</div>
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
-            <button class="beli-btn">Beli</button>
-            <a href="toko.html#produk" class="spec-btn">Kembali ke Produk</a>
+            ${tombolBeliHTML}
+            <a href="toko.html#produk" class="spec-btn">Kembali ke Toko</a>
         </div>
     `;
-    setupBeliButton(infoContainer, produk);
- }
+}
 
 function renderInfoWithOptions(produk, container) { 
     const infoContainer = container.querySelector('.detail-info') || container;
-    // 1. Siapkan kerangka HTML di halaman utama
-    container.innerHTML = `
+
+    // --- LOGIKA BARU UNTUK TOMBOL ---
+    const tombolBeliHTML = produk.status === 'Tidak Tersedia'
+        ? `<button class="beli-btn disabled" data-produk-nama="${produk.nama}">Stok Habis</button>`
+        : `<button class="beli-btn" data-produk-nama="${produk.nama}">Beli</button>`;
+
+    infoContainer.innerHTML = `
         <h2>${produk.nama}</h2>
         <button class="options-trigger-btn">⚙️ Ubah Spesifikasi</button>
         <div class="options-summary">Memuat pilihan...</div>
         <div class="harga-display"></div>
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
-            <button class="beli-btn">Beli</button>
-            <a href="toko.html#produk" class="spec-btn">Kembali ke Produk</a>
+            ${tombolBeliHTML}
+            <a href="toko.html#produk" class="spec-btn">Kembali ke Toko</a>
         </div>
     `;
 
@@ -335,34 +343,65 @@ function populateOptionsModal(produk, modalBody) {
     });
  }
 
-function renderProductPage() {
+
+export function initSpesifikasiPage() {
+    console.log("Inisialisasi Halaman Spesifikasi...");
+    
+    // Ambil data produk dari URL dan localStorage
     const urlParams = new URLSearchParams(window.location.search);
     const namaProduk = decodeURIComponent(urlParams.get('produk'));
     const semuaProduk = JSON.parse(localStorage.getItem('semuaProduk'));
     const detailProdukContainer = document.getElementById('detail-produk');
 
-    if (!semuaProduk || !detailProdukContainer) {
-        return handleError("Data produk tidak dapat dimuat.");
-    }
+    if (!semuaProduk || !detailProdukContainer) return handleError("Data produk tidak dapat dimuat.");
+    
     const produk = semuaProduk.find(p => p.nama === namaProduk);
-    if (!produk) {
-        return handleError(`Produk "${namaProduk}" tidak ditemukan.`);
-    }
+    if (!produk) return handleError(`Produk "${namaProduk}" tidak ditemukan.`);
 
-    renderBaseLayout(produk, detailProdukContainer); // renderBaseLayout akan mengisi detailInfoDiv
-    const detailInfoDiv = detailProdukContainer.querySelector('.detail-info');
-
-
+    // Render layout dan info produk
+    const detailInfoDiv = renderBaseLayout(produk, detailProdukContainer);
     if (produk.options && produk.hargaDasar !== undefined) {
         renderInfoWithOptions(produk, detailInfoDiv);
     } else {
         renderSimpleInfo(produk, detailInfoDiv);
     }
     
-    initializeZoom();
-}
+    // --- EVENT LISTENER BARU YANG LEBIH CERDAS ---
+    detailProdukContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('beli-btn')) {
+            e.preventDefault();
 
-export function initSpesifikasiPage() {
-    console.log("Inisialisasi Halaman Spesifikasi...");
-    renderProductPage();
+            // Cek jika tombolnya disabled (untuk produk tidak tersedia)
+            if (e.target.classList.contains('disabled')) {
+                openStatusModal(produk.nama); // Panggil modal status
+                return; // Hentikan proses
+            }
+
+            // Jika tidak disabled, lanjutkan ke proses pemesanan
+            const hargaTampilan = detailProdukContainer.querySelector('.harga-display').textContent;
+            const detailPesanan = {
+                namaDasar: produk.nama,
+                pilihan: {},
+                hargaFinal: hargaTampilan
+            };
+
+            if (produk.options) {
+                const updatedOptions = {};
+                const optionsBody = document.getElementById('options-modal-body');
+                if (optionsBody) {
+                    optionsBody.querySelectorAll('select').forEach(select => {
+                        const groupName = select.dataset.group;
+                        const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
+                        updatedOptions[groupName] = selectedText;
+                    });
+                    detailPesanan.pilihan = updatedOptions;
+                }
+            }
+            
+            // Panggil fungsi validasi yang sudah diimpor
+            validasiPembelian(detailPesanan);
+        }
+    });
+
+    initializeZoom(); // Inisialisasi zoom setelah semua dirender
 }

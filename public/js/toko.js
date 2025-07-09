@@ -208,7 +208,7 @@ function openOptionsModal(produk) {
   optionsModal.style.display = "flex";
 }
 
-function openStatusModal(namaProduk) {
+export function openStatusModal(namaProduk) {
   const modal = document.getElementById("status-modal");
   if (!modal) return;
 
