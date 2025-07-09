@@ -366,25 +366,39 @@ export function initTokoPage() {
     let maxHarga = unformatRupiah(document.getElementById("maxPriceInput").value);
     if (maxHarga === 0) maxHarga = Infinity;
 
-    let hasil = semuaProdukProcessed.filter(p => {
-        const cocokFilterLain = 
-            (kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase()) &&
-            (p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga);
+    let hasil;
 
-        // Jika pengguna aktif mencari, abaikan status ketersediaan
-        if (searchTerm) {
+    // --- LOGIKA BARU YANG DIPERBAIKI ---
+    if (searchTerm) {
+        // **JIKA PENGGUNA MENCARI:** Cari di SEMUA produk (termasuk yang tidak tersedia)
+        // yang cocok dengan kata kunci DAN filter lainnya.
+        hasil = semuaProdukProcessed.filter(p => {
             const cocokPencarian = p.nama.toLowerCase().includes(searchTerm) || (p.deskripsi && p.deskripsi.toLowerCase().includes(searchTerm));
+            const cocokFilterLain = 
+                (kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase()) &&
+                (p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga);
             return cocokPencarian && cocokFilterLain;
-        } 
-        // Jika tidak ada pencarian, hanya tampilkan yang statusnya "Tersedia"
-        else {
+        });
+    } else {
+        // **JIKA PENGGUNA TIDAK MENCARI (TAMPILAN DEFAULT ATAU HANYA FILTER):**
+        // Ambil HANYA produk yang statusnya "Tersedia" DAN cocok dengan filter.
+        hasil = semuaProdukProcessed.filter(p => {
+            const cocokFilterLain = 
+                (kategori === "all" || p.jenis.toLowerCase() === kategori.toLowerCase()) &&
+                (p.hargaAngka >= minHarga && p.hargaAngka <= maxHarga);
+            
             return p.status === "Tersedia" && cocokFilterLain;
-        }
-    });
+        });
+    }
 
-    if (urutkan === 'terendah') hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
-    else if (urutkan === 'tertinggi') hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
+    // Sisa logika sorting dan render (tidak berubah)
+    if (urutkan === 'terendah') {
+        hasil.sort((a, b) => a.hargaAngka - b.hargaAngka);
+    } else if (urutkan === 'tertinggi') {
+        hasil.sort((a, b) => b.hargaAngka - a.hargaAngka);
+    }
     
+    // Panggil renderProduk dengan hasil akhir
     renderProduk(hasil, document.getElementById("produkList"));
     updateFilterButtonState();
 }
@@ -415,6 +429,8 @@ export function initTokoPage() {
             if (produk) handleBeliClick(produk);
         }
     });
+
+    filterProduk(); // Panggil filterProduk untuk inisialisasi awal
     
     // Inisialisasi slider jika ada
     if (typeof InitSliderHero === 'function') InitSliderHero();
