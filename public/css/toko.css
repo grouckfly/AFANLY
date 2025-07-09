@@ -428,7 +428,6 @@
     display: flex;
     gap: 1em;
     justify-content: center;
-    flex-wrap: wrap;
     margin-top: 2em;
 }
 
@@ -443,13 +442,8 @@
     display: inline-block;
 }
 
-.produk-notfound .notfound-btn.wa {
+.produk-notfound .notfound-btn {
     background: #25d366;
-}
-
-.produk-notfound .notfound-btn.email {
-    background: #0099ff;
-    color: #ffffff;
 }
 
 .produk-notfound .notfound-btn:hover {
