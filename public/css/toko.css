@@ -669,6 +669,11 @@
         font-size: 20px;
         padding: 8px 12px;
     }
+    .produk-actions {
+        flex-direction: column; /* Tombol beli dan spesifikasi ditata vertikal */
+        align-items: center; /* Rata tengah */
+        gap: 10px; /* Jarak antar tombol */
+    }
 }
 
 /* HP Mode: 1 produk per baris (lebar layar 480px atau kurang) */
@@ -683,6 +688,11 @@
     .slider-arrow {
         font-size: 18px;
         padding: 6px 10px;
+    }
+    .produk-actions {
+        flex-direction: column; /* Tombol beli dan spesifikasi ditata vertikal */
+        align-items: center; /* Rata tengah */
+        gap: 8px; /* Jarak antar tombol */
     }
 }
 
