@@ -4,6 +4,12 @@ Afanly merupakan website yang didedikasikan untuk usaha orang tua saya
 
 Website berjalan dengan HTML, CSS dan JavaScript
 
+# Halaman Website
+1. Afanly (main)
+2. Layanan Afanly
+3. Toko Afanly
+4. Spesifikasi
+
 # Fitur Afanly (Statis)
 1. Desain website sederhana
 2. Website yang ringan
