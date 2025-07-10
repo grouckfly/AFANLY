@@ -25,7 +25,6 @@
 }
 
 /* Filter Bar */
-/* Pastikan filter bar bisa menampung banyak item dan rapi */
 .produk-filter-bar {
     display: flex;
     flex-wrap: wrap; /* Ini penting agar item turun ke bawah jika tidak muat */
@@ -60,6 +59,32 @@
 .produk-filter-bar input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+/* ========================================================== */
+/* RESPONSIVITAS BAR FILTER (HANYA TAMPILKAN IKON)            */
+/* ========================================================== */
+
+@media (max-width: 900px) {
+    /* Sembunyikan teks di dalam tombol filter */
+    .filter-button .filter-text {
+        display: none;
+    }
+
+    /* Atur ulang tombol agar pas dengan ikon saja */
+    .filter-button {
+        padding: 0.8rem; /* Buat padding jadi kotak */
+        border-radius: 50%; /* Ubah menjadi lingkaran */
+        width: 50px; /* Lebar tetap */
+        height: 50px; /* Tinggi tetap */
+        justify-content: center; /* Pastikan ikon di tengah */
+    }
+
+    /* Perbesar ukuran ikon agar lebih jelas */
+    .filter-button .filter-icon {
+        font-size: 1.5rem; /* Perbesar ukuran emoji/ikon */
+        margin: 0;
+    }
 }
 
 /* Styling untuk wrapper input harga */
@@ -408,7 +433,7 @@
 
 /* Produk Not Found */
 .produk-notfound {
-    width: 40%;
+    width: 90%;
     text-align: center;
     color: var(--text-color);
     background: var(--card-bg);
