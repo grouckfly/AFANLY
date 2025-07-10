@@ -656,11 +656,6 @@ function initSmartScrollToCenter() {
             e.preventDefault();
 
             const href = this.getAttribute('href');
-            // Jika link hanya '#', scroll ke paling atas halaman.
-            if (href === '#') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
 
             const targetElement = document.querySelector(href);
             const header = document.querySelector('header'); // Ambil elemen header
