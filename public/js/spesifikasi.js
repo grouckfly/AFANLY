@@ -229,7 +229,7 @@ function renderSimpleInfo(produk, container) {
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
             ${tombolBeliHTML}
-            <a href="toko.html#produk" class="spec-btn">Kembali ke Toko</a>
+            <a href="javascript:history.back()" class="spec-btn">Kembali ke Toko</a>
         </div>
     `;
 }
@@ -250,7 +250,7 @@ function renderInfoWithOptions(produk, container) {
         <div class="deskripsi-produk">${produk.deskripsi}</div>
         <div class="produk-actions">
             ${tombolBeliHTML}
-            <a href="toko.html#produk" class="spec-btn">Kembali ke Toko</a>
+            <a href="javascript:history.back()" class="spec-btn">Kembali ke Toko</a>
         </div>
     `;
 
