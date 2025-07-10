@@ -1,6 +1,6 @@
 # AFANLY
 
-Afanly merupakan website yang didedikasikan untuk usaha orang tua saya
+Afanly merupakan website pengenalan jasa dan toko
 
 Website berjalan dengan HTML, CSS dan JavaScript
 
