@@ -129,6 +129,13 @@ function setupBeliButton(container, produk) {
     tombolBeli.parentNode.replaceChild(newTombolBeli, tombolBeli);
 
     newTombolBeli.addEventListener('click', function() {
+        // --- LOGIKA PENGECEKAN STATUS DITAMBAHKAN DI SINI ---
+        if (produk.status === "Tidak Tersedia") {
+            openStatusModal(produk.nama);
+            return; // Hentikan proses jika produk tidak tersedia
+        }
+
+        // Jika produk tersedia, lanjutkan ke proses pemesanan
         const hargaTampilan = container.querySelector('.harga-display').textContent;
         const detailPesanan = {
             namaDasar: produk.nama,
@@ -149,7 +156,7 @@ function setupBeliButton(container, produk) {
             }
         }
         
-        // Sekarang pemanggilan ini akan berhasil karena fungsinya sudah diimpor
+        // Panggil modal formulir pemesanan
         openInquiryModal(detailPesanan);
     });
 }
@@ -366,42 +373,5 @@ export function initSpesifikasiPage() {
         renderSimpleInfo(produk, detailInfoDiv);
     }
     
-    // --- EVENT LISTENER BARU YANG LEBIH CERDAS ---
-    detailProdukContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('beli-btn')) {
-            e.preventDefault();
-
-            // Cek jika tombolnya disabled (untuk produk tidak tersedia)
-            if (e.target.classList.contains('disabled')) {
-                openStatusModal(produk.nama); // Panggil modal status
-                return; // Hentikan proses
-            }
-
-            // Jika tidak disabled, lanjutkan ke proses pemesanan
-            const hargaTampilan = detailProdukContainer.querySelector('.harga-display').textContent;
-            const detailPesanan = {
-                namaDasar: produk.nama,
-                pilihan: {},
-                hargaFinal: hargaTampilan
-            };
-
-            if (produk.options) {
-                const updatedOptions = {};
-                const optionsBody = document.getElementById('options-modal-body');
-                if (optionsBody) {
-                    optionsBody.querySelectorAll('select').forEach(select => {
-                        const groupName = select.dataset.group;
-                        const selectedText = select.options[select.selectedIndex].textContent.split(' (')[0];
-                        updatedOptions[groupName] = selectedText;
-                    });
-                    detailPesanan.pilihan = updatedOptions;
-                }
-            }
-            
-            // Panggil fungsi validasi yang sudah diimpor
-            validasiPembelian(detailPesanan);
-        }
-    });
-
     initializeZoom(); // Inisialisasi zoom setelah semua dirender
 }
