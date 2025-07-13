@@ -1,8 +1,0 @@
-# robots.txt untuk website saya
-
-User-agent: *                  # Berlaku untuk semua crawler
-Allow: /                       # Izinkan rayapan di seluruh situs
-Allow: /sitemap.xml
-
-Sitemap: https://afanly.vercel.app/sitemap.xml
-Sitemap: https://gist.githubusercontent.com/grouckfly/2f24031b6f3c3e496e350440e5bec962/raw/fbab5022aaf9f88e4c3572050fc64486b00fcad0/sitemap.xml
