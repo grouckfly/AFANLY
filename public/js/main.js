@@ -648,7 +648,7 @@ function initAboutCarousel() {
  }
 
 function initSmartScrollToCenter() {
-    const scrollLinks = document.querySelectorAll('a[href^="#"]');
+    const scrollLinks = document.querySelectorAll('.navbar a[href^="#"], .sidebar a[href^="#"]');
 
     scrollLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -656,6 +656,14 @@ function initSmartScrollToCenter() {
             e.preventDefault();
 
             const href = this.getAttribute('href');
+
+            if (href === '#' || href === '#top') {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                return; // Hentikan eksekusi setelah scroll
+            }
 
             const targetElement = document.querySelector(href);
             const header = document.querySelector('header'); // Ambil elemen header
