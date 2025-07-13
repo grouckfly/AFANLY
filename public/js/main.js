@@ -648,7 +648,7 @@ function initAboutCarousel() {
  }
 
 function initSmartScrollToCenter() {
-    const scrollLinks = document.querySelectorAll('.navbar a[href^="#"], .sidebar a[href^="#"]');
+    const scrollLinks = document.querySelectorAll('.navbar a[href^="#"], .sidebar a[href^="#"], .notfound-actions a[href^="#"]');
 
     scrollLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -657,7 +657,7 @@ function initSmartScrollToCenter() {
 
             const href = this.getAttribute('href');
 
-            if (href === '#' || href === '#top') {
+            if (href === '#' ) {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'

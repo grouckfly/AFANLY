@@ -239,6 +239,8 @@ function renderSimpleInfo(produk, container) {
             <a href="javascript:history.back()" class="spec-btn">Kembali ke Toko</a>
         </div>
     `;
+
+    setupBeliButton(infoContainer, produk);
 }
 
 function renderInfoWithOptions(produk, container) { 
@@ -352,26 +354,71 @@ function populateOptionsModal(produk, modalBody) {
 
 
 export function initSpesifikasiPage() {
-    console.log("Inisialisasi Halaman Spesifikasi...");
+    console.log("Inisialisasi Halaman Spesifikasi (Versi Final)...");
     
     // Ambil data produk dari URL dan localStorage
     const urlParams = new URLSearchParams(window.location.search);
-    const namaProduk = decodeURIComponent(urlParams.get('produk'));
+    const namaProdukDariURL = decodeURIComponent(urlParams.get('produk'));
     const semuaProduk = JSON.parse(localStorage.getItem('semuaProduk'));
     const detailProdukContainer = document.getElementById('detail-produk');
 
-    if (!semuaProduk || !detailProdukContainer) return handleError("Data produk tidak dapat dimuat.");
+    if (!semuaProduk || !detailProdukContainer) {
+        return handleError("Data produk tidak dapat dimuat.");
+    }
     
-    const produk = semuaProduk.find(p => p.nama === namaProduk);
-    if (!produk) return handleError(`Produk "${namaProduk}" tidak ditemukan.`);
+    const produk = semuaProduk.find(p => p.nama === namaProdukDariURL);
+    if (!produk) {
+        return handleError(`Produk "${namaProdukDariURL}" tidak ditemukan.`);
+    }
 
-    // Render layout dan info produk
+    // Render layout dan info awal produk
     const detailInfoDiv = renderBaseLayout(produk, detailProdukContainer);
     if (produk.options && produk.hargaDasar !== undefined) {
+        // Logika untuk merender produk dengan opsi, termasuk memanggil updatePriceAndSummary
         renderInfoWithOptions(produk, detailInfoDiv);
     } else {
         renderSimpleInfo(produk, detailInfoDiv);
     }
     
-    initializeZoom(); // Inisialisasi zoom setelah semua dirender
+    // Inisialisasi fungsionalitas lain setelah render
+    initializeZoom();
+
+    // --- EVENT LISTENER TERPUSAT UNTUK SEMUA AKSI DI HALAMAN INI ---
+    detailProdukContainer.addEventListener('click', (e) => {
+        // Cek jika yang diklik adalah tombol beli/stok habis
+        if (e.target.classList.contains('beli-btn')) {
+            e.preventDefault();
+
+            // Cek status produk secara langsung
+            if (produk.status === "Tidak Tersedia") {
+                console.log("Aksi dibatalkan: Produk tidak tersedia. Membuka modal status...");
+                openStatusModal(produk.nama);
+                return; // Kunci: Berhenti di sini
+            }
+            
+            // Jika produk tersedia, kumpulkan data dan buka formulir pemesanan
+            console.log("Produk tersedia. Membuka formulir pemesanan...");
+            const hargaTampilan = detailProdukContainer.querySelector('.harga-display').textContent;
+            const detailPesanan = {
+                namaDasar: produk.nama,
+                pilihan: {},
+                hargaFinal: hargaTampilan
+            };
+
+            // Jika produk memiliki opsi, kumpulkan dari modal opsi
+            if (produk.options) {
+                const optionsBody = document.getElementById('options-modal-body');
+                if (optionsBody) {
+                    const updatedOptions = {};
+                    optionsBody.querySelectorAll('select').forEach(select => {
+                        updatedOptions[select.dataset.group] = select.options[select.selectedIndex].textContent.split(' (')[0];
+                    });
+                    detailPesanan.pilihan = updatedOptions;
+                }
+            }
+            
+            // Panggil fungsi modal formulir pemesanan
+            openInquiryModal(detailPesanan);
+        }
+    });
 }
