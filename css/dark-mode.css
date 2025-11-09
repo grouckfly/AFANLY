@@ -2,6 +2,12 @@
 /* Author: AFANLY Team */
 /* Description: Dark mode color scheme and transitions */
 
+/* Prevent FOUC (Flash of Unstyled Content) */
+html, body {
+    background-color: #ffffff;
+    color: #1f2937;
+}
+
 /* ===== Dark Mode Variables ===== */
 .dark-mode {
     /* Background Colors */

@@ -1,11 +1,53 @@
-// ===== AFANLY Website - Dark Mode Handler =====
+// ===== AFANLY Website - Dark Mode Handler (Vercel Fixed) =====
 // Author: AFANLY Team
-// Description: Dark mode toggle and persistence
+// Description: Dark mode toggle and persistence with Vercel compatibility
 
 'use strict';
 
 // ===== Dark Mode Configuration =====
 const DARK_MODE_KEY = 'afanly-dark-mode';
+
+// ===== Immediate Dark Mode Check (Before DOM Load) =====
+(function() {
+    // Force clear any stuck dark mode on first load
+    if (window.location.search.includes('reset-theme')) {
+        localStorage.removeItem(DARK_MODE_KEY);
+        // Remove query param
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    // Check if we should apply dark mode
+    function shouldApplyDarkMode() {
+        const saved = localStorage.getItem(DARK_MODE_KEY);
+        
+        // If explicitly set, use that
+        if (saved !== null) {
+            return saved === 'enabled';
+        }
+        
+        // Otherwise check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return true;
+        }
+        
+        // Default to light mode
+        return false;
+    }
+    
+    // Apply immediately to prevent flash
+    if (shouldApplyDarkMode()) {
+        document.documentElement.classList.add('dark-mode');
+        if (document.body) {
+            document.body.classList.add('dark-mode');
+        }
+    } else {
+        // Explicitly remove to prevent stuck dark mode
+        document.documentElement.classList.remove('dark-mode');
+        if (document.body) {
+            document.body.classList.remove('dark-mode');
+        }
+    }
+})();
 
 // ===== Dark Mode Manager =====
 const DarkModeManager = {
@@ -27,25 +69,36 @@ const DarkModeManager = {
     
     // Set dark mode preference
     setPreference(enabled) {
-        localStorage.setItem(DARK_MODE_KEY, enabled ? 'enabled' : 'disabled');
+        try {
+            localStorage.setItem(DARK_MODE_KEY, enabled ? 'enabled' : 'disabled');
+        } catch (e) {
+            console.warn('Could not save dark mode preference:', e);
+        }
     },
     
     // Apply dark mode
     apply(enabled) {
         const body = document.body;
+        const html = document.documentElement;
         
         if (enabled) {
             body.classList.add('dark-mode');
+            html.classList.add('dark-mode');
         } else {
             body.classList.remove('dark-mode');
+            html.classList.remove('dark-mode');
         }
         
         this.setPreference(enabled);
         
         // Dispatch custom event
-        window.dispatchEvent(new CustomEvent('darkModeChange', {
-            detail: { enabled }
-        }));
+        try {
+            window.dispatchEvent(new CustomEvent('darkModeChange', {
+                detail: { enabled }
+            }));
+        } catch (e) {
+            console.warn('Could not dispatch dark mode event:', e);
+        }
     },
     
     // Toggle dark mode
@@ -56,12 +109,13 @@ const DarkModeManager = {
     
     // Initialize dark mode
     init() {
-        // Apply saved preference or system preference
-        const isDark = this.getPreference();
+        // Verify current state matches preference
+        const shouldBeDark = this.getPreference();
+        const isCurrentlyDark = document.body.classList.contains('dark-mode');
         
-        // Apply immediately to prevent flash
-        if (isDark) {
-            document.body.classList.add('dark-mode');
+        // Fix if out of sync
+        if (shouldBeDark !== isCurrentlyDark) {
+            this.apply(shouldBeDark);
         }
         
         // Setup toggle button
@@ -69,6 +123,8 @@ const DarkModeManager = {
         
         // Listen for system theme changes
         this.setupSystemListener();
+        
+        console.log('Dark mode initialized:', shouldBeDark ? 'DARK' : 'LIGHT');
     },
     
     // Setup toggle button
@@ -80,7 +136,8 @@ const DarkModeManager = {
             return;
         }
         
-        darkModeToggle.addEventListener('click', () => {
+        darkModeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
             this.toggle();
         });
         
@@ -118,24 +175,15 @@ const DarkModeManager = {
                 }
             });
         }
+    },
+    
+    // Reset dark mode (for debugging)
+    reset() {
+        localStorage.removeItem(DARK_MODE_KEY);
+        this.apply(false);
+        console.log('Dark mode reset to light');
     }
 };
-
-// ===== Initialize Dark Mode Immediately =====
-// This runs before DOMContentLoaded to prevent flash of wrong theme
-(function() {
-    const isDark = localStorage.getItem(DARK_MODE_KEY) === 'enabled' ||
-                   (localStorage.getItem(DARK_MODE_KEY) === null && 
-                    window.matchMedia && 
-                    window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    if (isDark) {
-        document.documentElement.classList.add('dark-mode');
-        if (document.body) {
-            document.body.classList.add('dark-mode');
-        }
-    }
-})();
 
 // ===== Initialize When DOM is Ready =====
 if (document.readyState === 'loading') {
@@ -145,6 +193,9 @@ if (document.readyState === 'loading') {
 } else {
     DarkModeManager.init();
 }
+
+// ===== Expose for debugging =====
+window.DarkModeManager = DarkModeManager;
 
 // ===== Export for use in other modules =====
 if (typeof module !== 'undefined' && module.exports) {
