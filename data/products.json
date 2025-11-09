@@ -1,0 +1,163 @@
+[
+    {
+        "id": 1,
+        "name": "Laptop HP EliteBook 840",
+        "category": "komputer",
+        "price": 8500000,
+        "images": [
+            "images/products/laptop-hp-1.jpg",
+            "images/products/laptop-hp-2.jpg"
+        ],
+        "description": "Laptop HP EliteBook 840 dengan prosesor Intel Core i5 generasi terbaru, cocok untuk profesional dan bisnis. Dilengkapi dengan RAM dan storage yang dapat disesuaikan dengan kebutuhan Anda.",
+        "available": true,
+        "options": {
+            "RAM": ["8GB", "16GB", "32GB"],
+            "Storage": ["256GB SSD", "512GB SSD", "1TB SSD"]
+        }
+    },
+    {
+        "id": 2,
+        "name": "PC Desktop Dell OptiPlex",
+        "category": "komputer",
+        "price": 6500000,
+        "images": [
+            "images/products/pc-dell-1.jpg"
+        ],
+        "description": "PC Desktop Dell OptiPlex untuk kebutuhan kantor dengan performa tinggi dan desain kompak. Hemat energi dan mudah di-upgrade sesuai kebutuhan bisnis Anda.",
+        "available": true,
+        "options": {
+            "Processor": ["Intel i3", "Intel i5", "Intel i7"],
+            "RAM": ["8GB", "16GB"]
+        }
+    },
+    {
+        "id": 3,
+        "name": "Printer Canon PIXMA G3010",
+        "category": "kantor",
+        "price": 2500000,
+        "images": [
+            "images/products/printer-canon-1.jpg"
+        ],
+        "description": "Printer multifungsi Canon PIXMA G3010 dengan sistem tinta infus, hemat dan efisien. Dapat mencetak, scan, dan copy dengan kualitas tinggi untuk kebutuhan kantor Anda.",
+        "available": true,
+        "options": null
+    },
+    {
+        "id": 4,
+        "name": "Scanner Epson DS-530",
+        "category": "kantor",
+        "price": 4500000,
+        "images": [
+            "images/products/scanner-epson-1.jpg"
+        ],
+        "description": "Scanner dokumen berkecepatan tinggi untuk kebutuhan kantor profesional. Dapat memindai hingga 35 lembar per menit dengan kualitas optimal dan fitur otomatis.",
+        "available": false,
+        "options": null
+    },
+    {
+        "id": 5,
+        "name": "CCTV Hikvision 8 Channel",
+        "category": "security",
+        "price": 5500000,
+        "images": [
+            "images/products/cctv-hikvision-1.jpg",
+            "images/products/cctv-hikvision-2.jpg"
+        ],
+        "description": "Paket CCTV Hikvision 8 channel dengan kamera 2MP, DVR, dan hard disk. Kualitas gambar jernih siang dan malam dengan teknologi infrared, cocok untuk keamanan kantor atau rumah Anda.",
+        "available": true,
+        "options": {
+            "Kamera": ["4 Unit", "8 Unit", "16 Unit"],
+            "Hard Disk": ["1TB", "2TB", "4TB"]
+        }
+    },
+    {
+        "id": 6,
+        "name": "Access Door Lock System",
+        "category": "security",
+        "price": 3500000,
+        "images": [
+            "images/products/door-lock-1.jpg"
+        ],
+        "description": "Sistem kontrol akses pintu dengan kartu RFID dan fingerprint. Meningkatkan keamanan dengan tracking siapa dan kapan akses dilakukan. Mudah diintegrasikan dengan sistem keamanan lainnya.",
+        "available": true,
+        "options": {
+            "Tipe": ["RFID Only", "Fingerprint Only", "RFID + Fingerprint"]
+        }
+    },
+    {
+        "id": 7,
+        "name": "UPS APC 1500VA",
+        "category": "kantor",
+        "price": 3200000,
+        "images": [
+            "images/products/ups-apc-1.jpg"
+        ],
+        "description": "UPS APC 1500VA untuk melindungi perangkat elektronik dari pemadaman listrik mendadak. Dilengkapi battery backup dan surge protection untuk menjaga perangkat Anda tetap aman.",
+        "available": true,
+        "options": null
+    },
+    {
+        "id": 8,
+        "name": "Monitor LG 24 Inch IPS",
+        "category": "komputer",
+        "price": 1800000,
+        "images": [
+            "images/products/monitor-lg-1.jpg"
+        ],
+        "description": "Monitor LG 24 inch dengan panel IPS, viewing angle lebar dan reproduksi warna akurat. Full HD 1920x1080 resolution dengan bezel tipis untuk tampilan modern dan profesional.",
+        "available": true,
+        "options": null
+    },
+    {
+        "id": 9,
+        "name": "Keyboard Logitech MX Keys",
+        "category": "kantor",
+        "price": 1500000,
+        "images": [
+            "images/products/keyboard-logitech-1.jpg"
+        ],
+        "description": "Keyboard wireless premium Logitech MX Keys dengan backlight otomatis dan desain ergonomis. Koneksi multi-device untuk produktivitas maksimal.",
+        "available": true,
+        "options": {
+            "Warna": ["Black", "Graphite"]
+        }
+    },
+    {
+        "id": 10,
+        "name": "Router Mikrotik RB750Gr3",
+        "category": "komputer",
+        "price": 850000,
+        "images": [
+            "images/products/router-mikrotik-1.jpg"
+        ],
+        "description": "Router Mikrotik RB750Gr3 untuk manajemen jaringan profesional. Mendukung fitur lengkap firewall, bandwidth management, dan VPN untuk keamanan jaringan bisnis Anda.",
+        "available": true,
+        "options": null
+    },
+    {
+        "id": 11,
+        "name": "IP Camera Dahua 4MP",
+        "category": "security",
+        "price": 1200000,
+        "images": [
+            "images/products/ipcam-dahua-1.jpg"
+        ],
+        "description": "IP Camera Dahua 4MP dengan resolusi tinggi dan night vision. Mendukung PoE dan dapat diakses dari smartphone untuk monitoring real-time.",
+        "available": true,
+        "options": {
+            "Tipe": ["Indoor", "Outdoor", "PTZ"]
+        }
+    },
+    {
+        "id": 12,
+        "name": "NAS Synology DS220+",
+        "category": "komputer",
+        "price": 5200000,
+        "images": [
+            "images/products/nas-synology-1.jpg"
+        ],
+        "description": "Network Attached Storage Synology DS220+ untuk backup dan file sharing. Dual-bay dengan prosesor Intel untuk performa optimal dalam manajemen data bisnis.",
+        "available": false,
+        "options": null
+    }
+]

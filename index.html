@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AFANLY - Ahli IT dan Networking | Jasa Konsultasi IT, Pengembangan Website, Manajemen Jaringan, CCTV, PABX">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://maps.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-src https://www.google.com;">
+    <meta name="author" content="AFANLY">
+    <meta name="keywords" content="IT, Networking, Konsultasi IT, Website, CCTV, PABX, Jakarta">
+    <title>AFANLY - Jasa IT & Networking Profesional</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" type="image/png" href="images/Logo_AFANLY.png">
+</head>
+<body>
+    <!-- Notification Bell Button -->
+    <div class="notification-bell" id="notificationBell">
+        <button class="bell-button" aria-label="Notifikasi">
+            <svg class="bell-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge" id="notificationBadge">1</span>
+        </button>
+        
+        <!-- Notification Panel -->
+        <div class="notification-panel" id="notificationPanel">
+            <div class="notification-header">
+                <h3>Notifikasi</h3>
+                <button class="mark-all-read" id="markAllRead">Tandai Semua Dibaca</button>
+            </div>
+            
+            <div class="notification-list" id="notificationList">
+                <!-- Notifications will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="notification-footer">
+                <p>Anda sudah melihat semua notifikasi</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="index.html" class="logo">
+                        <img src="images/Logo_AFANLY.png" alt="AFANLY Logo" onerror="this.style.display='none'">
+                        <span>AFANLY</span>
+                    </a>
+                    
+                    <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    
+                    <ul class="nav-menu">
+                        <li><a href="#beranda" class="nav-link active">Beranda</a></li>
+                        <li><a href="#tentang" class="nav-link">Tentang Kami</a></li>
+                        <li><a href="#layanan" class="nav-link">Layanan</a></li>
+                        <li><a href="shop.html" class="nav-link">Toko</a></li>
+                        <li><a href="#kontak" class="nav-link">Kontak</a></li>
+                        <li>
+                            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle Dark Mode">
+                                <span class="icon-sun">☀️</span>
+                                <span class="icon-moon">🌙</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Solusi IT & Networking Terpercaya</h1>
+                <p>AFANLY menyediakan layanan IT profesional untuk bisnis Anda dengan teknologi terkini dan tim berpengalaman</p>
+                <div class="hero-buttons">
+                    <a href="#layanan" class="btn btn-primary">Lihat Layanan</a>
+                    <a href="shop.html" class="btn btn-secondary">Kunjungi Toko</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami Section -->
+    <section id="tentang" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tentang Kami</h2>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>AFANLY - Ahli IT dan Networking</h3>
+                    <p>AFANLY adalah perusahaan yang bergerak di bidang jasa IT dan Networking dengan pengalaman bertahun-tahun dalam memberikan solusi teknologi informasi untuk berbagai jenis bisnis.</p>
+                    
+                    <p>Kami berkomitmen untuk memberikan layanan terbaik dengan mengutamakan kepuasan pelanggan, kualitas kerja, dan solusi yang tepat sesuai kebutuhan bisnis Anda.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <h4>N/A</h4>
+                            <p>N/A</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>5+</h4>
+                            <p>Tahun Pengalaman</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>N/A</h4>
+                            <p>N/A</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <img src="images/Logo_AFANLY.png" alt="AFANLY Team" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22500%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22500%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EAFANLY%3C/text%3E%3C/svg%3E'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="layanan" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Layanan Kami</h2>
+                <div class="divider"></div>
+                <p>Berbagai layanan IT profesional untuk kebutuhan bisnis Anda</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💼</div>
+                    <h3>Konsultasi IT</h3>
+                    <p>Konsultasi profesional untuk strategi dan implementasi teknologi informasi yang tepat untuk bisnis Anda</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>Pengembangan Website</h3>
+                    <p>Pembuatan website profesional, responsif, dan modern sesuai kebutuhan bisnis Anda</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔌</div>
+                    <h3>Manajemen Jaringan</h3>
+                    <p>Perencanaan, instalasi, dan pemeliharaan infrastruktur jaringan komputer yang andal</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🛠️</div>
+                    <h3>Dukungan Teknis</h3>
+                    <p>Layanan technical support 24/7 untuk menjaga sistem IT Anda tetap berjalan optimal</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🖥️</div>
+                    <h3>Service Perangkat</h3>
+                    <p>Perbaikan dan maintenance komputer, laptop, printer dan perangkat IT lainnya</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📞</div>
+                    <h3>Instalasi PABX</h3>
+                    <p>Instalasi dan konfigurasi sistem telepon PABX untuk komunikasi bisnis yang efisien</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📹</div>
+                    <h3>Pemasangan CCTV</h3>
+                    <p>Instalasi sistem keamanan CCTV berkualitas tinggi untuk monitoring area bisnis Anda</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🚚</div>
+                    <h3>Layanan Antar Jemput Gratis</h3>
+                    <p>Kami menyediakan layanan antar jemput gratis untuk service perangkat Anda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak Section -->
+    <section id="kontak" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Hubungi Kami</h2>
+                <div class="divider"></div>
+                <p>Kami siap membantu kebutuhan IT bisnis Anda</p>
+            </div>
+            
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>WhatsApp</h4>
+                            <a href="https://wa.me/628127659073" target="_blank" rel="noopener">+62 812-7659-073</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <a href="mailto:defry.pku@gmail.com">defry.pku@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Alamat</h4>
+                            <p>Jl. Haji Syukur 7, Sedatigede, Sidoarjo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">⏰</div>
+                        <div class="contact-details">
+                            <h4>Jam Operasional</h4>
+                            <p>Senin - Sabtu: 19:00 - 21:00 WIB</p>
+                            <p>Minggu: 08:00 - 21:00 WIB</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-wrapper">
+                    <h3>Kirim Pesan</h3>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="contactName">Nama <span class="required">*</span></label>
+                            <input type="text" id="contactName" name="name" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactPhone">No. Telepon <span class="required">*</span></label>
+                            <input type="tel" id="contactPhone" name="phone" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Email <span class="required">*</span></label>
+                            <input type="email" id="contactEmail" name="email" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactMessage">Deskripsi Pesan <span class="required">*</span></label>
+                            <textarea id="contactMessage" name="message" rows="5" required></textarea>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                        </div>
+                    </form>
+                    
+                    <div class="form-success" style="display: none;">
+                        <p>✅ Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Google Maps -->
+            <div class="map-container">
+                <h3>Lokasi Toko Kami</h3>
+                <div id="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.8217811033123!2d112.7540863!3d-7.373862399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e558dde8a581%3A0x5a6aa958da713220!2sAfanly!5e0!3m2!1sen!2sid!4v1762710025788!5m2!1sen!2sid" 
+                    width="600" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>AFANLY</h4>
+                    <p>Solusi IT & Networking Profesional untuk Bisnis Anda</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#layanan">Konsultasi IT</a></li>
+                        <li><a href="#layanan">Pengembangan Website</a></li>
+                        <li><a href="#layanan">Manajemen Jaringan</a></li>
+                        <li><a href="#layanan">CCTV & PABX</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Toko</h4>
+                    <ul>
+                        <li><a href="shop.html">Komputer & PC</a></li>
+                        <li><a href="shop.html">Alat Kantor</a></li>
+                        <li><a href="shop.html">Security System</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li><a href="https://wa.me/628127659073" target="_blank" rel="noopener">WhatsApp</a></li>
+                        <li><a href="mailto:defry.pku@gmail.com">Email</a></li>
+                        <li><a href="#kontak">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> AFANLY - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/notifications.js"></script>
+</body>
+</html>

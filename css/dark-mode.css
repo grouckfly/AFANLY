@@ -1,0 +1,148 @@
+/* ===== AFANLY Website - Dark Mode Styles ===== */
+/* Author: AFANLY Team */
+/* Description: Dark mode color scheme and transitions */
+
+/* ===== Dark Mode Variables ===== */
+.dark-mode {
+    /* Background Colors */
+    --bg-color: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    
+    /* Text Colors */
+    --text-color: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    
+    /* Border & Shadow */
+    --border-color: #374151;
+    --card-bg: #1f2937;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* ===== Dark Mode Toggle Button ===== */
+.dark-mode-toggle {
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.dark-mode-toggle:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Icon visibility based on mode */
+.icon-sun {
+    display: inline;
+}
+
+.icon-moon {
+    display: none;
+}
+
+.dark-mode .icon-sun {
+    display: none;
+}
+
+.dark-mode .icon-moon {
+    display: inline;
+}
+
+/* ===== Dark Mode Specific Overrides ===== */
+
+/* Hero section in dark mode */
+.dark-mode .hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+}
+
+/* Service cards in dark mode */
+.dark-mode .service-card:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Contact items in dark mode */
+.dark-mode .contact-item:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Stat items in dark mode */
+.dark-mode .stat-item:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Product cards in dark mode */
+.dark-mode .product-card:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Form inputs in dark mode */
+.dark-mode .form-group input:focus,
+.dark-mode .form-group textarea:focus,
+.dark-mode .form-group select:focus {
+    background-color: var(--bg-tertiary);
+}
+
+/* Search box in dark mode */
+.dark-mode .search-box input:focus {
+    background-color: var(--bg-tertiary);
+}
+
+/* Modal in dark mode */
+.dark-mode .modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Thumbnail images in dark mode */
+.dark-mode .thumbnail.active,
+.dark-mode .thumbnail:hover {
+    border-color: var(--info-color);
+}
+
+/* Footer in dark mode */
+.dark-mode .footer {
+    background-color: #0f172a;
+    border-top-color: var(--border-color);
+}
+
+/* Scroll indicator in dark mode */
+.dark-mode #header {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Shop header in dark mode */
+.dark-mode .shop-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+}
+
+/* Product image background in dark mode */
+.dark-mode .product-image {
+    background-color: var(--bg-tertiary);
+}
+
+/* Main image background in dark mode */
+.dark-mode .main-image {
+    background-color: var(--bg-tertiary);
+}
+
+/* ===== Dark Mode Transition ===== */
+body,
+#header,
+.navbar,
+.card,
+.service-card,
+.contact-item,
+.product-card,
+.modal-content,
+.footer {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
