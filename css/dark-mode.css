@@ -632,6 +632,339 @@ body,
     border-color: #c5341f;
 }
 
+/* ===== SHOP PAGE DARK MODE (DEEPER DARK) ===== */
+
+/* Shop header - darker gradient */
+.dark-mode .shop-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.dark-mode .shop-header h1 {
+    color: #ffffff !important;
+}
+
+.dark-mode .shop-header p {
+    color: #e2e8f0 !important;
+}
+
+/* Shop controls - darker background */
+.dark-mode .shop-controls {
+    background-color: #0f172a;
+    border-bottom: 1px solid #1e293b;
+}
+
+.dark-mode .controls-wrapper {
+    background-color: transparent;
+}
+
+/* Search box - darker */
+.dark-mode .search-box input {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .search-box input::placeholder {
+    color: #64748b;
+}
+
+.dark-mode .search-box input:focus {
+    background-color: #0f172a;
+    border-color: #3b82f6;
+}
+
+.dark-mode .search-box button {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.dark-mode .search-box button:hover {
+    background-color: #1e40af;
+}
+
+/* Filter boxes - darker */
+.dark-mode .filter-box select {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .filter-box select:focus {
+    background-color: #0f172a;
+    border-color: #3b82f6;
+}
+
+/* Products section - darker background */
+.dark-mode .products-section {
+    background-color: #0f172a;
+}
+
+/* Product cards - darker with subtle border */
+.dark-mode .product-card {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+.dark-mode .product-card:hover {
+    background-color: #334155;
+    border-color: #3b82f6;
+    transform: translateY(-5px);
+}
+
+/* Product image background - darker */
+.dark-mode .product-image {
+    background-color: #0f172a;
+}
+
+/* Product info section - darker text */
+.dark-mode .product-info {
+    background-color: #1e293b;
+}
+
+.dark-mode .product-category {
+    color: #94a3b8 !important;
+}
+
+.dark-mode .product-name {
+    color: #f1f5f9 !important;
+}
+
+.dark-mode .product-price {
+    color: #60a5fa !important;
+}
+
+.dark-mode .product-description {
+    color: #cbd5e1 !important;
+}
+
+/* Stock badges - more vibrant in dark mode */
+.dark-mode .stock-badge.available {
+    background-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.4);
+}
+
+.dark-mode .stock-badge.unavailable {
+    background-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Product modal - darker */
+.dark-mode .modal {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.dark-mode .modal-content {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+}
+
+.dark-mode .modal-close {
+    background: #0f172a;
+    color: #cbd5e1;
+}
+
+.dark-mode .modal-close:hover {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Modal gallery - darker */
+.dark-mode .main-image {
+    background-color: #0f172a;
+}
+
+.dark-mode .thumbnail {
+    border-color: #334155;
+    background-color: #0f172a;
+}
+
+.dark-mode .thumbnail.active,
+.dark-mode .thumbnail:hover {
+    border-color: #3b82f6;
+}
+
+/* Modal details - darker text */
+.dark-mode .modal-details h2 {
+    color: #f1f5f9 !important;
+}
+
+.dark-mode .modal-price {
+    color: #60a5fa !important;
+}
+
+.dark-mode .modal-description {
+    color: #cbd5e1 !important;
+}
+
+.dark-mode .modal-availability .stock-badge {
+    background-color: #10b981;
+}
+
+/* Product options - darker */
+.dark-mode .product-options,
+.dark-mode .modal-product-options {
+    background-color: transparent;
+}
+
+.dark-mode .option-group label {
+    color: #f1f5f9 !important;
+}
+
+.dark-mode .option-group select {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .option-group select:focus {
+    border-color: #3b82f6;
+    background-color: #1e293b;
+}
+
+/* Order form modal - darker */
+.dark-mode #orderModal .modal-content {
+    background-color: #1e293b;
+}
+
+.dark-mode .order-product-info {
+    background-color: #0f172a;
+    color: #cbd5e1;
+}
+
+.dark-mode .order-options {
+    background-color: #0f172a;
+}
+
+.dark-mode .order-options p {
+    color: #cbd5e1 !important;
+}
+
+.dark-mode .order-form {
+    background-color: #1e293b;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group textarea,
+.dark-mode .form-group select {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group textarea::placeholder {
+    color: #64748b;
+}
+
+.dark-mode .form-group input:focus,
+.dark-mode .form-group textarea:focus,
+.dark-mode .form-group select:focus {
+    background-color: #1e293b;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* No products message - darker */
+.dark-mode .no-products {
+    color: #94a3b8 !important;
+}
+
+/* Buttons in shop - enhanced */
+.dark-mode .btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.dark-mode .btn-primary:hover {
+    background-color: #1e40af;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.dark-mode .btn-whatsapp {
+    background-color: #25D366;
+}
+
+.dark-mode .btn-whatsapp:hover {
+    background-color: #1ea952;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+.dark-mode .btn-email {
+    background-color: #ea4335;
+}
+
+.dark-mode .btn-email:hover {
+    background-color: #c5341f;
+    box-shadow: 0 4px 12px rgba(234, 67, 53, 0.4);
+}
+
+/* Loading state - darker */
+.dark-mode .products-grid p {
+    color: #cbd5e1;
+}
+
+/* Scroll shadow effect */
+.dark-mode .shop-controls {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced card shadow in dark mode */
+.dark-mode .product-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .product-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Modal shadow enhancement */
+.dark-mode .modal-content {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Divider in modal */
+.dark-mode .modal-body::before {
+    background-color: #334155;
+}
+
+/* Error states */
+.dark-mode .form-group input.error,
+.dark-mode .form-group textarea.error {
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+.dark-mode .error-message {
+    color: #fca5a5 !important;
+}
+
+/* Success message */
+.dark-mode .form-success {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+/* Grid layout background */
+.dark-mode .products-grid {
+    background-color: transparent;
+}
+
+/* ===== ENHANCED CONTRAST FOR READABILITY ===== */
+.dark-mode .shop-header h1,
+.dark-mode .shop-header p,
+.dark-mode .product-name,
+.dark-mode .modal-details h2 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Price highlight */
+.dark-mode .product-price,
+.dark-mode .modal-price {
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
+}
 
 /* ===== Debug Helper (Remove in production) ===== */
 /* Uncomment to see all elements borders for debugging */
