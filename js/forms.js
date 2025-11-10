@@ -1,6 +1,7 @@
-// ===== AFANLY Website - Form Handling with Notifications =====
+// ===== AFANLY Website - Form Handling with Contact Method Modal =====
 // Author: AFANLY Team
-// Description: Form validation and submission handlers with notifications
+// Description: Form validation and submission handlers with dual sending options
+// Last Updated: 11 November 2025
 
 'use strict';
 
@@ -37,11 +38,6 @@ const FormUI = {
         input.classList.add('error');
         if (errorMessage) {
             errorMessage.textContent = message;
-        }
-        
-        // Show notification for validation error
-        if (window.Notify) {
-            window.Notify.warning('Validasi Gagal', message);
         }
     },
     
@@ -83,7 +79,7 @@ function sanitizeInput(input) {
     return div.innerHTML;
 }
 
-// ===== Contact Form Handler =====
+// ===== Contact Form Handler with Modal =====
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -141,26 +137,70 @@ function initContactForm() {
             return;
         }
         
-        // Sanitize inputs
-        const formData = {
-            name: sanitizeInput(name.value.trim()),
-            phone: sanitizeInput(phone.value.trim()),
-            email: sanitizeInput(email.value.trim()),
-            message: sanitizeInput(message.value.trim())
-        };
+        // If valid, show contact method modal
+        showContactMethodModal();
+    });
+    
+    // Setup modal buttons
+    setupContactMethodModal();
+}
+
+// ===== Show Contact Method Modal =====
+function showContactMethodModal() {
+    const modal = document.getElementById('contactMethodModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// ===== Setup Contact Method Modal =====
+function setupContactMethodModal() {
+    const modal = document.getElementById('contactMethodModal');
+    const closeBtn = modal?.querySelector('.modal-close');
+    const whatsappBtn = document.getElementById('sendViaWhatsApp');
+    const emailBtn = document.getElementById('sendViaEmail');
+    
+    if (!modal) return;
+    
+    // Close modal
+    closeBtn?.addEventListener('click', () => {
+        closeContactMethodModal();
+    });
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeContactMethodModal();
+        }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeContactMethodModal();
+        }
+    });
+    
+    // WhatsApp button
+    whatsappBtn?.addEventListener('click', () => {
+        const formData = getContactFormData();
         
         try {
-            // Send to WhatsApp
             sendContactToWhatsApp(formData);
             
-            // Show success message
+            // Close modal
+            closeContactMethodModal();
+            
+            // Show success
+            const contactForm = document.getElementById('contactForm');
             FormUI.showSuccess(contactForm);
             
             // Success notification
             if (window.Notify) {
                 window.Notify.success(
-                    'Pesan Berhasil Dikirim!',
-                    'Terima kasih telah menghubungi kami. Anda akan diarahkan ke WhatsApp.',
+                    'Mengarahkan ke WhatsApp',
+                    'Anda akan diarahkan ke WhatsApp untuk mengirim pesan.',
                     [
                         {
                             label: 'OK',
@@ -172,16 +212,60 @@ function initContactForm() {
         } catch (error) {
             console.error('Error sending contact:', error);
             
-            // Error notification
             if (window.Notify) {
                 window.Notify.error(
-                    'Gagal Mengirim Pesan',
-                    'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi atau hubungi kami langsung.',
+                    'Gagal Membuka WhatsApp',
+                    'Browser memblokir popup. Silakan izinkan popup atau coba gunakan Email.',
                     [
                         {
                             label: 'Coba Lagi',
                             callback: 'retryContact'
                         },
+                        {
+                            label: 'Gunakan Email',
+                            callback: 'switchToEmail'
+                        }
+                    ]
+                );
+            }
+        }
+    });
+    
+    // Email button
+    emailBtn?.addEventListener('click', () => {
+        const formData = getContactFormData();
+        
+        try {
+            sendContactToEmail(formData);
+            
+            // Close modal
+            closeContactMethodModal();
+            
+            // Show success
+            const contactForm = document.getElementById('contactForm');
+            FormUI.showSuccess(contactForm);
+            
+            // Success notification
+            if (window.Notify) {
+                window.Notify.success(
+                    'Email Client Dibuka',
+                    'Silakan kirim email dari aplikasi email Anda.',
+                    [
+                        {
+                            label: 'OK',
+                            callback: 'dismissNotification'
+                        }
+                    ]
+                );
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
+            
+            if (window.Notify) {
+                window.Notify.error(
+                    'Gagal Membuka Email',
+                    'Tidak dapat membuka email client. Silakan hubungi kami langsung.',
+                    [
                         {
                             label: 'Hubungi Langsung',
                             callback: 'contactDirect'
@@ -193,47 +277,66 @@ function initContactForm() {
     });
 }
 
+// ===== Close Contact Method Modal =====
+function closeContactMethodModal() {
+    const modal = document.getElementById('contactMethodModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ===== Get Contact Form Data =====
+function getContactFormData() {
+    return {
+        name: sanitizeInput(document.getElementById('contactName').value.trim()),
+        phone: sanitizeInput(document.getElementById('contactPhone').value.trim()),
+        email: sanitizeInput(document.getElementById('contactEmail').value.trim()),
+        message: sanitizeInput(document.getElementById('contactMessage').value.trim())
+    };
+}
+
 // ===== Send Contact to WhatsApp =====
 function sendContactToWhatsApp(data) {
     const message = 
         `Pesan Baru dari Website AFANLY\n\n` +
         `Nama: ${data.name}\n` +
         `No. Telp: ${data.phone}\n` +
-        `Email: ${data.email}\n` +
-        `Pesan: ${data.message}`;
+        `Email: ${data.email}\n\n` +
+        `Pesan:\n${data.message}`;
     
     const whatsappURL = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
     
-    // Check if popup blocker might prevent opening
     const newWindow = window.open(whatsappURL, '_blank', 'noopener,noreferrer');
     
     if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-        // Popup blocked
-        if (window.Notify) {
-            window.Notify.warning(
-                'Popup Diblokir',
-                'Browser Anda memblokir popup. Silakan izinkan popup atau klik tombol di bawah.',
-                [
-                    {
-                        label: 'Buka WhatsApp',
-                        callback: 'openWhatsApp'
-                    }
-                ]
-            );
-        }
         throw new Error('Popup blocked');
     }
+}
+
+// ===== Send Contact to Email =====
+function sendContactToEmail(data) {
+    let body = 
+        `Nama: ${data.name}\n` +
+        `No. Telp: ${data.phone}\n` +
+        `Email: ${data.email}\n\n` +
+        `Pesan:\n${data.message}`;
+    
+    const subject = `Pesan dari ${data.name} - AFANLY Website`;
+    const mailtoURL = `mailto:${CONFIG.emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    window.location.href = mailtoURL;
 }
 
 // ===== Send Order to WhatsApp =====
 function sendOrderToWhatsApp(data) {
     let message = 
-        `*Pesanan Baru dari Website AFANLY*\n\n` +
-        `🛒 *Produk:* ${data.product}\n` +
-        `💰 *Harga:* ${data.price}\n\n`;
+        `Pesanan Baru dari Website AFANLY\n\n` +
+        `Produk: ${data.product}\n` +
+        `Harga: ${data.price}\n\n`;
     
     if (data.options && Object.keys(data.options).length > 0) {
-        message += `*⚙️ Pilihan:*\n`;
+        message += `Pilihan:\n`;
         Object.entries(data.options).forEach(([key, value]) => {
             message += `- ${key}: ${value}\n`;
         });
@@ -241,7 +344,7 @@ function sendOrderToWhatsApp(data) {
     }
     
     message +=
-        `👤 *Data Pembeli:*\n` +
+        `Data Pembeli:\n` +
         `Nama: ${data.name}\n` +
         `No. Telp: ${data.phone}\n` +
         `Email: ${data.email}\n` +
@@ -260,7 +363,6 @@ function sendOrderToWhatsApp(data) {
             throw new Error('Popup blocked');
         }
         
-        // Success notification
         if (window.Notify) {
             window.Notify.success(
                 'Pesanan Berhasil Dibuat!',
@@ -326,7 +428,6 @@ function sendOrderToEmail(data) {
     try {
         window.location.href = mailtoURL;
         
-        // Success notification
         if (window.Notify) {
             window.Notify.success(
                 'Email Client Dibuka',
@@ -365,7 +466,7 @@ function initForms() {
     
     initContactForm();
     
-    console.log('Forms initialized with notifications');
+    console.log('Forms initialized with contact method modal');
 }
 
 // Start initialization
@@ -378,6 +479,8 @@ if (typeof module !== 'undefined' && module.exports) {
         FormUI,
         sendOrderToWhatsApp,
         sendOrderToEmail,
+        sendContactToWhatsApp,
+        sendContactToEmail,
         sanitizeInput
     };
 }

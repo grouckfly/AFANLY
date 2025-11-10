@@ -549,6 +549,51 @@ body,
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* ===== Contact Method Modal in Dark Mode ===== */
+.dark-mode .contact-method-header h2 {
+    color: #ffffff !important;
+}
+
+.dark-mode .contact-method-header p {
+    color: #d1d5db !important;
+}
+
+.dark-mode .contact-method-btn {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+.dark-mode .contact-method-btn:hover {
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .contact-method-btn.whatsapp-btn:hover {
+    border-color: #25D366;
+    background-color: rgba(37, 211, 102, 0.1);
+}
+
+.dark-mode .contact-method-btn.email-btn:hover {
+    border-color: #ea4335;
+    background-color: rgba(234, 67, 53, 0.1);
+}
+
+.dark-mode .method-content h3 {
+    color: #ffffff !important;
+}
+
+.dark-mode .method-content p {
+    color: #d1d5db !important;
+}
+
+.dark-mode .whatsapp-btn .method-content h3 {
+    color: #25D366 !important;
+}
+
+.dark-mode .email-btn .method-content h3 {
+    color: #ea4335 !important;
+}
+
+
 /* ===== Debug Helper (Remove in production) ===== */
 /* Uncomment to see all elements borders for debugging */
 /*
