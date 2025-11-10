@@ -593,6 +593,45 @@ body,
     color: #ea4335 !important;
 }
 
+/* ===== Modal Close Button in Dark Mode ===== */
+.dark-mode .modal-close {
+    background: rgba(31, 41, 55, 0.95);
+    color: #d1d5db;
+}
+
+.dark-mode .modal-close:hover {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Stock badge in dark mode */
+.dark-mode .stock-badge.available {
+    background-color: rgba(16, 185, 129, 0.9);
+}
+
+.dark-mode .stock-badge.unavailable {
+    background-color: rgba(239, 68, 68, 0.9);
+}
+
+/* Contact method buttons in dark mode */
+.dark-mode .contact-method-btn.whatsapp-btn {
+    border-color: #25D366;
+}
+
+.dark-mode .contact-method-btn.whatsapp-btn:hover {
+    background-color: rgba(37, 211, 102, 0.15);
+    border-color: #1ea952;
+}
+
+.dark-mode .contact-method-btn.email-btn {
+    border-color: #ea4335;
+}
+
+.dark-mode .contact-method-btn.email-btn:hover {
+    background-color: rgba(234, 67, 53, 0.15);
+    border-color: #c5341f;
+}
+
 
 /* ===== Debug Helper (Remove in production) ===== */
 /* Uncomment to see all elements borders for debugging */

@@ -406,3 +406,30 @@
         text-decoration: underline;
     }
 }
+
+/* Modal responsive improvements */
+@media (max-width: 768px) {
+    .contact-method-header {
+        padding-right: 3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .contact-method-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-method-header {
+        padding-right: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .contact-method-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .contact-method-header p {
+        font-size: 0.875rem;
+    }
+}
