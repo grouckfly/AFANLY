@@ -262,32 +262,6 @@ function initNetworkNotifications() {
     });
 }
 
-// ===== Page Load Notifications =====
-function initPageLoadNotifications() {
-    // Welcome notification (only once per session)
-    if (!sessionStorage.getItem('welcomeShown')) {
-        setTimeout(() => {
-            if (window.Notify) {
-                window.Notify.info(
-                    '👋 Selamat Datang!',
-                    'Terima kasih telah mengunjungi AFANLY. Jelajahi layanan dan produk IT kami.',
-                    [
-                        {
-                            label: 'Lihat Layanan',
-                            callback: 'goToServices'
-                        },
-                        {
-                            label: 'Tutup',
-                            callback: 'dismissNotification'
-                        }
-                    ]
-                );
-            }
-            sessionStorage.setItem('welcomeShown', 'true');
-        }, 3000);
-    }
-}
-
 // Update fungsi init()
 function init() {
     if (document.readyState === 'loading') {
@@ -306,6 +280,5 @@ function init() {
     setTimeout(() => {
         enableCopyNotifications();
         initNetworkNotifications();
-        initPageLoadNotifications();
     }, 1000);
 }
