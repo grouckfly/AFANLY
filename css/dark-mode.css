@@ -1,7 +1,9 @@
-/* ===== AFANLY Website - Dark Mode Styles ===== */
+/* ===== AFANLY Website - Dark Mode Styles (FIXED VERSION) ===== */
 /* Author: AFANLY Team */
-/* Description: Dark mode color scheme and transitions */
+/* Description: Dark mode with forced text visibility fixes */
+/* Last Updated: 11 November 2025 */
 
+/* ===== Force Light Mode as Default ===== */
 /* Prevent FOUC (Flash of Unstyled Content) */
 html, body {
     background-color: #ffffff;
@@ -63,6 +65,40 @@ html, body {
     display: inline;
 }
 
+/* ===== EMERGENCY FIX: Force All Section Headers Visible ===== */
+/* Using ALTERNATIF method with !important */
+.dark-mode .section-header * {
+    color: #f1f5f9 !important;
+}
+
+.dark-mode .section-header h2 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .section-header p {
+    color: #e5e7eb !important;
+}
+
+/* Force background contrast */
+.dark-mode .services {
+    background-color: var(--bg-color) !important;
+}
+
+.dark-mode .about {
+    background-color: var(--bg-secondary) !important;
+}
+
+.dark-mode .contact {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Ensure divider is visible */
+.dark-mode .divider {
+    background: linear-gradient(90deg, #3b82f6, #2563eb) !important;
+    opacity: 1 !important;
+}
+
 /* ===== Dark Mode Specific Overrides ===== */
 
 /* Hero section in dark mode */
@@ -71,52 +107,197 @@ html, body {
 }
 
 /* Service cards in dark mode */
+.dark-mode .service-card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
 .dark-mode .service-card:hover {
     background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+.dark-mode .service-card h3 {
+    color: #ffffff !important;
+}
+
+.dark-mode .service-card p {
+    color: #d1d5db !important;
 }
 
 /* Contact items in dark mode */
+.dark-mode .contact-item {
+    background-color: var(--card-bg);
+}
+
 .dark-mode .contact-item:hover {
     background-color: var(--bg-tertiary);
 }
 
+.dark-mode .contact-info h3,
+.dark-mode .contact-form-wrapper h3 {
+    color: #ffffff !important;
+}
+
+.dark-mode .contact-details h4 {
+    color: #ffffff !important;
+}
+
+.dark-mode .contact-details p,
+.dark-mode .contact-details a {
+    color: #d1d5db !important;
+}
+
 /* Stat items in dark mode */
+.dark-mode .stat-item {
+    background-color: var(--card-bg);
+}
+
 .dark-mode .stat-item:hover {
     background-color: var(--bg-tertiary);
 }
 
+.dark-mode .stat-item h4 {
+    color: var(--primary-color) !important;
+}
+
+.dark-mode .stat-item p {
+    color: #d1d5db !important;
+}
+
+/* About section */
+.dark-mode .about-text h3 {
+    color: #3b82f6 !important;
+}
+
+.dark-mode .about-text p {
+    color: #d1d5db !important;
+}
+
 /* Product cards in dark mode */
+.dark-mode .product-card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
 .dark-mode .product-card:hover {
     background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+.dark-mode .product-name {
+    color: #ffffff !important;
+}
+
+.dark-mode .product-description,
+.dark-mode .product-category {
+    color: #d1d5db !important;
+}
+
+.dark-mode .product-price {
+    color: #3b82f6 !important;
 }
 
 /* Form inputs in dark mode */
+.dark-mode .form-group input,
+.dark-mode .form-group textarea,
+.dark-mode .form-group select {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
 .dark-mode .form-group input:focus,
 .dark-mode .form-group textarea:focus,
 .dark-mode .form-group select:focus {
     background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+.dark-mode .form-group label {
+    color: #ffffff !important;
 }
 
 /* Search box in dark mode */
+.dark-mode .search-box input {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
 .dark-mode .search-box input:focus {
     background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+.dark-mode .search-box button {
+    background-color: var(--primary-color);
+}
+
+.dark-mode .search-box button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Filter controls */
+.dark-mode .filter-box select {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
 }
 
 /* Modal in dark mode */
+.dark-mode .modal {
+    background-color: var(--overlay-bg);
+}
+
 .dark-mode .modal-content {
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
 }
 
+.dark-mode .modal-details h2 {
+    color: #ffffff !important;
+}
+
+.dark-mode .modal-description {
+    color: #d1d5db !important;
+}
+
+.dark-mode .modal-price {
+    color: #3b82f6 !important;
+}
+
 /* Thumbnail images in dark mode */
+.dark-mode .thumbnail {
+    border-color: var(--border-color);
+}
+
 .dark-mode .thumbnail.active,
 .dark-mode .thumbnail:hover {
-    border-color: var(--info-color);
+    border-color: #3b82f6;
 }
 
 /* Footer in dark mode */
 .dark-mode .footer {
     background-color: #0f172a;
+    border-top-color: var(--border-color);
+}
+
+.dark-mode .footer-section h4 {
+    color: #ffffff !important;
+}
+
+.dark-mode .footer-section p,
+.dark-mode .footer-section ul li {
+    color: #d1d5db !important;
+}
+
+.dark-mode .footer-section a:hover {
+    color: #3b82f6 !important;
+}
+
+.dark-mode .footer-bottom {
+    color: #9ca3af !important;
     border-top-color: var(--border-color);
 }
 
@@ -130,6 +311,11 @@ html, body {
     background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
 }
 
+.dark-mode .shop-header h1,
+.dark-mode .shop-header p {
+    color: #ffffff !important;
+}
+
 /* Product image background in dark mode */
 .dark-mode .product-image {
     background-color: var(--bg-tertiary);
@@ -140,7 +326,215 @@ html, body {
     background-color: var(--bg-tertiary);
 }
 
-/* ===== Dark Mode Transition ===== */
+/* Stock badges */
+.dark-mode .stock-badge.available {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+.dark-mode .stock-badge.unavailable {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* ===== Notification System in Dark Mode ===== */
+.dark-mode .notification-panel {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .notification-header {
+    background-color: var(--bg-tertiary);
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .notification-header h3 {
+    color: #ffffff !important;
+}
+
+.dark-mode .mark-all-read {
+    color: #3b82f6 !important;
+}
+
+.dark-mode .mark-all-read:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.dark-mode .notification-item {
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .notification-item:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-mode .notification-item.unread {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.dark-mode .notification-title {
+    color: #ffffff !important;
+}
+
+.dark-mode .notification-message {
+    color: #d1d5db !important;
+}
+
+.dark-mode .notification-time {
+    color: #9ca3af !important;
+}
+
+.dark-mode .notification-footer {
+    background-color: var(--bg-tertiary);
+    border-top-color: var(--border-color);
+}
+
+.dark-mode .notification-footer p {
+    color: #9ca3af !important;
+}
+
+.dark-mode .notification-empty-icon {
+    opacity: 0.3;
+}
+
+.dark-mode .notification-empty p {
+    color: #9ca3af !important;
+}
+
+/* Bell button in dark mode */
+.dark-mode .bell-button {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.6);
+}
+
+.dark-mode .bell-button:hover {
+    box-shadow: 0 6px 25px rgba(37, 99, 235, 0.7);
+}
+
+.dark-mode .notification-badge {
+    background-color: #ef4444;
+}
+
+/* Notification action buttons */
+.dark-mode .notification-actions .btn-primary-small {
+    background-color: #2563eb;
+}
+
+.dark-mode .notification-actions .btn-primary-small:hover {
+    background-color: #1e40af;
+}
+
+.dark-mode .notification-actions .btn-dismiss {
+    background-color: var(--bg-tertiary);
+    color: #d1d5db;
+}
+
+.dark-mode .notification-actions .btn-dismiss:hover {
+    background-color: var(--border-color);
+}
+
+/* ===== Universal Text Color Fix ===== */
+/* Force all headings to be visible */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: #ffffff !important;
+}
+
+/* Force all paragraphs to be visible */
+.dark-mode p {
+    color: #d1d5db !important;
+}
+
+/* Links */
+.dark-mode a {
+    color: #d1d5db;
+}
+
+.dark-mode a:hover {
+    color: #3b82f6;
+}
+
+/* Navigation links */
+.dark-mode .nav-link {
+    color: #f9fafb;
+}
+
+.dark-mode .nav-link:hover,
+.dark-mode .nav-link.active {
+    color: #3b82f6;
+}
+
+/* Logo text */
+.dark-mode .logo {
+    color: #3b82f6;
+}
+
+/* ===== Buttons in Dark Mode ===== */
+.dark-mode .btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.dark-mode .btn-primary:hover {
+    background-color: #1e40af;
+}
+
+.dark-mode .btn-secondary {
+    background-color: transparent;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.dark-mode .btn-secondary:hover {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+/* ===== Form Success/Error Messages ===== */
+.dark-mode .form-success {
+    background-color: #10b981;
+}
+
+.dark-mode .error-message {
+    color: #ef4444 !important;
+}
+
+/* ===== Map Container ===== */
+.dark-mode .map-container h3 {
+    color: #ffffff !important;
+}
+
+.dark-mode #map iframe {
+    filter: invert(90%) hue-rotate(180deg);
+}
+
+/* ===== Scroll to Top Button ===== */
+.dark-mode .scroll-top-btn {
+    background-color: #2563eb;
+}
+
+.dark-mode .scroll-top-btn:hover {
+    background-color: #1e40af;
+}
+
+/* ===== Reset Theme Button ===== */
+.dark-mode .reset-theme-btn {
+    border-color: var(--border-color);
+    color: #d1d5db;
+}
+
+.dark-mode .reset-theme-btn:hover {
+    background-color: var(--bg-secondary);
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* ===== Smooth Transitions ===== */
 body,
 #header,
 .navbar,
@@ -149,6 +543,18 @@ body,
 .contact-item,
 .product-card,
 .modal-content,
-.footer {
+.footer,
+.section-header h2,
+.section-header p {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+/* ===== Debug Helper (Remove in production) ===== */
+/* Uncomment to see all elements borders for debugging */
+/*
+.dark-mode * {
+    outline: 1px solid rgba(255, 0, 0, 0.2) !important;
+}
+*/
+
+/* ===== End of Dark Mode Styles ===== */

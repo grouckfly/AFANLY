@@ -324,25 +324,25 @@ section {
 
 .section-header {
     text-align: center;
-    margin-bottom: var(--spacing-2xl);
+    margin-bottom: 3rem;
 }
 
 .section-header h2 {
     font-size: 2.5rem;
-    margin-bottom: var(--spacing-md);
-    color: var(--text-color);
+    margin-bottom: 1rem;
+    color: var(--text-color);  /* CHANGED: Gunakan variable */
 }
 
 .divider {
     width: 80px;
     height: 4px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    margin: var(--spacing-md) auto;
+    margin: 1rem auto;
     border-radius: 2px;
 }
 
 .section-header p {
-    color: var(--text-secondary);
+    color: var(--text-secondary);  /* CHANGED: Gunakan variable */
     font-size: 1.1rem;
 }
 
