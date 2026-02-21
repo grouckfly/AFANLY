@@ -4,6 +4,131 @@
 
 'use strict';
 
+// ===== MAINTENANCE MODE =====
+// Set ke true untuk mengaktifkan mode maintenance, false untuk menonaktifkan
+const MAINTENANCE = true;
+
+// Block eksekusi jika maintenance mode aktif
+if (MAINTENANCE) {
+    // Immediate execution - langsung jalankan sebelum DOM load
+    (function() {
+        // Kosongkan HTML segera
+        const showMaintenance = function() {
+            // Hapus semua elemen
+            document.documentElement.innerHTML = '';
+            
+            // Set style dasar
+            document.documentElement.style.cssText = 'margin: 0; padding: 0; height: 100%;';
+            
+            // Buat head baru
+            const head = document.createElement('head');
+            const meta = document.createElement('meta');
+            meta.setAttribute('charset', 'UTF-8');
+            const viewport = document.createElement('meta');
+            viewport.setAttribute('name', 'viewport');
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+            const title = document.createElement('title');
+            title.textContent = 'AFANLY - Sedang Tutup';
+            
+            head.appendChild(meta);
+            head.appendChild(viewport);
+            head.appendChild(title);
+            
+            // Buat body baru
+            const body = document.createElement('body');
+            body.style.cssText = `
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #ffffff;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            `;
+            
+            // Container
+            const container = document.createElement('div');
+            container.style.cssText = `
+                text-align: center;
+                padding: 2rem;
+                max-width: 600px;
+                animation: fadeIn 0.5s ease;
+            `;
+            
+            // Title
+            const h1 = document.createElement('h1');
+            h1.textContent = 'Maaf Kami Sedang Tutup';
+            h1.style.cssText = `
+                font-size: 2.5rem;
+                color: #1f2937;
+                margin-bottom: 1rem;
+                font-weight: 700;
+                line-height: 1.2;
+            `;
+            
+            // Message
+            const p = document.createElement('p');
+            p.textContent = 'Website sedang dalam pemeliharaan. Silakan kembali lagi nanti.';
+            p.style.cssText = `
+                font-size: 1.25rem;
+                color: #6b7280;
+                line-height: 1.6;
+                margin: 0;
+            `;
+            
+            // CSS Animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                
+                @media (max-width: 768px) {
+                    h1 { font-size: 1.75rem !important; }
+                    p { font-size: 1rem !important; }
+                }
+            `;
+            
+            head.appendChild(style);
+            container.appendChild(h1);
+            container.appendChild(p);
+            body.appendChild(container);
+            
+            document.documentElement.appendChild(head);
+            document.documentElement.appendChild(body);
+        };
+        
+        // Jalankan segera jika DOM sudah ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', showMaintenance);
+        } else {
+            showMaintenance();
+        }
+        
+        // Block semua event listener lain
+        if (typeof window !== 'undefined') {
+            window.addEventListener = function() {};
+            document.addEventListener = function() {};
+        }
+    })();
+    
+    // Stop eksekusi kode di bawah ini
+    throw new Error('Maintenance mode active');
+}
+
+// ===== Kode normal di bawah ini hanya jalan jika MAINTENANCE = false =====
+
+// ===== Security: Input Sanitization =====
+function sanitizeInput(input) {
+    if (typeof input !== 'string') return '';
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
 // ===== Security: Input Sanitization =====
 function sanitizeInput(input) {
     if (typeof input !== 'string') return '';
